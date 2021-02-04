@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'Widgets/buttonRound.dart';
 import 'Widgets/Logo.dart';
-import 'package:bully_bucks/Flow/Auth/Login/logingender.dart';
+import 'package:bully_bucks/Flow/Auth/Login/loginGender.dart';
+import 'package:bully_bucks/Flow/Auth/Signup/registerPage.dart';
 void main() {
   runApp(MyApp());
 }
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: LoginGender(),
+      home: StudentRegister(),
     );
   }
 }
