@@ -3,6 +3,7 @@ import 'Widgets/buttonRound.dart';
 import 'Widgets/Logo.dart';
 import 'package:bully_bucks/Flow/Auth/Login/loginGender.dart';
 import 'package:bully_bucks/Flow/Auth/Signup/registerPage.dart';
+import 'package:bully_bucks/Flow/Screens/studentHomeScreen.dart';
 void main() {
   runApp(MyApp());
 }
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: StudentRegister(),
+      debugShowCheckedModeBanner: false,
+      home: StudentHome(),
     );
   }
 }
@@ -30,7 +32,6 @@ class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
-
 class _MyHomePageState extends State<MyHomePage> {
 
   @override

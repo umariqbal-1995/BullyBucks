@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bully_bucks/Widgets/buttonRound.dart';
@@ -6,13 +5,10 @@ import 'package:bully_bucks/Widgets/Logo.dart';
 class LoginGender extends StatefulWidget {
   LoginGender({Key key, this.student}) : super(key: key);
   final bool student;
-
   @override
   _LoginGenderState createState() => _LoginGenderState();
 }
-
 class _LoginGenderState extends State<LoginGender> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
