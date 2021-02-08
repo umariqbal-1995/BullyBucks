@@ -1,10 +1,30 @@
+import 'dart:developer';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'Widgets/buttonRound.dart';
 import 'Widgets/Logo.dart';
 import 'package:bully_bucks/Flow/Auth/Login/loginGender.dart';
 import 'package:bully_bucks/Flow/Auth/Signup/registerPage.dart';
 import 'package:bully_bucks/Flow/Screens/studentHomeScreen.dart';
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final FirebaseApp app = await Firebase.initializeApp(
+    options:  FirebaseOptions(
+      appId: '1:684373091254:android:65f3e8a105e2fe2a585717',
+      apiKey: 'AIzaSyDQj7ce3Fd5dW1selv6zVZIlapoP46bkug',
+      projectId: 'bullybuck',
+      databaseURL: 'https://bullybucks-default-rtdb.firebaseio.com',
+        messagingSenderId:"684373091254"
+    ));
+  FirebaseDatabase database=FirebaseDatabase(app: app);
+  var id =database.reference().child("users").push();
+  id.set({"Name":"Umar"});
+
+ // id.set({"umar":"iqbal"});
   runApp(MyApp());
 }
 
@@ -25,15 +45,13 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
+  MyHomePage({Key key, this.title, this.app}) : super(key: key);
+  final FirebaseApp app;
   final String title;
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
