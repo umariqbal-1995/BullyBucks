@@ -6,13 +6,11 @@ import 'package:bully_bucks/Widgets/Logo.dart';
 class SignupGender extends StatefulWidget {
   SignupGender({Key key, this.student}) : super(key: key);
   final bool student;
-
+  String gender="student";
   @override
   _SignupGenderState createState() => _SignupGenderState();
 }
-
 class _SignupGenderState extends State<SignupGender> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

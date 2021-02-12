@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:bully_bucks/Flow/Screens/Reports.dart';
 import 'package:flutter/material.dart';
 import 'package:bully_bucks/Widgets/Logo.dart';
 import 'package:bully_bucks/Flow/Auth/Login/loginGender.dart';
@@ -6,7 +7,9 @@ import 'package:bully_bucks/Flow/Auth/Signup/registerPage.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'package:menu_button/menu_button.dart';
 class StudentHome extends StatefulWidget {
-  StudentHome({Key key, this.title}) : super(key: key);
+
+  StudentHome({Key key, this.title, this.email}) : super(key: key);
+  final String email;
   final String title;
   @override
   _StudentHomeState createState() => _StudentHomeState();
@@ -17,7 +20,7 @@ class _StudentHomeState extends State<StudentHome> {
     return Scaffold(
       backgroundColor: Color.fromRGBO(226, 226, 226,1),
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: [
             makeAppbar(),
             Stack(
@@ -34,13 +37,18 @@ class _StudentHomeState extends State<StudentHome> {
                         borderRadius: BorderRadius.circular(20.0),
                         color: Colors.black,
                       ),
-                      child: Padding(padding: EdgeInsets.all(20),
-                        child: Column(
-                          children: [
+                      child: FlatButton(
+                        onPressed: (){
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ReportPage(email: widget.email,)));
+                        },
+                        child: Padding(padding: EdgeInsets.all(20),
+                          child: Column(
+                            children: [
                             Image.asset('assets/images/report.png',),
-                            Text("Report",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 12),)
-
-                          ],
+                            Text("Report",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 12),),
+                          ],)
                         )
                       )
 
@@ -66,9 +74,9 @@ class _StudentHomeState extends State<StudentHome> {
       child: Column(
         children: [
           Padding(padding: EdgeInsets.symmetric(vertical: 60),),
-          Padding(padding: EdgeInsets.all(10), child:makeinCardItem("assets/images/history.svg", "History", "What so ever is history"),),
-          Padding(padding: EdgeInsets.all(10), child:makeinCardItem("assets/images/history.svg", "History", "What so ever is history"),),
-          Padding(padding: EdgeInsets.all(10), child:makeinCardItem("assets/images/history.svg", "History", "What so ever is history"),),
+          Padding(padding: EdgeInsets.all(10), child:makeinCardItem("assets/images/history.svg", "History", "Checking all your requests"),),
+          Padding(padding: EdgeInsets.all(10), child:makeinCardItem("assets/images/cart.svg", "Shop", "Redeem You Bully bucks"),),
+          Padding(padding: EdgeInsets.all(10), child:makeinCardItem("assets/images/message.svg", "Email", "Talk to your counseler about any buying related issues"),),
         ],
       ),
     );
@@ -85,13 +93,13 @@ class _StudentHomeState extends State<StudentHome> {
           child: Row(
             children: [
                 Flexible(
-                  fit: FlexFit.tight,
+                  //fit: FlexFit.tight,
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     color: Color.fromRGBO(44, 219, 152, 1),
                   ),
-                  child: PlatformSvg.asset(imgPath,height: 30),
+                  child: Padding(padding: EdgeInsets.symmetric(horizontal: 4),child: PlatformSvg.asset(imgPath,height: 30),)
                 ),
                   flex: 1,
               ),

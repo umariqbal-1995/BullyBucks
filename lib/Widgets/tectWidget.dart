@@ -5,7 +5,8 @@ class TextWidget extends StatefulWidget {
   final VoidCallback onTap;
   final TextEditingController controller;
   final bool pass;
-  const TextWidget({Key key, this.text, this.onTap, this.controller,this.pass}) : super(key: key);
+  final bool green;
+  const TextWidget({Key key, this.text, this.onTap, this.controller,this.pass, this.green}) : super(key: key);
   @override
   _TextWidget createState() => _TextWidget();
 }
@@ -20,11 +21,11 @@ class _TextWidget extends State<TextWidget>
       controller: widget.controller,
       focusNode: myFocusNode,
       decoration: InputDecoration(
-          enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+          enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: widget.green==null?Colors.white:Colors.black)),
+          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: widget.green==null?Colors.black:Colors.green)),
           labelText: widget.text,
           labelStyle: TextStyle(
-            color: myFocusNode.hasFocus ? Colors.black : Colors.white,
+            color: myFocusNode.hasFocus? widget.green==null?Colors.black:Colors.green :widget.green==null? Colors.white:Colors.black,
           )
       ),
     )

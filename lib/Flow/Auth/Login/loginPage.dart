@@ -1,9 +1,13 @@
 
+import 'package:bully_bucks/Flow/Auth/Signup/registerPage.dart';
+import 'package:bully_bucks/Flow/Screens/studentHomeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bully_bucks/Widgets/buttonRound.dart';
 import 'package:bully_bucks/Widgets/Logo.dart';
 import 'package:bully_bucks/Widgets/tectWidget.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:bully_bucks/Firebase.dart';
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.student}) : super(key: key);
   final bool student;
@@ -14,6 +18,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   FocusNode myFocusNode = new FocusNode();
   FocusNode myFocusNode1 = new FocusNode();
+  TextEditingController emailCont=new TextEditingController();
+  TextEditingController passCont=new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Register",
+                      Text("Log in",
                         style: TextStyle(
                           fontFamily: "Montserrat",
                           color: Colors.white,
@@ -37,10 +43,25 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
-                  TextWidget(text: "Email ID",controller: new TextEditingController(),onTap: mySetState,),
-                  TextWidget(text: "Password",controller: new TextEditingController(),onTap: mySetState,pass:true),
+                  TextWidget(text: "Email ID",controller: emailCont,onTap: mySetState,),
+                  TextWidget(text: "Password",controller: passCont,onTap: mySetState,pass:true),
                   Padding(padding: EdgeInsets.symmetric(vertical: 6)),
-                  ButtonRound(text:"Go",onPress: (){},)
+                  ButtonRound(text:"Go",onPress: (){
+                    Database db=new Database();
+                    db.signinUser(emailCont.text, passCont.text).then((value) {
+                      if(value){
+                        Fluttertoast.showToast(msg: "Success");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => StudentHome(email:emailCont.text)));
+                        }
+                      else {
+                        Fluttertoast.showToast(msg: "Failure");
+                      }
+                    }).catchError((e){
+                      Fluttertoast.showToast(msg: e.toString());
+                    });
+                  },),
                 ],
               ),
             )
