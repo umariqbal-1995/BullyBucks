@@ -160,7 +160,7 @@ class _StudentHomeState extends State<StudentHome> {
                     ],
                   ),
                   Text("Balance",style:TextStyle(color: Colors.white)),
-                  Text("50",style: TextStyle(fontSize: 30,color: Colors.white,fontWeight: FontWeight.bold),),
+                  Text("0",style: TextStyle(fontSize: 30,color: Colors.white,fontWeight: FontWeight.bold),),
                   Text("Bully Bucks",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold))
                 ],
               ),

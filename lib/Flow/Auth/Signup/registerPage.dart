@@ -69,9 +69,8 @@ class _StudentRegisterState extends State<StudentRegister> {
                           MaterialPageRoute(builder: (context) => LoginPage()),
                         );
                   }).catchError((e){
-                    Fluttertoast.showToast(msg: "Falure");
+                    Fluttertoast.showToast(msg:e.toString());
                   });
-
               },
 
               )
