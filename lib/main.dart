@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:math';
-
+import 'package:bully_bucks/Flow/Auth/Login/loginPage.dart';
+import 'package:bully_bucks/Flow/Screens/Reports.dart';
 import 'package:flutter/material.dart';
 import 'Widgets/buttonRound.dart';
 import 'Widgets/Logo.dart';
@@ -10,6 +11,7 @@ import 'package:bully_bucks/Flow/Screens/studentHomeScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:bully_bucks/Firebase.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final FirebaseApp app = await Firebase.initializeApp(
@@ -21,13 +23,9 @@ void main() async {
         messagingSenderId:"684373091254"
     ));
   FirebaseDatabase database=FirebaseDatabase(app: app);
-  var id =database.reference().child("users").push();
-  id.set({"Name":"Umar"});
-
- // id.set({"umar":"iqbal"});
+  Database.database=database;
   runApp(MyApp());
 }
-
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -39,7 +37,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       debugShowCheckedModeBanner: false,
-      home: StudentHome(),
+      home: MyHomePage(),
     );
   }
 }
@@ -76,8 +74,18 @@ class _MyHomePageState extends State<MyHomePage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ButtonRound(text:"Register",onPress: (){},),
-              ButtonRound(text: "Login",onPress: (){},),
+              ButtonRound(text:"Register",onPress: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => StudentRegister()),
+                );
+              },),
+              ButtonRound(text: "Login",onPress: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },),
             ],
           ),
         Column(
