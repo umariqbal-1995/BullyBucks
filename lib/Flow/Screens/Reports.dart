@@ -12,12 +12,10 @@ import 'package:bully_bucks/Widgets/tectWidget.dart';
 import 'dart:math' as math;
 class ReportPage extends StatefulWidget {
   final String email;
-
   const ReportPage({Key key, this.email}) : super(key: key);
   @override
   _ReportPageState createState() => _ReportPageState();
 }
-
 class _ReportPageState extends State<ReportPage> {
   TextEditingController tcn1 =new TextEditingController();
   TextEditingController tcn2 =new TextEditingController();
@@ -95,10 +93,10 @@ class _ReportPageState extends State<ReportPage> {
       return DropdownButtonFormField(
         value: _value1,
         items: [
-          DropdownMenuItem(child: Text("Type of Bullying"),value: 1,),
-          DropdownMenuItem(child: Text("Physical"),value: 2,),
-          DropdownMenuItem(child: Text("verbal"),value: 3,),
-          DropdownMenuItem(child: Text("Physical"),value: 4,),
+          DropdownMenuItem(child: Text("Type of Bullying",style: TextStyle(fontFamily: "Montserrat"),),value: 1,),
+          DropdownMenuItem(child: Text("Physical",style: TextStyle(fontFamily: "Montserrat"),),value: 2,),
+          DropdownMenuItem(child: Text("verbal",style:TextStyle(fontFamily: "Montserrat")),value: 3,),
+          DropdownMenuItem(child: Text("Physical",style:TextStyle(fontFamily: "Montserrat")),value: 4,),
         ],
         decoration: InputDecoration(border:OutlineInputBorder()
       ),
@@ -132,7 +130,10 @@ class _ReportPageState extends State<ReportPage> {
         Transform(
           alignment: Alignment.center,
           transform: Matrix4.rotationY(math.pi),
-          child: PlatformSvg.asset("assets/images/forward.svg",height: 20,),
+
+          child: GestureDetector(child: PlatformSvg.asset("assets/images/forward.svg",height: 20,),onTap: (){
+            Navigator.pop(context);
+          },)
         ),
         Expanded(
           child:Text("Report",textAlign: TextAlign.center,),

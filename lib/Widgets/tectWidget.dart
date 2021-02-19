@@ -25,7 +25,7 @@ class _TextWidget extends State<TextWidget>
           focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: widget.green==null?Colors.black:Colors.green)),
           labelText: widget.text,
           labelStyle: TextStyle(
-            color: myFocusNode.hasFocus? widget.green==null?Colors.black:Colors.green :widget.green==null? Colors.white:Colors.black,
+            color: myFocusNode.hasFocus? widget.green==null?Colors.black:Colors.green :widget.green==null? Colors.white:Colors.black,fontFamily: "Montserrat"
           )
       ),
     )

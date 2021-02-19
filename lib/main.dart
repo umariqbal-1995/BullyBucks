@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Center(
             child: Column(
               children: [Padding(padding: EdgeInsets.fromLTRB(0, 150, 0, 0)),
-                Text("Welcome to Bully Bucks",
+                Text("Welcome to bully Bucks",
                   style: TextStyle(
                     fontSize: 27,
                     fontWeight: FontWeight.w700,

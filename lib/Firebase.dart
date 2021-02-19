@@ -1,7 +1,11 @@
+import 'dart:collection';
+import 'package:intl/intl.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:developer';
+
 class  Database {
 
   static FirebaseDatabase database;
@@ -15,6 +19,7 @@ class  Database {
           "gender": gender,
           "school": school,
           "phone": phone,
+          "bucks":0
         });
     return true;
   }
@@ -34,6 +39,8 @@ class  Database {
         }
   }
   Future<bool> submitReport(String email,String tcn1,String tcn2,String tcn3,String tcn4,String tcn5,int val1,int val2)async {
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('MMMM dd, yyyy').format(now);
     String type;
     String role;
     if(val1==2){
@@ -51,7 +58,7 @@ class  Database {
     if(val2==3){
       role="victim";
     }
-    await database.reference().child("users").child(email.replaceAll(".", ",")).child("reports").set(
+    await database.reference().child("users").child(email.replaceAll(".", ",")).child("reports").push().set(
       {
         "bully":  tcn1,
         "victim":  tcn2,
@@ -59,9 +66,26 @@ class  Database {
         "time":tcn4,
         "description":tcn5,
         "type":type,
-        "role":role
+        "role":role,
+        "verify":false,
+        "currentDate":formattedDate
       }
     );
     return true;
+  }
+  Future<List> getHistory(String email)async
+  {
+    int c=0;
+    List list=new List();
+    DatabaseReference ref=await database.reference().child("users").child(email.replaceAll(".", ",")).child("reports");
+    DataSnapshot ds=await ref.once();
+    var value=Map<String, dynamic>.from(ds.value).values;
+    var key=Map<String, dynamic>.from(ds.value).keys;
+    value.forEach((element) {
+      element["id"]=key.elementAt(c);
+      list.add(element);
+      log("key" + key.elementAt(c));
+    });
+    return list;
   }
 }

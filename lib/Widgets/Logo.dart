@@ -8,8 +8,8 @@ class Logo extends StatelessWidget{
     Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Bully",style: TextStyle(color: Colors.white),),
-        Text("Bucks",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+        Text("bully",style: TextStyle(color: Colors.white,fontFamily: "Montserrat"),),
+        Text("Bucks",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
       ],
     )
     );
