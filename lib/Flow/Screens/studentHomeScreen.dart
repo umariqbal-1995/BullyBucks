@@ -1,15 +1,13 @@
 import 'dart:ui';
 import 'package:bully_bucks/Flow/Screens/Reports.dart';
-import 'package:bully_bucks/Flow/Screens/history.dart';
 import 'package:flutter/material.dart';
 import 'package:bully_bucks/Widgets/Logo.dart';
 import 'package:bully_bucks/Flow/Auth/Login/loginGender.dart';
 import 'package:bully_bucks/Flow/Auth/Signup/registerPage.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'package:menu_button/menu_button.dart';
-
-import '../../Firebase.dart';
 class StudentHome extends StatefulWidget {
+
   StudentHome({Key key, this.title, this.email}) : super(key: key);
   final String email;
   final String title;
@@ -57,7 +55,7 @@ class _StudentHomeState extends State<StudentHome> {
                     )
                   ],
                 ),
-                Padding(padding: EdgeInsets.fromLTRB(50, 40, 50, 20),
+                Padding(padding: EdgeInsets.fromLTRB(40, 40, 40, 20),
                   child: balanceCard(),
                 )
               ],
@@ -76,13 +74,8 @@ class _StudentHomeState extends State<StudentHome> {
       child: Column(
         children: [
           Padding(padding: EdgeInsets.symmetric(vertical: 60),),
-          Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/history.svg", "History", "Checking all your reports"),onTap: (){
-            Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => History(email: widget.email,)));
-          },),),
-          Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/cart.svg", "Shop", "Redeem You bully bucks"),onTap: (){
-          },)),
+          Padding(padding: EdgeInsets.all(10), child:makeinCardItem("assets/images/history.svg", "History", "Checking all your requests"),),
+          Padding(padding: EdgeInsets.all(10), child:makeinCardItem("assets/images/cart.svg", "Shop", "Redeem You Bully bucks"),),
           Padding(padding: EdgeInsets.all(10), child:makeinCardItem("assets/images/message.svg", "Email", "Talk to your counseler about any buying related issues"),),
         ],
       ),
@@ -106,7 +99,7 @@ class _StudentHomeState extends State<StudentHome> {
                     borderRadius: BorderRadius.circular(10.0),
                     color: Color.fromRGBO(44, 219, 152, 1),
                   ),
-                  child: Padding(padding: EdgeInsets.fromLTRB(7, 7, 7 ,7),child: PlatformSvg.asset(imgPath,height: 20),)
+                  child: Padding(padding: EdgeInsets.symmetric(horizontal: 4),child: PlatformSvg.asset(imgPath,height: 30),)
                 ),
                   flex: 1,
               ),
@@ -126,7 +119,7 @@ class _StudentHomeState extends State<StudentHome> {
               flex: 6,
               ),
               Flexible(
-                child:  PlatformSvg.asset("assets/images/forward.svg",height: 12,alignment: Alignment.centerRight),
+                child:  PlatformSvg.asset("assets/images/forward.svg",height: 15,alignment: Alignment.centerRight),
                       flex: 1,
                 fit: FlexFit.tight,
                     )
@@ -168,7 +161,7 @@ class _StudentHomeState extends State<StudentHome> {
                   ),
                   Text("Balance",style:TextStyle(color: Colors.white)),
                   Text("50",style: TextStyle(fontSize: 30,color: Colors.white,fontWeight: FontWeight.bold),),
-                  Text("bully Bucks",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold))
+                  Text("Bully Bucks",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold))
                 ],
               ),
         )
@@ -179,20 +172,17 @@ class _StudentHomeState extends State<StudentHome> {
     return (Row(
       children: [
         Padding(padding: EdgeInsets.symmetric(horizontal: 4),),
-        Image(image: AssetImage('assets/images/backBtn.png',), height: 25,),
-        Expanded(child:Container(
-          height: 50,
-          child: Row(
-            children: [
-              Text("bully", style: TextStyle(color: Colors.black,fontSize: 17),),
-              Text("bucks", style: TextStyle(
-                  color: Colors.black, fontWeight: FontWeight.bold,fontSize: 17),),
-            ],
-            mainAxisAlignment: MainAxisAlignment.center,
-          ),
+        Image(image: AssetImage('assets/images/backBtn.png',), height: 35,),
+        Expanded(child: Row(
+          children: [
+            Text("Bully", style: TextStyle(color: Colors.black),),
+            Text("Bucks", style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.bold),),
+          ],
+          mainAxisAlignment: MainAxisAlignment.center,
         ),
         ),
-        PlatformSvg.asset("assets/images/person.svg",height: 30),
+        PlatformSvg.asset("assets/images/person.svg",height: 40),
         Padding(padding: EdgeInsets.symmetric(horizontal: 4.0))
       ],
     )

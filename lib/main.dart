@@ -52,6 +52,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    FirebaseDatabase database=FirebaseDatabase(app: widget.app);
+    Database.database=database;
     return Scaffold(
       backgroundColor: Color.fromRGBO(44, 219, 152, 1),
       body:Stack(
