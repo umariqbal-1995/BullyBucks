@@ -63,6 +63,7 @@ class _ReportPageState extends State<ReportPage> {
       )
     );
   }
+
   Widget multilineField(String hint){
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10),
@@ -130,7 +131,6 @@ class _ReportPageState extends State<ReportPage> {
         Transform(
           alignment: Alignment.center,
           transform: Matrix4.rotationY(math.pi),
-
           child: GestureDetector(child: PlatformSvg.asset("assets/images/forward.svg",height: 20,),onTap: (){
             Navigator.pop(context);
           },)

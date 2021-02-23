@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -73,18 +74,36 @@ class  Database {
     );
     return true;
   }
+  Future<List> getVerified()async
+  {
+    String k;
+    List list=new List();;
+    DatabaseReference ref=await database.reference().child("users");
+    DataSnapshot ds=await ref.once();
+    var key=Map<String, dynamic>.from(ds.value).keys;
+    for(k in key){
+      list=list+await getHistory(k);
+    }
+    return list;
+  }
   Future<List> getHistory(String email)async
   {
     int c=0;
     List list=new List();
+    DatabaseReference refName=await database.reference().child("users").child(email.replaceAll(".", ","));
+    DataSnapshot ds1=await refName.once();
+    var value1=Map<String, dynamic>.from(ds1.value).values;
     DatabaseReference ref=await database.reference().child("users").child(email.replaceAll(".", ",")).child("reports");
     DataSnapshot ds=await ref.once();
     var value=Map<String, dynamic>.from(ds.value).values;
     var key=Map<String, dynamic>.from(ds.value).keys;
+    log("value1  "+ value1.elementAt(7).toString());
     value.forEach((element) {
       element["id"]=key.elementAt(c);
+      element["fname"]=value1.elementAt(7).toString();
+      element["lname"]=value1.elementAt(1).toString();
       list.add(element);
-      log("key" + key.elementAt(c));
+      //log("key" + key.elementAt(c));
     });
     return list;
   }

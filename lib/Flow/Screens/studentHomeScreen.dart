@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:bully_bucks/Flow/Screens/Reports.dart';
+import 'package:bully_bucks/Flow/Screens/history.dart';
 import 'package:flutter/material.dart';
 import 'package:bully_bucks/Widgets/Logo.dart';
 import 'package:bully_bucks/Flow/Auth/Login/loginGender.dart';
@@ -74,7 +75,11 @@ class _StudentHomeState extends State<StudentHome> {
       child: Column(
         children: [
           Padding(padding: EdgeInsets.symmetric(vertical: 60),),
-          Padding(padding: EdgeInsets.all(10), child:makeinCardItem("assets/images/history.svg", "History", "Checking all your requests"),),
+          Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/history.svg", "History", "Checking all your requests"),onTap: (){
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => History(email: widget.email,)));
+          },),),
           Padding(padding: EdgeInsets.all(10), child:makeinCardItem("assets/images/cart.svg", "Shop", "Redeem You Bully bucks"),),
           Padding(padding: EdgeInsets.all(10), child:makeinCardItem("assets/images/message.svg", "Email", "Talk to your counseler about any buying related issues"),),
         ],

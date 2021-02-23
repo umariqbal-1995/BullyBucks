@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'dart:math';
 import 'package:bully_bucks/Flow/Auth/Login/loginPage.dart';
 import 'package:bully_bucks/Flow/Screens/Reports.dart';
+import 'package:bully_bucks/Flow/Screens/reportPage.dart';
+import 'package:bully_bucks/Flow/Screens/teacherHomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'Widgets/buttonRound.dart';
 import 'Widgets/Logo.dart';
@@ -24,6 +26,7 @@ void main() async {
     ));
   FirebaseDatabase database=FirebaseDatabase(app: app);
   Database.database=database;
+  Database db=new Database();
   runApp(MyApp());
 }
 class MyApp extends StatelessWidget {
@@ -37,7 +40,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
+      home: ReportShowPage(),
     );
   }
 }
