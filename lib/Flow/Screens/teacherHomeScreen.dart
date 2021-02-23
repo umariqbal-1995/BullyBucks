@@ -1,3 +1,4 @@
+import 'package:bully_bucks/Flow/Screens/reportPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_svg/platform_svg.dart';
@@ -28,7 +29,15 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
     if(list!=null){
       wlist.clear();
       list.forEach((element) {
-        wlist.add(Container(padding: EdgeInsets.symmetric(vertical: 10),child: makeItem(element["fname"].toString()+" "+element["lname"].toString(), element["type"], " 5 min ago"),));
+        wlist.add(Container(padding: EdgeInsets.symmetric(vertical: 10),child: GestureDetector(
+          child: makeItem(element["fname"].toString()+" "+element["lname"].toString(), element["type"], " 5 min ago"),
+          onTap: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ReportShowPage(map: element,)),
+            );
+          },
+        ),));
         //log("from init "+ element);
       });
     }

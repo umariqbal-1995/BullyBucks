@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'dart:math' as math;
 class ReportShowPage extends StatefulWidget {
+  final Map<dynamic,dynamic> map;
+
+  const ReportShowPage({Key key, this.map}) : super(key: key);
   @override
   _ReportShowPageState createState() => _ReportShowPageState();
 }
-
 class _ReportShowPageState extends State<ReportShowPage> {
   @override
   Widget build(BuildContext context) {
@@ -17,13 +19,13 @@ class _ReportShowPageState extends State<ReportShowPage> {
           color: Color.fromRGBO(226, 226, 226, 0.45),
           child: ListView(
             children: [
-              makeAppbar("Umar"),
-              makeForm(1,"Bully","umar"),
-              makeForm(0,"Victim","asad"),
-              makeForm(0,"Type of Bullying","Physical"),
-              makeForm(0,"Role","Witness"),
-              makeForm(0,"Location","Hallway"),
-              makeForm(3,"Time","22:11"),
+              makeAppbar(widget.map["fname"]),
+              makeForm(1,"Bully",widget.map["bully"]),
+              makeForm(0,"Victim",widget.map["victim"]),
+              makeForm(0,"Type of Bullying",widget.map["type"]),
+              makeForm(0,"Role",widget.map["role"]),
+              makeForm(0,"Location",widget.map["location"]),
+              makeForm(3,"Time",widget.map["time"]),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 25),
                 child: Button("Valid Report",1),
@@ -32,7 +34,6 @@ class _ReportShowPageState extends State<ReportShowPage> {
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Button("Fake Report",0),
               )
-
             ],
           ),
         ),
