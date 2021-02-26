@@ -20,6 +20,7 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
     Database db=new Database();
     db.getVerified().then((value) {
       list=value;
+      log("list "+list.toString());
       setState(() {
       });
     });

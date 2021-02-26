@@ -51,7 +51,7 @@ class HistoryWidget extends StatelessWidget {
                           color: Color.fromRGBO(44, 219, 152, 1)
 
                     ),
-                      child: Padding(child: Text(map["verify"]?"Verify":"Unverified",style: TextStyle(color: Colors.white,fontSize: 30),),padding: EdgeInsets.fromLTRB(0,0,0,0),),
+                      child: Padding(child: Text(map["verify"]==0?"Pending Report":map["verfiy"]==1?"Report Verified":"Fake Report",style: TextStyle(color: Colors.white,fontSize: 30),),padding: EdgeInsets.fromLTRB(0,0,0,0),),
                     )
                   ],
                 ),

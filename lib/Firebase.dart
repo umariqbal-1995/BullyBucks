@@ -24,19 +24,49 @@ class  Database {
         });
     return true;
   }
-  Future<bool> signinUser(String email,String pass)async
+  Future<int> getbullyBucks(String email)async
+  {
+    DatabaseReference ref=await database.reference().child("users").child(email.replaceAll(".", ","));
+    DataSnapshot ds=await ref.once();
+    var values=ds.value;
+    int bucks=values["bucks"];
+    return bucks;
+  }
+  Future<int> addBullyBucks(String email,int amount)async
+  {
+    int currentBalance=await getbullyBucks(email);
+    await database.reference().child("users").child(email.replaceAll(".", ",")).update({"bucks":currentBalance+amount});
+  }
+  Future<int> minusBullyBucks(String email,int amount)async
+  {
+    int currentBalance=await getbullyBucks(email);
+    await database.reference().child("users").child(email.replaceAll(".", ",")).update({"bucks":currentBalance-amount});
+  }
+  Future<void> verifyReport(String email,String id,int report)async {
+    log(id);
+    var ref=await database.reference().child("users").child(email.replaceAll(".", ",")).child("reports").child(id).
+    update({"verify":report});
+    log("update done");
+  }
+  Future<int> signinUser(String email,String pass)async
   {
     DatabaseReference ref=await database.reference().child("users").child(email.replaceAll(".", ","));
     DataSnapshot ds=await ref.once();
       var values=ds.value;
       if(values["password"]==pass)
         {
-          Fluttertoast.showToast(msg: "pass pass pass");
-          return  true;
+          if(values["gender"]=="teacher")
+            {
+              return 1;
+            }
+          else
+            {
+              return 2;
+            }
         }
       else
         {
-          return false;
+          return 0;
         }
   }
   Future<bool> submitReport(String email,String tcn1,String tcn2,String tcn3,String tcn4,String tcn5,int val1,int val2)async {
@@ -68,7 +98,7 @@ class  Database {
         "description":tcn5,
         "type":type,
         "role":role,
-        "verify":false,
+        "verify":0,
         "currentDate":formattedDate
       }
     );
@@ -77,17 +107,44 @@ class  Database {
   Future<List> getVerified()async
   {
     String k;
-    List list=new List();;
+    int c=0;
+    List list=new List();
     DatabaseReference ref=await database.reference().child("users");
+    DataSnapshot ds=await ref.once();
+    var value=Map<String, dynamic>.from(ds.value).values;
+    var key=Map<String, dynamic>.from(ds.value).keys;
+    for(var element in key) {
+      List temp=await getHistory(element);
+      k=element;
+      if(temp!=null) {
+        for (var element in temp) {
+          element["email"] = k;
+          log("element " + element.toString());
+        }
+        list=list+temp;
+      }
+      log(c.toString()+" mama "+list.toString() );
+      c=c+1;
+    }
+    log("list here "+list.toString());
+    return list;
+  }
+  Future<List> getProducts()async{
+    String k;
+    List list=new List();
+    DatabaseReference ref=await database.reference().child("products");
     DataSnapshot ds=await ref.once();
     var key=Map<String, dynamic>.from(ds.value).keys;
     for(k in key){
-      list=list+await getHistory(k);
+      DatabaseReference ref1=await database.reference().child("products").child(k);
+      DataSnapshot ds1=await ref1.once();
+      list.add(Map<String, dynamic>.from(ds1.value));
     }
     return list;
   }
   Future<List> getHistory(String email)async
   {
+    var value;
     int c=0;
     List list=new List();
     DatabaseReference refName=await database.reference().child("users").child(email.replaceAll(".", ","));
@@ -95,16 +152,18 @@ class  Database {
     var value1=Map<String, dynamic>.from(ds1.value).values;
     DatabaseReference ref=await database.reference().child("users").child(email.replaceAll(".", ",")).child("reports");
     DataSnapshot ds=await ref.once();
-    var value=Map<String, dynamic>.from(ds.value).values;
+    if(ds.value==null)
+      return null;
+    else
+      value=Map<String, dynamic>.from(ds.value).values;
     var key=Map<String, dynamic>.from(ds.value).keys;
-    log("value1  "+ value1.elementAt(7).toString());
-    value.forEach((element) {
+    for(var element in value) {
       element["id"]=key.elementAt(c);
       element["fname"]=value1.elementAt(7).toString();
       element["lname"]=value1.elementAt(1).toString();
       list.add(element);
       //log("key" + key.elementAt(c));
-    });
+    }
     return list;
   }
 }

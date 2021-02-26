@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'dart:math' as math;
+
+import '../../Firebase.dart';
 class ReportShowPage extends StatefulWidget {
   final Map<dynamic,dynamic> map;
 
@@ -12,6 +15,13 @@ class ReportShowPage extends StatefulWidget {
 class _ReportShowPageState extends State<ReportShowPage> {
   @override
   Widget build(BuildContext context) {
+    String valid="";
+    if(widget.map["verify"]==1)
+      valid="Valid Report";
+    else if(widget.map["verify"]==2)
+      valid="Fake Report";
+    else
+      valid="Pending Approval";
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -28,12 +38,21 @@ class _ReportShowPageState extends State<ReportShowPage> {
               makeForm(3,"Time",widget.map["time"]),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 25),
-                child: Button("Valid Report",1),
+                child: Button("Valid Report", 1, () {
+                  Database db=new Database();
+                  db.verifyReport(widget.map["email"], widget.map["id"], 1).then((value) {
+                    Fluttertoast.showToast(msg: "Report Marked as valid");
+                  });
+                }),
               ),
               Container(
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                child: Button("Fake Report",0),
-              )
+                child: Button("Fake Report", 2, () {
+                  Database db=new Database();
+                  db.verifyReport(widget.map["email"], widget.map["id"], 2);
+                }),
+              ),
+
             ],
           ),
         ),
@@ -65,14 +84,14 @@ class _ReportShowPageState extends State<ReportShowPage> {
       )
     );
   }
-  Widget Button(String text,int color){
+  Widget Button(String text,int color,VoidCallback call ){
     return(
         Container(
           height: 80,
-          child: FlatButton(onPressed: (){},child: Text(text,style: TextStyle(color: Colors.white,fontWeight: FontWeight.w900,fontSize: 20,),)),
+          child: FlatButton(onPressed: (){call();},child: Text(text,style: TextStyle(color: Colors.white,fontWeight: FontWeight.w900,fontSize: 20,),)),
           width: double.infinity,
           decoration: ShapeDecoration(
-              color: color==1?Color.fromRGBO(44, 219, 152, 1):Colors.redAccent,
+              color: color==1?Color.fromRGBO(44, 219, 152, 1):color==2?Colors.redAccent:Colors.blue,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               )
@@ -93,7 +112,6 @@ class _ReportShowPageState extends State<ReportShowPage> {
         Expanded(
           child:Text(name+"'s Report",textAlign: TextAlign.center,),
         )
-
       ],
     ));
   }

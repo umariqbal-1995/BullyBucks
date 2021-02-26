@@ -1,4 +1,5 @@
 
+import 'package:bully_bucks/Flow/Auth/Signup/registerPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bully_bucks/Widgets/buttonRound.dart';
@@ -36,8 +37,16 @@ class _SignupGenderState extends State<SignupGender> {
                 ),
               ),
               Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 20)),
-              ButtonRound(text:"Student",onPress: (){},),
-              ButtonRound(text: "Teacher",onPress: (){},),
+              ButtonRound(text:"Student",onPress: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => StudentRegister(student: "student",)));
+              },),
+              ButtonRound(text: "Teacher",onPress: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => StudentRegister(student: "teacher",)));
+              },),
             ],
           ),
           Column(

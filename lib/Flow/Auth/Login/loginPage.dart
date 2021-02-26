@@ -1,6 +1,7 @@
 
 import 'package:bully_bucks/Flow/Auth/Signup/registerPage.dart';
 import 'package:bully_bucks/Flow/Screens/studentHomeScreen.dart';
+import 'package:bully_bucks/Flow/Screens/teacherHomeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bully_bucks/Widgets/buttonRound.dart';
@@ -49,15 +50,21 @@ class _LoginPageState extends State<LoginPage> {
                   ButtonRound(text:"Go",onPress: (){
                     Database db=new Database();
                     db.signinUser(emailCont.text, passCont.text).then((value) {
-                      if(value){
+                      if(value==1){
                         Fluttertoast.showToast(msg: "Success");
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => StudentHome(email:emailCont.text)));
+                          MaterialPageRoute(builder: (context) => TeacherHomeePage()));
                         }
-                      else {
-                        Fluttertoast.showToast(msg: "Failure");
+                      else if(value==2) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => StudentHome(email: emailCont.text,)));
                       }
+                      else
+                        {
+                        Fluttertoast.showToast(msg: "Failure");
+                        }
                     }).catchError((e){
                       Fluttertoast.showToast(msg: e.toString());
                     });

@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:bully_bucks/Flow/Screens/Reports.dart';
+import 'package:bully_bucks/Flow/Screens/emailPage.dart';
 import 'package:bully_bucks/Flow/Screens/history.dart';
+import 'package:bully_bucks/Flow/Screens/shop.dart';
 import 'package:flutter/material.dart';
 import 'package:bully_bucks/Widgets/Logo.dart';
 import 'package:bully_bucks/Flow/Auth/Login/loginGender.dart';
@@ -80,8 +82,16 @@ class _StudentHomeState extends State<StudentHome> {
                 context,
                 MaterialPageRoute(builder: (context) => History(email: widget.email,)));
           },),),
-          Padding(padding: EdgeInsets.all(10), child:makeinCardItem("assets/images/cart.svg", "Shop", "Redeem You Bully bucks"),),
-          Padding(padding: EdgeInsets.all(10), child:makeinCardItem("assets/images/message.svg", "Email", "Talk to your counseler about any buying related issues"),),
+          Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/cart.svg", "Shop", "Redeem You Bully bucks"),onTap: (){
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ShopPage(email: widget.email,)));
+          },),),
+          Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/message.svg", "Email", "Talk to your counseler about any buying related issues"),onTap: (){
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EmailPage(email: widget.email,)));
+          },),),
         ],
       ),
     );

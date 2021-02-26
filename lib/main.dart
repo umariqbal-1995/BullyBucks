@@ -1,10 +1,13 @@
 import 'dart:developer';
-import 'dart:math';
 import 'package:bully_bucks/Flow/Auth/Login/loginPage.dart';
+import 'package:bully_bucks/Flow/Auth/Signup/signupGender.dart';
 import 'package:bully_bucks/Flow/Screens/Reports.dart';
+import 'package:bully_bucks/Flow/Screens/emailPage.dart';
 import 'package:bully_bucks/Flow/Screens/reportPage.dart';
+import 'package:bully_bucks/Flow/Screens/shop.dart';
 import 'package:bully_bucks/Flow/Screens/teacherHomeScreen.dart';
 import 'package:flutter/material.dart';
+import 'Flow/Screens/productPage.dart';
 import 'Widgets/buttonRound.dart';
 import 'Widgets/Logo.dart';
 import 'package:bully_bucks/Flow/Auth/Login/loginGender.dart';
@@ -40,7 +43,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       debugShowCheckedModeBanner: false,
-      home: TeacherHomeePage(),
+      home: MyHomePage(),
     );
   }
 }
@@ -82,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ButtonRound(text:"Register",onPress: (){
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => StudentRegister()),
+                  MaterialPageRoute(builder: (context) => SignupGender()),
                 );
               },),
               ButtonRound(text: "Login",onPress: (){

@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 class StudentRegister extends StatefulWidget {
   StudentRegister({Key key, this.student}) : super(key: key);
-  final bool student;
+  final String student;
   @override
   _StudentRegisterState createState() => _StudentRegisterState();
 }
@@ -62,7 +62,7 @@ class _StudentRegisterState extends State<StudentRegister> {
                       passwordCont.text,
                       schoolCont.text,
                       phoneCont.text,
-                      "student").then((value) {
+                      widget.student).then((value) {
                         Fluttertoast.showToast(msg: "Success");
                         Navigator.push(
                           context,
