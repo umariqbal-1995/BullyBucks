@@ -46,6 +46,8 @@ class _ReportShowPageState extends State<ReportShowPage> {
                   Database db=new Database();
                   db.verifyReport(widget.map["email"], widget.map["id"], 1).then((value) {
                     Fluttertoast.showToast(msg: "Report Marked as valid");
+                    db.addBullyBucks(widget.map["email"], 20);
+                    Fluttertoast.showToast(msg: "Bully Bucks Added");
                   });
                 }),
               ),
@@ -55,6 +57,7 @@ class _ReportShowPageState extends State<ReportShowPage> {
                   Database db=new Database();
                   db.verifyReport(widget.map["email"], widget.map["id"], 2);
                   Fluttertoast.showToast(msg: "Marked as invalid");
+
                 }),
               ),
 

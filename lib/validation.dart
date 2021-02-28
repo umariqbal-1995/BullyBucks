@@ -1,5 +1,4 @@
-class Vvalidator{
-  static bool checkPhone(){
-    
-  }
+class Validator{
+
+
 }
