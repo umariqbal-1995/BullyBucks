@@ -6,11 +6,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:developer';
-
 class  Database {
-
   static FirebaseDatabase database;
-
   Future<bool> addUser(String fname, String lname, String email, String password, String school, String phone, String gender) async
   {
     await database.reference().child("users").child(email.replaceAll(".", ",")).set(
@@ -32,6 +29,19 @@ class  Database {
     int bucks=values["bucks"];
     return bucks;
   }
+  Future<bool> hasID(String email)async {
+    DatabaseReference ref=await database.reference().child("users").child(email.replaceAll(".", ","));
+    DataSnapshot ds=await ref.once();
+    if(ds!=null){
+      var val=ds.value;
+      if(val==null){
+        return false;
+      }
+    }
+    else {
+      return true;
+    }
+  }
   Future<int> addBullyBucks(String email,int amount)async
   {
     int currentBalance=await getbullyBucks(email);
@@ -40,13 +50,36 @@ class  Database {
   Future<int> minusBullyBucks(String email,int amount)async
   {
     int currentBalance=await getbullyBucks(email);
-    await database.reference().child("users").child(email.replaceAll(".", ",")).update({"bucks":currentBalance-amount});
+    if(currentBalance-amount<0)
+    {
+      return -1;
+    }
+    else {
+      await database.reference().child("users").child(
+          email.replaceAll(".", ",")).update(
+          {"bucks": currentBalance - amount});
+      return 0;
+    }
   }
   Future<void> verifyReport(String email,String id,int report)async {
     log(id);
     var ref=await database.reference().child("users").child(email.replaceAll(".", ",")).child("reports").child(id).
     update({"verify":report});
     log("update done");
+  }
+  Future<Map<dynamic,dynamic>> getUser(String email)async
+  {
+    DatabaseReference ref=await database.reference().child("users").child(email.replaceAll(".", ","));
+    DataSnapshot ds=await ref.once();
+    var values=ds.value;
+    Map<dynamic,dynamic> map=new Map<dynamic,dynamic>();
+    map["email"]=email;
+    map["bucks"]=values["bucks"];
+    map["fname"]=values["fname="];
+    map["lname"]=values["lname"];
+    map["phone"]=values["phone"];
+    map["school"]=values["school"];
+    return map;
   }
   Future<int> signinUser(String email,String pass)async
   {
@@ -99,7 +132,8 @@ class  Database {
         "type":type,
         "role":role,
         "verify":0,
-        "currentDate":formattedDate
+        "currentDate":formattedDate,
+        "currentTime":DateTime.now().millisecondsSinceEpoch
       }
     );
     return true;
@@ -119,14 +153,27 @@ class  Database {
       if(temp!=null) {
         for (var element in temp) {
           element["email"] = k;
-          log("element " + element.toString());
         }
         list=list+temp;
       }
-      log(c.toString()+" mama "+list.toString() );
       c=c+1;
     }
-    log("list here "+list.toString());
+    return list;
+  }
+  Future<List<dynamic>> getAllTeachers()async{
+    String k;
+    int c=0;
+    List list=new List();
+    DatabaseReference ref=await database.reference().child("users");
+    DataSnapshot ds=await ref.once();
+    var value=Map<String, dynamic>.from(ds.value).values;
+    var key=Map<String, dynamic>.from(ds.value).keys;
+    for(var s in value){
+      if(s["gender"]=="teacher"){
+        list.add(key.elementAt(c));
+      }
+      c=c+1;
+    }
     return list;
   }
   Future<List> getProducts()async{
@@ -161,7 +208,9 @@ class  Database {
       element["id"]=key.elementAt(c);
       element["fname"]=value1.elementAt(7).toString();
       element["lname"]=value1.elementAt(1).toString();
+      log(element["id"]);
       list.add(element);
+      c=c+1;
       //log("key" + key.elementAt(c));
     }
     return list;

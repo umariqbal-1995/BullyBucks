@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -13,8 +15,10 @@ class ReportShowPage extends StatefulWidget {
   _ReportShowPageState createState() => _ReportShowPageState();
 }
 class _ReportShowPageState extends State<ReportShowPage> {
+
   @override
   Widget build(BuildContext context) {
+    log("map "+widget.map.toString());
     String valid="";
     if(widget.map["verify"]==1)
       valid="Valid Report";
@@ -50,6 +54,7 @@ class _ReportShowPageState extends State<ReportShowPage> {
                 child: Button("Fake Report", 2, () {
                   Database db=new Database();
                   db.verifyReport(widget.map["email"], widget.map["id"], 2);
+                  Fluttertoast.showToast(msg: "Marked as invalid");
                 }),
               ),
 

@@ -1,11 +1,15 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bully_bucks/Flow/Screens/reportPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'dart:developer';
 import '../../Firebase.dart';
 
 class TeacherHomeePage extends StatefulWidget {
+  final String email;
+  const TeacherHomeePage({Key key, this.email}) : super(key: key);
   @override
   _TeacherHomeePageState createState() => _TeacherHomeePageState();
 }
@@ -13,16 +17,40 @@ class TeacherHomeePage extends StatefulWidget {
 class _TeacherHomeePageState extends State<TeacherHomeePage> {
   List<Widget> wlist;
   List list=null;
+  Map<dynamic,dynamic> map;
+  List<Widget> nlist=new List<Widget>();
   @override
   void initState() {
     super.initState();
-    wlist=[Text("Please wait while we load stuff")];
-    Database db=new Database();
+    wlist = [Text("Please wait while we load stuff")];
+    Database db = new Database();
     db.getVerified().then((value) {
-      list=value;
-      log("list "+list.toString());
-      setState(() {
-      });
+      list = value;
+      log("list " + list.toString());
+      setState(() {});
+    });
+    //Person profile code starts here
+    Database db1 = new Database();
+    db1.getUser(widget.email).then((value) {
+      map = value;
+      log("card " + map.toString());
+      nlist.add(Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Email", style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat",),),
+              AutoSizeText(map["email"],style: TextStyle(fontFamily: "Montserrat"),),
+              Text(
+                "First Name", style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat",),),
+              Text(map["fname"],style: TextStyle(fontFamily: "Montserrat"),),
+              Text("Last Name", style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
+              Text(map["lname"],style: TextStyle(fontFamily: "Montserrat"),),
+              Text("Phone", style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
+              Text(map["phone"],style: TextStyle(fontFamily: "Montserrat"),),
+            ],
+          )
+      )
+      );
     });
   }
   @override
@@ -30,9 +58,27 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
     if(list!=null){
       wlist.clear();
       list.forEach((element) {
+        var startTime=DateTime.fromMillisecondsSinceEpoch(element["currentTime"]);
+        var currentTime=DateTime.now();
+        var diff=currentTime.difference(startTime);
+        var min=diff.inMinutes;
+        var hour=diff.inHours;
+        var day=diff.inDays;
+        String diffTime="";
+
+        if(hour<=0 && day<=0){
+          diffTime=min.toString() + " minutes ago";
+        }
+        if(hour>0 && day<=0){
+          diffTime=hour.toString()+"  hours ago";
+        }
+        if(day>0){
+          diffTime=day.toString() + "  days ago";
+        }
         wlist.add(Container(padding: EdgeInsets.symmetric(vertical: 10),child: GestureDetector(
-          child: makeItem(element["fname"].toString()+" "+element["lname"].toString(), element["type"], " 5 min ago"),
+          child: makeItem(element["fname"].toString()+" "+element["lname"].toString(), element["type"], diffTime),
           onTap: (){
+           // log(element["id"]);
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => ReportShowPage(map: element,)),
@@ -106,7 +152,9 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
     return (Row(
       children: [
         Padding(padding: EdgeInsets.symmetric(horizontal: 4),),
-        Image(image: AssetImage('assets/images/backBtn.png',), height: 35,),
+        GestureDetector(child:Image(image: AssetImage('assets/images/backBtn.png',), height: 35,),onTap: (){
+          Navigator.pop(context);
+        },),
         Expanded(child: Row(
           children: [
             Text("Bully", style: TextStyle(color: Colors.black),),
@@ -116,7 +164,26 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
           mainAxisAlignment: MainAxisAlignment.center,
         ),
         ),
-        PlatformSvg.asset("assets/images/person.svg",height: 40),
+        GestureDetector(child: PlatformSvg.asset("assets/images/person.svg",height: 40),onTap: (){
+          showDialog(context: context,
+            child: new AlertDialog(
+                elevation: 10,
+                title:  Text("Profile Detail",style: TextStyle(fontWeight: FontWeight.bold),),
+                content:       Container(
+                  width: double.infinity,
+                  height:200,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: nlist,
+                  ),
+                )
+            ),
+          );
+        },),
         Padding(padding: EdgeInsets.symmetric(horizontal: 4.0))
       ],
     )

@@ -10,6 +10,7 @@ import 'package:platform_svg/platform_svg.dart';
 import 'package:menu_button/menu_button.dart';
 import 'package:bully_bucks/Widgets/tectWidget.dart';
 import 'dart:math' as math;
+import 'package:bully_bucks/email.dart';
 class ReportPage extends StatefulWidget {
   final String email;
   const ReportPage({Key key, this.email}) : super(key: key);
@@ -111,7 +112,7 @@ class _ReportPageState extends State<ReportPage> {
     return DropdownButtonFormField(
       value: _value2,
       items: [
-        DropdownMenuItem(child: Text("Your Role"),value: 1,),
+        DropdownMenuItem(child: Text("Your Role",style: TextStyle(fontFamily: "Montserrat")),value: 1,),
         DropdownMenuItem(child: Text("Witness"),value: 2,),
         DropdownMenuItem(child: Text("Victim"),value: 3,),
       ],
@@ -147,9 +148,38 @@ class _ReportPageState extends State<ReportPage> {
       db.submitReport(widget.email, tcn1.text, tcn2.text, tcn3.text, tcn4.text, tcn5.text, _value1, _value2).then((value){
         if(value==true){
           Fluttertoast.showToast(msg: "Report Added Successfully");
+          sendEmail();
+          Navigator.pop(context);
         }
       }).catchError((e){
         Fluttertoast.showToast(msg:e.toString());
       });
+  }
+  void sendEmail()async {
+    String type;
+    String role;
+    if(_value2==2){
+      type="physical";
+    }
+    if(_value1==3){
+      type="Verbal";
+    }
+    if(_value1==4){
+      type="cyber";
+    }
+    if(_value2==2){
+      role="witness";
+    }
+    if(_value2==3){
+      role="victim";
+    }
+    List<dynamic> list=await new Database().getAllTeachers();
+    list.forEach((element) {
+      String e=element.toString().replaceAll(",", ".");
+      Email.sendEmail(e, "Bully Bucks New Report", ""
+          "The Report has been auto generated on report add from bully bucks app\n"
+          "It is reported that "+widget.email+" has reported "+ tcn1.text +"  "+type+" bullying "+tcn2.text+""
+          " at "+tcn4.text+ " in "+tcn3.text + " where his/her role was "+role +" with description "+tcn5.text);
+    });
   }
 }

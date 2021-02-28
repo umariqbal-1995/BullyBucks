@@ -1,4 +1,7 @@
+import 'dart:developer';
 import 'dart:ui';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bully_bucks/Firebase.dart';
 import 'package:bully_bucks/Flow/Screens/Reports.dart';
 import 'package:bully_bucks/Flow/Screens/emailPage.dart';
 import 'package:bully_bucks/Flow/Screens/history.dart';
@@ -7,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:bully_bucks/Widgets/Logo.dart';
 import 'package:bully_bucks/Flow/Auth/Login/loginGender.dart';
 import 'package:bully_bucks/Flow/Auth/Signup/registerPage.dart';
+import 'package:flutter/services.dart';
+import 'package:move_to_background/move_to_background.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'package:menu_button/menu_button.dart';
 class StudentHome extends StatefulWidget {
@@ -18,11 +23,54 @@ class StudentHome extends StatefulWidget {
   _StudentHomeState createState() => _StudentHomeState();
 }
 class _StudentHomeState extends State<StudentHome> {
+  Map<dynamic,dynamic> map;
+  List<Widget> list=new List<Widget>();
+  int bal=0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Database db=new Database();
+    db.getbullyBucks(widget.email).then((value) {
+      bal=value;
+      setState(() {
+
+      });
+    });
+    db.getUser(widget.email).then((value) {
+      map=value;
+      log("card "+map.toString());
+      list.add(Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+                  Text("Email",style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
+                  AutoSizeText(map["email"],style: TextStyle(fontFamily: "Montserrat")),
+                  Text("First Name",style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
+                    Text(map["fname"],style: TextStyle(fontFamily: "Montserrat")),
+                    Text("Last Name",style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
+                    Text(map["lname"],style: TextStyle(fontFamily: "Montserrat")),
+                    Text("Bucks",style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
+                    Text( map["bucks"].toString(),style: TextStyle(fontFamily: "Montserrat")),
+                    Text("Phone",style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
+                    Text(map["phone"],style: TextStyle(fontFamily: "Montserrat"),),
+      ],
+              )
+          ),
+      );
+    setState(() {});
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    return (Scaffold(
       backgroundColor: Color.fromRGBO(226, 226, 226,1),
       body: SafeArea(
+
         child: ListView(
           children: [
             makeAppbar(),
@@ -36,24 +84,24 @@ class _StudentHomeState extends State<StudentHome> {
                     ),
                     Padding(padding: EdgeInsets.symmetric(vertical: 20)),
                     Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        color: Colors.black,
-                      ),
-                      child: FlatButton(
-                        onPressed: (){
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ReportPage(email: widget.email,)));
-                        },
-                        child: Padding(padding: EdgeInsets.all(20),
-                          child: Column(
-                            children: [
-                            Image.asset('assets/images/report.png',),
-                            Text("Report",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 12),),
-                          ],)
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0),
+                          color: Colors.black,
+                        ),
+                        child: FlatButton(
+                            onPressed: (){
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ReportPage(email: widget.email,)));
+                            },
+                            child: Padding(padding: EdgeInsets.all(20),
+                                child: Column(
+                                  children: [
+                                    Image.asset('assets/images/report.png',),
+                                    Text("Report",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 12),),
+                                  ],)
+                            )
                         )
-                      )
 
                     )
                   ],
@@ -66,7 +114,7 @@ class _StudentHomeState extends State<StudentHome> {
           ],
         ),
       ),
-    );
+    ));
   }
   Widget makeUnderCard(){
     return Container(
@@ -124,10 +172,10 @@ class _StudentHomeState extends State<StudentHome> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(padding: EdgeInsets.fromLTRB(10, 0, 0,0),
-                          child:Text(title,style: TextStyle(fontWeight: FontWeight.bold),) ,
+                          child:Text(title,style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat"),) ,
                         ),
                         Padding(padding: EdgeInsets.fromLTRB(10, 0, 0,0),
-                          child:Text(description,style: TextStyle(fontSize: 11),) ,
+                          child:Text(description,style: TextStyle(fontSize: 11,fontFamily: "Montserrat"),) ,
                         ),
                       ],
                     ),
@@ -170,13 +218,13 @@ class _StudentHomeState extends State<StudentHome> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("b",style:TextStyle(color: Colors.white)),
-                      Text("b",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),),
+                      Text("b",style:TextStyle(color: Colors.white,fontFamily: "Montserrat")),
+                      Text("b",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontFamily: "Montserrat"),),
                     ],
                   ),
-                  Text("Balance",style:TextStyle(color: Colors.white)),
-                  Text("50",style: TextStyle(fontSize: 30,color: Colors.white,fontWeight: FontWeight.bold),),
-                  Text("Bully Bucks",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold))
+                  Text("Balance",style:TextStyle(color: Colors.white,fontFamily: "Montserrat")),
+                  Text(bal.toString(),style: TextStyle(fontSize: 30,color: Colors.white,fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
+                  Text("Bully Bucks",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontFamily: "Montserrat"))
                 ],
               ),
         )
@@ -187,17 +235,38 @@ class _StudentHomeState extends State<StudentHome> {
     return (Row(
       children: [
         Padding(padding: EdgeInsets.symmetric(horizontal: 4),),
-        Image(image: AssetImage('assets/images/backBtn.png',), height: 35,),
+        GestureDetector(child:Image(image: AssetImage('assets/images/backBtn.png',), height: 35,),onTap: (){
+          Navigator.pop(context);
+        },),
         Expanded(child: Row(
           children: [
-            Text("Bully", style: TextStyle(color: Colors.black),),
+            Text("Bully", style: TextStyle(color: Colors.black,fontFamily: "Montserrat"),),
             Text("Bucks", style: TextStyle(
-                color: Colors.black, fontWeight: FontWeight.bold),),
+                color: Colors.black, fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
           ],
           mainAxisAlignment: MainAxisAlignment.center,
         ),
         ),
-        PlatformSvg.asset("assets/images/person.svg",height: 40),
+        GestureDetector(child: PlatformSvg.asset("assets/images/person.svg",height: 40),onTap: (){
+          showDialog(context: context,
+              child: new AlertDialog(
+                  elevation: 10,
+            title:  Text("Profile Detail",style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
+            content:       Container(
+              width: double.infinity,
+              height:240,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+              ),
+              padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: list,
+                ),
+              )
+            ),
+          );
+        },),
         Padding(padding: EdgeInsets.symmetric(horizontal: 4.0))
       ],
     )

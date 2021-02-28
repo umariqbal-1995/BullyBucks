@@ -55,24 +55,30 @@ class _StudentRegisterState extends State<StudentRegister> {
               ButtonRound(text:"Submit",onPress: ()
               {
                   Database db = new Database();
-                  db.addUser(
-                      fnameCont.text,
-                      lnameCont.text,
-                      emailCont.text,
-                      passwordCont.text,
-                      schoolCont.text,
-                      phoneCont.text,
-                      widget.student).then((value) {
+                  db.hasID(emailCont.text).then((value) {
+                    if(value==false){
+                      db.addUser(
+                          fnameCont.text,
+                          lnameCont.text,
+                          emailCont.text,
+                          passwordCont.text,
+                          schoolCont.text,
+                          phoneCont.text,
+                          widget.student).then((value) {
                         Fluttertoast.showToast(msg: "Success");
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => LoginPage()),
                         );
-                  }).catchError((e){
-                    Fluttertoast.showToast(msg:e.toString());
+                      }).catchError((e){
+                        Fluttertoast.showToast(msg:e.toString());
+                      });
+                    }else
+                      {
+                        Fluttertoast.showToast(msg: "The User already exist");
+                      }
                   });
               },
-
               )
             ],
           ),

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'dart:math' as math;
+import 'package:bully_bucks/email.dart';
 class EmailPage extends StatefulWidget {
   final String email;
-
   const EmailPage({Key key, this.email}) : super(key: key);
   @override
   _EmailPageState createState() => _EmailPageState();
@@ -35,6 +35,7 @@ class _EmailPageState extends State<EmailPage> {
       ),
     );
   }
+  TextEditingController tcn1=new TextEditingController();
   Widget makeUppercard(){
       return(Container(
         padding:EdgeInsets.fromLTRB(10,20,10,25),
@@ -49,6 +50,7 @@ class _EmailPageState extends State<EmailPage> {
               Flexible(flex: 2,child: PlatformSvg.asset("assets/images/email.svg",height: 30),),
               Padding(padding: EdgeInsets.symmetric(horizontal: 10),),
               Flexible(flex: 5,child: TextFormField(
+                controller: tcn1,
               decoration: InputDecoration(
                   hintText: "Who to send the email",
                   hintStyle: TextStyle(color:Colors.white,fontSize: 13)
@@ -75,7 +77,22 @@ class _EmailPageState extends State<EmailPage> {
               ),
               child: multilineField("Type you email here")
             ),
-          )
+          ),
+          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+          FlatButton(onPressed: (){
+            Email.sendEmail(tcn1.text, "Sent From Bully Bucks",""
+                "The was sent from "+widget.email+"\n"+
+                tcn2.text );
+            Navigator.pop(context);
+          },
+              child: Container(
+            padding: EdgeInsets.fromLTRB(20,10,20,10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                color: Colors.black
+            ),
+            child: Text("Send Email",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25),textAlign: TextAlign.center,),
+          ))
         ],
       ),
     )
@@ -97,7 +114,7 @@ class _EmailPageState extends State<EmailPage> {
       ],
     ));
   }
-
+  TextEditingController tcn2=new TextEditingController();
   Widget multilineField(String hint){
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10),
@@ -105,7 +122,7 @@ class _EmailPageState extends State<EmailPage> {
         scrollDirection: Axis.vertical,
         reverse: true,
         child: TextField(
-         // controller: tcn5,
+          controller: tcn2,
           keyboardType: TextInputType.multiline,
           maxLines: null,
           minLines: 20,
@@ -120,5 +137,4 @@ class _EmailPageState extends State<EmailPage> {
       ),
     );
   }
-
 }

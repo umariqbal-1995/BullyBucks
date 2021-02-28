@@ -40,7 +40,6 @@ class _ProductPageState extends State<ProductPage> {
                 height: 200,
                 width: double.infinity,
                   decoration: BoxDecoration(
-                      color: Colors.blue,
                     borderRadius: BorderRadius.all(Radius.circular(25))
                   ),
                   child: Image.network(widget.path),
@@ -48,7 +47,7 @@ class _ProductPageState extends State<ProductPage> {
               ),
               Padding(padding: EdgeInsets.fromLTRB(0,5,0,0),child: Text(widget.captionn,style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,
               ),),),
-              Padding(padding: EdgeInsets.fromLTRB(0,10,0,0),child: Text(widget.price,style: TextStyle(color: Color.fromRGBO(44, 219, 152, 1),fontSize: 15),), ),
+              Padding(padding: EdgeInsets.fromLTRB(0,10,0,0),child: Text(widget.price+" bully bucks",style: TextStyle(color: Color.fromRGBO(44, 219, 152, 1),fontSize: 15),), ),
               Padding(padding: EdgeInsets.fromLTRB(0,30,0,0),child:dropDown1() ),
               Padding(padding: EdgeInsets.fromLTRB(0,15,0,0),child: dropDown2(), ),
               Padding(padding: EdgeInsets.symmetric(vertical: 40),
@@ -61,6 +60,15 @@ class _ProductPageState extends State<ProductPage> {
                     color: Colors.black
                   ),
                 ),
+                onPressed: (){
+                  Database db=new Database();
+                  db.minusBullyBucks(widget.email, int.parse(widget.price)).then((value) {
+                    if(value==0)
+                      Fluttertoast.showToast(msg: "Your purchase is complete");
+                    else
+                      Fluttertoast.showToast(msg: "Sorry you dont have sufficient balance for the purchase");
+                  });
+                },
               ),
               )
 

@@ -51,19 +51,20 @@ class _LoginPageState extends State<LoginPage> {
                     Database db=new Database();
                     db.signinUser(emailCont.text, passCont.text).then((value) {
                       if(value==1){
-                        Fluttertoast.showToast(msg: "Success");
+                        Fluttertoast.showToast(msg: "Wekcome to bullyBucks");
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => TeacherHomeePage()));
+                          MaterialPageRoute(builder: (context) => TeacherHomeePage(email: emailCont.text,)));
                         }
                       else if(value==2) {
                         Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => StudentHome(email: emailCont.text,)));
+
                       }
                       else
                         {
-                        Fluttertoast.showToast(msg: "Failure");
+                        Fluttertoast.showToast(msg: "Sorry You have entered the Wrong credentials");
                         }
                     }).catchError((e){
                       Fluttertoast.showToast(msg: e.toString());
