@@ -23,8 +23,8 @@ class _ReportPageState extends State<ReportPage> {
   TextEditingController tcn3 =new TextEditingController();
   TextEditingController tcn4 =new TextEditingController();
   TextEditingController tcn5 =new TextEditingController();
-  int _value1=1;
-  int _value2=1;
+  int _value1=2;
+  int _value2=2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,7 +94,6 @@ class _ReportPageState extends State<ReportPage> {
       return DropdownButtonFormField(
         value: _value1,
         items: [
-          DropdownMenuItem(child: Text("Type of Bullying",style: TextStyle(fontFamily: "Montserrat"),),value: 1,),
           DropdownMenuItem(child: Text("Physical",style: TextStyle(fontFamily: "Montserrat"),),value: 2,),
           DropdownMenuItem(child: Text("verbal",style:TextStyle(fontFamily: "Montserrat")),value: 3,),
           DropdownMenuItem(child: Text("Physical",style:TextStyle(fontFamily: "Montserrat")),value: 4,),
@@ -112,9 +111,8 @@ class _ReportPageState extends State<ReportPage> {
     return DropdownButtonFormField(
       value: _value2,
       items: [
-        DropdownMenuItem(child: Text("Your Role",style: TextStyle(fontFamily: "Montserrat")),value: 1,),
-        DropdownMenuItem(child: Text("Witness"),value: 2,),
-        DropdownMenuItem(child: Text("Victim"),value: 3,),
+        DropdownMenuItem(child: Text("Witness",style: TextStyle(fontFamily: "Montserrat")),value: 2,),
+        DropdownMenuItem(child: Text("Victim",style: TextStyle(fontFamily: "Montserrat")),value: 3,),
       ],
       decoration: InputDecoration(border:OutlineInputBorder()
       ),

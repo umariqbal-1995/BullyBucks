@@ -86,13 +86,22 @@ class _EmailPageState extends State<EmailPage> {
             Navigator.pop(context);
           },
               child: Container(
-            padding: EdgeInsets.fromLTRB(20,10,20,10),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: Colors.black
-            ),
-            child: Text("Send Email",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25),textAlign: TextAlign.center,),
-          ))
+                padding: EdgeInsets.fromLTRB(15,20,15,20),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  color: Colors.black
+                ),
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(10,10,10,10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(50)),
+                      color: Colors.white
+                  ),
+                  child: PlatformSvg.asset("assets/images/send.svg",height: 20),
+                ),
+              ),
+
+          )
         ],
       ),
     )
@@ -109,7 +118,7 @@ class _EmailPageState extends State<EmailPage> {
             },)
         ),
         Expanded(
-          child:Text(name,textAlign: TextAlign.center,),
+          child:Text(name,textAlign: TextAlign.center,style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15)),
         )
       ],
     ));
