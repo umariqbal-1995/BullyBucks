@@ -40,7 +40,7 @@ class HistoryWidget extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    Text(map["id"].toString() +"  You reported "+map["bully"] + " for "+map["type"] + " bullying "+ map["victim"]+ " in the "+ map["location"]+ " at " + map["time"],style: TextStyle(fontSize: 15),),
+                    Text( "You reported "+map["bully"] + " for "+map["type"] + " bullying "+ map["victim"]+ " in the "+ map["location"]+ " at " + map["time"],style: TextStyle(fontSize: 15),),
                     Padding(padding: EdgeInsets.symmetric(vertical: 20)),
                     Container(
                       alignment: Alignment.center,

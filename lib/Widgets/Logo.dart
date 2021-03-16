@@ -9,7 +9,7 @@ class Logo extends StatelessWidget{
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text("bully",style: TextStyle(color: Colors.white,fontFamily: "Montserrat"),),
-        Text("Bucks",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
+        Text("bucks",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
       ],
     )
     );

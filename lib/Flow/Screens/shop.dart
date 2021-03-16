@@ -9,20 +9,20 @@ import 'package:bully_bucks/Firebase.dart';
 import 'dart:developer';
 class ShopPage extends StatefulWidget {
   final String email;
-
-  const ShopPage({Key key, this.email}) : super(key: key);
+  final String school;
+  const ShopPage({Key key, this.email, this.school}) : super(key: key);
   @override
   _ShopPageState createState() => _ShopPageState();
 }
 
 class _ShopPageState extends State<ShopPage> {
-  List<Widget>wlist =new List<Widget>();
+  List<Widget> wlist =new List<Widget>();
   @override
   void initState() {
     Database db=new Database();
-    db.getProducts().then((value){
+    db.getProducts(widget.school).then((value){
       value.forEach((element) {
-        wlist.add(GestureDetector(child: productWidget(element["image"],element["caption"],element["price"].toString(),element["size"]),));
+        wlist.add(GestureDetector(child: productWidget(element["image"],element["caption"],element["price"].toString(),element["size"],element),));
       });
       setState(() {
       });
@@ -56,12 +56,12 @@ class _ShopPageState extends State<ShopPage> {
       ),
     );
   }
-  Widget productWidget(String path,String cap,String price,int w) {
+  Widget productWidget(String path,String cap,String price,int w,Map<dynamic,dynamic> product) {
     log("url "+path);
     List<Widget> wl=new List<Widget>();
     if(w==1){
       wl.add(Text(cap));
-      wl.add(Text(price+"   Bully bukcs"));
+      wl.add(Text(price+"   Bully Bucks"));
     }
     else
       {
@@ -89,7 +89,7 @@ class _ShopPageState extends State<ShopPage> {
         onTap: (){
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ProductPage(path:path,price: price,captionn: cap,email:widget.email)),
+            MaterialPageRoute(builder: (context) => ProductPage(school: widget.school,path:path,price: price,captionn: cap,email:widget.email,options1: product["options1"],options2: product["options2"],options3: product["options3"],)),
           );
         },
       );

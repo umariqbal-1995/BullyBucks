@@ -39,7 +39,6 @@ class _StudentHomeState extends State<StudentHome> {
     });
     db.getUser(widget.email).then((value) {
       map=value;
-      log("card "+map.toString());
       list.add(Container(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,7 +124,7 @@ class _StudentHomeState extends State<StudentHome> {
       child: Column(
         children: [
           Padding(padding: EdgeInsets.symmetric(vertical: 60),),
-          Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/history.svg", "History", "Checking all your requests"),onTap: (){
+          Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/history.svg", "History", "Checking all your Reports"),onTap: (){
             Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => History(email: widget.email,)));
@@ -133,9 +132,9 @@ class _StudentHomeState extends State<StudentHome> {
           Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/cart.svg", "Shop", "Redeem You Bully bucks"),onTap: (){
             Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ShopPage(email: widget.email,)));
+                MaterialPageRoute(builder: (context) => ShopPage(email: widget.email,school: map["school"],)));
           },),),
-          Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/message.svg", "Email", "Talk to your counseler about any buying related issues"),onTap: (){
+          Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/message.svg", "Email", "Talk to your counsellor about any bullying related issues"),onTap: (){
             Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => EmailPage(email: widget.email,)));

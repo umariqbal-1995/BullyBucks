@@ -56,26 +56,28 @@ class _StudentRegisterState extends State<StudentRegister> {
               ButtonRound(text:"Submit",onPress: ()
               { Database db = new Database();
               db.hasID(emailCont.text).then((value) {
-                if (value == false) {
-                  db.addUser(
-                      fnameCont.text,
-                      lnameCont.text,
-                      emailCont.text,
-                      passwordCont.text,
-                      schoolCont.text,
-                      phoneCont.text,
-                      widget.student).then((value) {
-                    Fluttertoast.showToast(msg: "Success");
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => LoginPage()),
-                    );
-                  }).catchError((e) {
-                    Fluttertoast.showToast(msg: e.toString());
-                  });
-                } else {
-                  Fluttertoast.showToast(msg: "The User already exist");
+                if(Valid()==true){
+                  if (value == false) {
+                    db.addUser(
+                        fnameCont.text,
+                        lnameCont.text,
+                        emailCont.text,
+                        passwordCont.text,
+                        schoolCont.text,
+                        phoneCont.text,
+                        widget.student).then((value) {
+                      Fluttertoast.showToast(msg: "Congratulations You have Registered Successfully");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LoginPage()),
+                      );
+                    }).catchError((e) {
+                      Fluttertoast.showToast(msg: e.toString());
+                    });
+                  } else {
+                    Fluttertoast.showToast(msg: "The User already exist");
+                  }
                 }
               });
               },
@@ -85,6 +87,42 @@ class _StudentRegisterState extends State<StudentRegister> {
         )
       )
     );
+  }
+  bool Valid(){
+    if(fnameCont.text==""){
+      Fluttertoast.showToast(msg: "First name must be filled");
+      return false;
+    }
+    else if(lnameCont.text==""){
+      Fluttertoast.showToast(msg: "Last name must be filled");
+      return false;
+    }
+    else if(schoolCont.text==""){
+      Fluttertoast.showToast(msg: "School must be filled");
+      return false;
+    }
+    else if(phoneCont.text==""){
+      Fluttertoast.showToast(msg: "Phone must be filled");
+      return false;
+    }
+    else if(emailCont.text==""){
+      Fluttertoast.showToast(msg: "Email must be filled");
+      return false;
+    }
+    else if(!(emailCont.text.contains("@") && emailCont.text.contains("."))){
+      Fluttertoast.showToast(msg: "Please Enter a valid Email");
+      return false;
+      }
+
+    else if(passwordCont.text==""){
+      if(passwordCont.text.length<6){
+        Fluttertoast.showToast(msg: "Password must be more then 6 characters");
+        return false;
+      }
+      Fluttertoast.showToast(msg: "Password must be filled");
+      return false;
+    }
+    return true;
   }
   mySetState(){
     setState(() {

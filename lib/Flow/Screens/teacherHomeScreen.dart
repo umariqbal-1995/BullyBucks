@@ -13,16 +13,17 @@ class TeacherHomeePage extends StatefulWidget {
   @override
   _TeacherHomeePageState createState() => _TeacherHomeePageState();
 }
-
 class _TeacherHomeePageState extends State<TeacherHomeePage> {
-  List<Widget> wlist;
+  List<Widget> unverifiedlist=new List<Widget>();
+  List<Widget> verifiedlist=new List<Widget>();
   List list=null;
   Map<dynamic,dynamic> map;
+  List<Widget> verifiedListlist=new List<Widget>();
   List<Widget> nlist=new List<Widget>();
   @override
   void initState() {
     super.initState();
-    wlist = [Text("Please wait while we load stuff")];
+    unverifiedlist = [Text("Please wait while we load stuff")];
     Database db = new Database();
     db.getVerified().then((value) {
       list = value;
@@ -33,7 +34,6 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
     Database db1 = new Database();
     db1.getUser(widget.email).then((value) {
       map = value;
-      log("card " + map.toString());
       nlist.add(Container(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,7 +56,11 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
   @override
   Widget build(BuildContext context) {
     if(list!=null){
-      wlist.clear();
+      unverifiedlist.clear();
+      verifiedlist.clear();
+      unverifiedlist.add(Text("Unverified Reports",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,fontFamily: "Montserrat"),));
+      verifiedlist.add(Padding(padding: EdgeInsets.symmetric(vertical: 20),));
+      verifiedlist.add(Text("Verified Reports",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,fontFamily: "Montserrat")));
       list.forEach((element) {
         var startTime=DateTime.fromMillisecondsSinceEpoch(element["currentTime"]);
         var currentTime=DateTime.now();
@@ -75,19 +79,34 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
         if(day>0){
           diffTime=day.toString() + "  days ago";
         }
-        wlist.add(Container(padding: EdgeInsets.symmetric(vertical: 10),child: GestureDetector(
-          child: makeItem(element["fname"].toString()+" "+element["lname"].toString(), element["type"], diffTime),
-          onTap: (){
-           // log(element["id"]);
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ReportShowPage(map: element,)),
-            );
-          },
-        ),));
-        //log("from init "+ element);
+        if(element["verify"]==0){
+          unverifiedlist.add(Container(padding: EdgeInsets.symmetric(vertical: 10),child: GestureDetector(
+            child: makeItem(element["fname"].toString()+" "+element["lname"].toString(), element["type"], diffTime),
+            onTap: (){
+              // log(element["id"]);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ReportShowPage(teacherName: map["fname"]+"  "+map["lname"],map: element,)),
+              );
+            },
+          ),));
+        }
+        else
+          {
+            verifiedlist.add(Container(padding: EdgeInsets.symmetric(vertical: 10),child: GestureDetector(
+              child: makeItem(element["fname"].toString()+" "+element["lname"].toString(), element["type"], diffTime),
+              onTap: (){
+                // log(element["id"]);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ReportShowPage(teacherName: map["fname"]+"  "+map["lname"],map: element,)),
+                );
+              },
+            ),));
+          }
       });
     }
+    List<Widget> wlist=unverifiedlist+verifiedlist;
     return Scaffold(
       body: SafeArea(
         child: Container(

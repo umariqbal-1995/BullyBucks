@@ -13,7 +13,6 @@ class History extends StatefulWidget {
   _HistoryState createState() => _HistoryState();
 }
 class _HistoryState extends State<History> {
-  bool expand=true;
   List list;
   @override
   void initState() {
@@ -31,20 +30,17 @@ class _HistoryState extends State<History> {
     //listwidget.add(Text("No History to Show"));
     Widget w=Text("No History to Show");
     if(list!=null){
+      int c=0;
       list.forEach((element) {
         Map<dynamic,dynamic> map=Map<dynamic,dynamic>.from(element);
-        listwidget.add(Padding(child:GestureDetector(child: HistoryWidget(expaned: expand,map: map,),onTap: (){
-          if(expand==true) {
-            expand = false;
-            setState(() {
-            });
-          }
-          else {
-            expand = true;
-            setState(() {
-            });
-          }
+        listwidget.add(Padding(child:GestureDetector(child: HistoryWidget(expaned: map["expand"],map: map,),onTap: (){
+          list.forEach((element) {
+            element["expand"]=false;
+          });
+          element["expand"]=true;
+          setState(() {
 
+          });
         },),
         padding: EdgeInsets.symmetric(vertical: 20)
         ),

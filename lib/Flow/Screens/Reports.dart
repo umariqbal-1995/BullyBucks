@@ -23,8 +23,8 @@ class _ReportPageState extends State<ReportPage> {
   TextEditingController tcn3 =new TextEditingController();
   TextEditingController tcn4 =new TextEditingController();
   TextEditingController tcn5 =new TextEditingController();
-  int _value1=2;
-  int _value2=2;
+  int _value1=1;
+  int _value2=1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +40,7 @@ class _ReportPageState extends State<ReportPage> {
              Padding(padding: EdgeInsets.symmetric(vertical: 5),child: dropDown1(),),
              Padding(padding: EdgeInsets.symmetric(vertical: 5),child: dropDown2(),),
              Padding(padding: EdgeInsets.symmetric(vertical: 5),child: TextWidget(text: "Location",controller: tcn3,onTap: mySetState,green: true,),),
-             Padding(padding: EdgeInsets.symmetric(vertical: 5),child: TextWidget(text: "Time",controller: tcn4,onTap: mySetState,green: true,),),
+             Padding(padding: EdgeInsets.symmetric(vertical: 5),child: TextWidget(text: "Time",controller: tcn4,onTap:selectTime,green: true,),),
              Padding(padding: EdgeInsets.symmetric(vertical: 5),child: multilineField("Description of the incident "),),
              Padding(padding: EdgeInsets.symmetric(vertical: 0),child: Padding(padding: EdgeInsets.symmetric(vertical: 5),child: Button("Submit Report"),)),
            ]
@@ -49,7 +49,23 @@ class _ReportPageState extends State<ReportPage> {
     )
     );
   }
-  Widget Button(String text){
+  void selectTime(){
+    _selectTime(context);
+  }
+  void  _selectTime(BuildContext context) async {
+    TimeOfDay selectedTime=TimeOfDay.fromDateTime(DateTime.now());
+    TimeOfDay picked;
+    var time=await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+    );
+    if (time != null) {
+      Fluttertoast.showToast(msg: time.toString());
+      tcn4.text = time.hour.toString() + ":" + time.minute.toString();
+      mySetState();
+    }
+  }
+Widget Button(String text){
     return(
       Container(
         height: 80,
@@ -94,6 +110,7 @@ class _ReportPageState extends State<ReportPage> {
       return DropdownButtonFormField(
         value: _value1,
         items: [
+          DropdownMenuItem(child: Text("Type of Bullying",style: TextStyle(fontFamily: "Montserrat"),),value: 1,),
           DropdownMenuItem(child: Text("Physical",style: TextStyle(fontFamily: "Montserrat"),),value: 2,),
           DropdownMenuItem(child: Text("verbal",style:TextStyle(fontFamily: "Montserrat")),value: 3,),
           DropdownMenuItem(child: Text("Physical",style:TextStyle(fontFamily: "Montserrat")),value: 4,),
@@ -111,6 +128,7 @@ class _ReportPageState extends State<ReportPage> {
     return DropdownButtonFormField(
       value: _value2,
       items: [
+        DropdownMenuItem(child: Text("What was your Role",style: TextStyle(fontFamily: "Montserrat")),value: 1,),
         DropdownMenuItem(child: Text("Witness",style: TextStyle(fontFamily: "Montserrat")),value: 2,),
         DropdownMenuItem(child: Text("Victim",style: TextStyle(fontFamily: "Montserrat")),value: 3,),
       ],
@@ -142,16 +160,39 @@ class _ReportPageState extends State<ReportPage> {
   }
   void submit()
   {
-      Database db=new Database();
-      db.submitReport(widget.email, tcn1.text, tcn2.text, tcn3.text, tcn4.text, tcn5.text, _value1, _value2).then((value){
-        if(value==true){
-          Fluttertoast.showToast(msg: "Report Added Successfully");
-          sendEmail();
-          Navigator.pop(context);
-        }
-      }).catchError((e){
-        Fluttertoast.showToast(msg:e.toString());
-      });
+   bool valid=true;
+   if(tcn1.text==""){
+     valid=false;
+   }
+   if(tcn2.text=="")
+     valid=false;
+   if(tcn3.text=="")
+     valid=false;
+   if(tcn4.text=="")
+     valid=false;
+   if(tcn5.text=="")
+     valid=false;
+    if(_value1==1)
+      valid=false;
+    if(_value2==false)
+      valid=false;
+   if(valid){
+     Database db=new Database();
+     db.submitReport(widget.email, tcn1.text, tcn2.text, tcn3.text, tcn4.text, tcn5.text, _value1, _value2).then((value){
+       if(value==true){
+         Fluttertoast.showToast(msg: "Report Added Successfully");
+         sendEmail();
+         Navigator.pop(context);
+       }
+     }).catchError((e){
+       Fluttertoast.showToast(msg:e.toString());
+     });
+   }
+   else
+     {
+       Fluttertoast.showToast(msg: "Please fill all fields before submitting the report");
+     }
+
   }
   void sendEmail()async {
     String type;

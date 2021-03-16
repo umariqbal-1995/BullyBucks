@@ -9,13 +9,12 @@ import 'dart:math' as math;
 import '../../Firebase.dart';
 class ReportShowPage extends StatefulWidget {
   final Map<dynamic,dynamic> map;
-
-  const ReportShowPage({Key key, this.map}) : super(key: key);
+  final String teacherName;
+  const ReportShowPage({Key key, this.map, this.teacherName}) : super(key: key);
   @override
   _ReportShowPageState createState() => _ReportShowPageState();
 }
 class _ReportShowPageState extends State<ReportShowPage> {
-
   @override
   Widget build(BuildContext context) {
     log("map "+widget.map.toString());
@@ -44,20 +43,27 @@ class _ReportShowPageState extends State<ReportShowPage> {
                 padding: EdgeInsets.symmetric(vertical: 25),
                 child: Button("Valid Report", 1, () {
                   Database db=new Database();
-                  db.verifyReport(widget.map["email"], widget.map["id"], 1).then((value) {
+                  db.verifyReport(widget.teacherName,widget.map["email"], widget.map["id"], 1).then((value) {
                     Fluttertoast.showToast(msg: "Report Marked as valid");
                     db.addBullyBucks(widget.map["email"], 20);
                     Fluttertoast.showToast(msg: "Bully Bucks Added");
+                    widget.map["verify"]=1;
+                    setState(() {
+                    });
+                    Navigator.pop(context);
                   });
                 }),
               ),
               Container(
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                child: Button("Fake Report", 2, () {
+                child: Button("False Report", 2, () {
                   Database db=new Database();
-                  db.verifyReport(widget.map["email"], widget.map["id"], 2);
-                  Fluttertoast.showToast(msg: "Marked as invalid");
-
+                  db.verifyReport(widget.teacherName,widget.map["email"], widget.map["id"], 2);
+                  db.minusBullyBucks(widget.map["email"], 20);
+                  widget.map["verify"]=2;
+                  setState(() {
+                  });
+                  Navigator.pop(context);
                 }),
               ),
 
@@ -93,13 +99,50 @@ class _ReportShowPageState extends State<ReportShowPage> {
     );
   }
   Widget Button(String text,int color,VoidCallback call ){
+    Color WhatColor;
+    bool enabled;
+    if(widget.map["verify"]==0){
+      if(color==1){
+        WhatColor=Color.fromRGBO(44, 219, 152, 1);
+        enabled=true;
+      }else{
+        WhatColor=Colors.redAccent;
+        enabled=true;
+      }
+    }
+    else
+      {
+        if(widget.map["verify"]==1){
+          if(color==1){
+            enabled=false;
+            WhatColor =Colors.grey;
+          }
+          if(color==2){
+            WhatColor=Colors.redAccent;
+            enabled=true;
+          }
+        }
+        else{
+          if(color==1){
+            WhatColor=Color.fromRGBO(44, 219, 152, 1);
+            enabled=true;
+          }
+          if(color==2){
+            WhatColor=Colors.grey;
+            enabled=false;
+          }
+        }
+      }
     return(
         Container(
           height: 80,
-          child: FlatButton(onPressed: (){call();},child: Text(text,style: TextStyle(color: Colors.white,fontWeight: FontWeight.w900,fontSize: 20,),)),
+          child: FlatButton(
+            onPressed: enabled?(){call();}:null,
+              child: Text(text,style: TextStyle(color: Colors.white,fontWeight: FontWeight.w900,fontSize: 20,),),
+          ),
           width: double.infinity,
           decoration: ShapeDecoration(
-              color: color==1?Color.fromRGBO(44, 219, 152, 1):color==2?Colors.redAccent:Colors.blue,
+              color: WhatColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               )
