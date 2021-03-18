@@ -11,6 +11,7 @@ import 'package:bully_bucks/Widgets/Logo.dart';
 import 'package:bully_bucks/Flow/Auth/Login/loginGender.dart';
 import 'package:bully_bucks/Flow/Auth/Signup/registerPage.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:move_to_background/move_to_background.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'package:menu_button/menu_button.dart';
@@ -36,6 +37,8 @@ class _StudentHomeState extends State<StudentHome> {
       setState(() {
 
       });
+    }).catchError((e){
+      Fluttertoast.showToast(msg: "Something is Wrong with Database");
     });
     db.getUser(widget.email).then((value) {
       map=value;
@@ -58,6 +61,8 @@ class _StudentHomeState extends State<StudentHome> {
           ),
       );
     setState(() {});
+    }).catchError((e){
+      Fluttertoast.showToast(msg: "Something is Wrong with Database");
     });
   }
   @override

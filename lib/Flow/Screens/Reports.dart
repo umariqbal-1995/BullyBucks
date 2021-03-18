@@ -185,7 +185,7 @@ Widget Button(String text){
          Navigator.pop(context);
        }
      }).catchError((e){
-       Fluttertoast.showToast(msg:e.toString());
+       Fluttertoast.showToast(msg: "Something is Wrong with Database");
      });
    }
    else

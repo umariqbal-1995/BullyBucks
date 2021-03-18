@@ -2,6 +2,7 @@ import 'package:bully_bucks/Firebase.dart';
 import 'package:bully_bucks/Widgets/historyWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'dart:math' as math;
 import 'dart:ui';
@@ -22,6 +23,8 @@ class _HistoryState extends State<History> {
       list=value;
       setState(() {
       });
+    }).catchError((e){
+      Fluttertoast.showToast(msg: "Something is Wrong with Database");
     });
   }
   @override

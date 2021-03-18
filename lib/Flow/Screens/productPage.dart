@@ -51,6 +51,8 @@ class _ProductPageState extends State<ProductPage> {
 
         });
       });
+    }).catchError((e){
+      Fluttertoast.showToast(msg: "Something is Wrong with Database");
     });
 
     setState(() {
@@ -104,6 +106,8 @@ class _ProductPageState extends State<ProductPage> {
                     }
                     else
                       Fluttertoast.showToast(msg: "Sorry you dont have sufficient balance for the purchase");
+                  }).catchError((e){
+                    Fluttertoast.showToast(msg: "Something is Wrong with Database");
                   });
                 },
               ),

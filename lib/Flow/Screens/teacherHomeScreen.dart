@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bully_bucks/Flow/Screens/reportPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'dart:developer';
@@ -29,6 +30,8 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
       list = value;
       log("list " + list.toString());
       setState(() {});
+    }).catchError((e){
+      Fluttertoast.showToast(msg: "Something is Wrong with Database");
     });
     //Person profile code starts here
     Database db1 = new Database();
@@ -51,6 +54,8 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
           )
       )
       );
+    }).catchError((e){
+      Fluttertoast.showToast(msg: "Something is Wrong with Database");
     });
   }
   @override

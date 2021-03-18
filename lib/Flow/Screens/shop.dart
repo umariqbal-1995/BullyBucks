@@ -2,6 +2,7 @@ import 'package:bully_bucks/Flow/Screens/productPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'dart:math' as math;
@@ -26,6 +27,8 @@ class _ShopPageState extends State<ShopPage> {
       });
       setState(() {
       });
+    }).catchError((e){
+      Fluttertoast.showToast(msg: "Something is Wrong with Database");
     });
   }
   @override

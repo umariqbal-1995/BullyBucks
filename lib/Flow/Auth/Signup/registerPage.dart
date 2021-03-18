@@ -73,7 +73,7 @@ class _StudentRegisterState extends State<StudentRegister> {
                             builder: (context) => LoginPage()),
                       );
                     }).catchError((e) {
-                      Fluttertoast.showToast(msg: e.toString());
+                      Fluttertoast.showToast(msg: "Something is Wrong with Database");
                     });
                   } else {
                     Fluttertoast.showToast(msg: "The User already exist");
