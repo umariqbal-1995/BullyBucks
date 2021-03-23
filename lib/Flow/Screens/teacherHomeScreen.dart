@@ -74,6 +74,7 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
         var hour=diff.inHours;
         var day=diff.inDays;
         String diffTime="";
+
         if(hour<=0 && day<=0){
           diffTime=min.toString() + " minutes ago";
         }

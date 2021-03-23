@@ -64,7 +64,7 @@ class _ShopPageState extends State<ShopPage> {
     List<Widget> wl=new List<Widget>();
     if(w==1){
       wl.add(Text(cap));
-      wl.add(Text(price+"   Bully Bucks"));
+      wl.add(Text(price+" Bully Bucks"));
     }
     else
       {
