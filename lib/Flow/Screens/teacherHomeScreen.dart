@@ -43,8 +43,7 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
             children: [
               Text("Email", style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat",),),
               AutoSizeText(map["email"],style: TextStyle(fontFamily: "Montserrat"),),
-              Text(
-                "First Name", style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat",),),
+              Text("First Name", style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat",),),
               Text(map["fname"],style: TextStyle(fontFamily: "Montserrat"),),
               Text("Last Name", style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
               Text(map["lname"],style: TextStyle(fontFamily: "Montserrat"),),
