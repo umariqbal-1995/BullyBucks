@@ -61,7 +61,6 @@ class _ReportShowPageState extends State<ReportShowPage> {
                 child: Button("False Report", 2, () {
                   Database db=new Database();
                   db.verifyReport(widget.teacherName,widget.map["email"], widget.map["id"], 2);
-                  db.minusBullyBucks(widget.map["email"], 20);
                   widget.map["verify"]=2;
                   setState(() {
                   });

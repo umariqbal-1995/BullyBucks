@@ -255,7 +255,6 @@ class  Database {
       log(element["id"]);
       list.add(element);
       c=c+1;
-      //log("key" + key.elementAt(c));
     }
     return list;
   }
@@ -298,6 +297,7 @@ class  Database {
   Future<String> encrypt(String pass)async {
       return await encryptString(pass, publicKey);
   }
+
   Future<String>decrypt(String pass){
     return decryptString(pass, privateKey);
   }
