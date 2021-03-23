@@ -256,7 +256,7 @@ class _StudentHomeState extends State<StudentHome> {
               child: new AlertDialog(
                   elevation: 10,
             title:  Text("Profile Detail",style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
-            content:       Container(
+            content: Expanded(child: Container(
               width: double.infinity,
               height:240,
               decoration: BoxDecoration(
@@ -269,6 +269,7 @@ class _StudentHomeState extends State<StudentHome> {
                 ),
               )
             ),
+              ),
           );
         },),
         Padding(padding: EdgeInsets.symmetric(horizontal: 4.0))

@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'dart:math' as math;
 import '../../Firebase.dart';
+
 class ReportShowPage extends StatefulWidget {
   final Map<dynamic,dynamic> map;
   final String teacherName;
@@ -12,6 +13,7 @@ class ReportShowPage extends StatefulWidget {
   @override
   _ReportShowPageState createState() => _ReportShowPageState();
 }
+
 class _ReportShowPageState extends State<ReportShowPage> {
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,6 @@ class _ReportShowPageState extends State<ReportShowPage> {
                     Navigator.pop(context);
                 }),
               ),
-
             ],
           ),
         ),
@@ -112,26 +113,8 @@ class _ReportShowPageState extends State<ReportShowPage> {
     }
     else
       {
-        if(widget.map["verify"]==1){
-          if(color==1){
-            enabled=false;
-            WhatColor =Colors.grey;
-          }
-          if(color==2){
-            WhatColor=Colors.redAccent;
-            enabled=true;
-          }
-        }
-        else{
-          if(color==1){
-            WhatColor=Color.fromRGBO(44, 219, 152, 1);
-            enabled=true;
-          }
-          if(color==2){
-            WhatColor=Colors.grey;
-            enabled=false;
-          }
-        }
+        enabled=false;
+        WhatColor =Colors.grey;
       }
     return(
         Container(

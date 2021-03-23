@@ -63,9 +63,9 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
     if(list!=null){
       unverifiedlist.clear();
       verifiedlist.clear();
-      unverifiedlist.add(Text("Unverified Reports",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,fontFamily: "Montserrat"),));
+      unverifiedlist.add(Text("Unmarked Reports",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,fontFamily: "Montserrat"),));
       verifiedlist.add(Padding(padding: EdgeInsets.symmetric(vertical: 20),));
-      verifiedlist.add(Text("Verified Reports",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,fontFamily: "Montserrat")));
+      verifiedlist.add(Text("Marked Reports",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,fontFamily: "Montserrat")));
       list.forEach((element) {
         var startTime=DateTime.fromMillisecondsSinceEpoch(element["currentTime"]);
         var currentTime=DateTime.now();
