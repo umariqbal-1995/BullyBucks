@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'dart:developer';
 import '../../Firebase.dart';
+import "package:bully_bucks/main.dart";
 
 class TeacherHomeePage extends StatefulWidget {
   final String email;
@@ -43,8 +44,7 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
             children: [
               Text("Email", style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat",),),
               AutoSizeText(map["email"],style: TextStyle(fontFamily: "Montserrat"),),
-              Text(
-                "First Name", style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat",),),
+              Text("First Name", style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat",),),
               Text(map["fname"],style: TextStyle(fontFamily: "Montserrat"),),
               Text("Last Name", style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
               Text(map["lname"],style: TextStyle(fontFamily: "Montserrat"),),
@@ -63,9 +63,9 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
     if(list!=null){
       unverifiedlist.clear();
       verifiedlist.clear();
-      unverifiedlist.add(Text("Unverified Reports",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,fontFamily: "Montserrat"),));
+      unverifiedlist.add(Text("Unmarked Reports",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,fontFamily: "Montserrat"),));
       verifiedlist.add(Padding(padding: EdgeInsets.symmetric(vertical: 20),));
-      verifiedlist.add(Text("Verified Reports",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,fontFamily: "Montserrat")));
+      verifiedlist.add(Text("Marked Reports",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,fontFamily: "Montserrat")));
       list.forEach((element) {
         var startTime=DateTime.fromMillisecondsSinceEpoch(element["currentTime"]);
         var currentTime=DateTime.now();
@@ -79,10 +79,10 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
           diffTime=min.toString() + " minutes ago";
         }
         if(hour>0 && day<=0){
-          diffTime=hour.toString()+"  hours ago";
+          diffTime=hour.toString()+" hours ago";
         }
         if(day>0){
-          diffTime=day.toString() + "  days ago";
+          diffTime=day.toString() + " days ago";
         }
         if(element["verify"]==0){
           unverifiedlist.add(Container(padding: EdgeInsets.symmetric(vertical: 10),child: GestureDetector(
@@ -91,7 +91,7 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
               // log(element["id"]);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ReportShowPage(teacherName: map["fname"]+"  "+map["lname"],map: element,)),
+                MaterialPageRoute(builder: (context) => ReportShowPage(teacherName: map["fname"]+" "+map["lname"],map: element,)),
               );
             },
           ),));
@@ -104,7 +104,7 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
                 // log(element["id"]);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ReportShowPage(teacherName: map["fname"]+"  "+map["lname"],map: element,)),
+                  MaterialPageRoute(builder: (context) => ReportShowPage(teacherName: map["fname"]+" "+map["lname"],map: element,)),
                 );
               },
             ),));
@@ -160,7 +160,7 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
                     Text(name,style: TextStyle(color: Color.fromRGBO(44, 219, 152, 1),fontSize: 20),),
                     Container(
                       padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text(type+" Bullying -"+time,style: TextStyle(fontSize: 13),),
+                      child: Text(type.capitalize()+" Bullying | "+time,style: TextStyle(fontSize: 13),),
                     ),
                   ],
                 ), ),

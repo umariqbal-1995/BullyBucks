@@ -60,7 +60,7 @@ class _ReportPageState extends State<ReportPage> {
       initialTime: selectedTime,
     );
     if (time != null) {
-      Fluttertoast.showToast(msg: time.toString());
+      //Fluttertoast.showToast(msg: time.toString());
       tcn4.text = time.hour.toString() + ":" + time.minute.toString();
       mySetState();
     }
@@ -112,8 +112,7 @@ Widget Button(String text){
         items: [
           DropdownMenuItem(child: Text("Type of Bullying",style: TextStyle(fontFamily: "Montserrat"),),value: 1,),
           DropdownMenuItem(child: Text("Physical",style: TextStyle(fontFamily: "Montserrat"),),value: 2,),
-          DropdownMenuItem(child: Text("verbal",style:TextStyle(fontFamily: "Montserrat")),value: 3,),
-          DropdownMenuItem(child: Text("Physical",style:TextStyle(fontFamily: "Montserrat")),value: 4,),
+          DropdownMenuItem(child: Text("Verbal",style:TextStyle(fontFamily: "Montserrat")),value: 3,),
         ],
         decoration: InputDecoration(border:OutlineInputBorder()
       ),
@@ -217,7 +216,7 @@ Widget Button(String text){
       String e=element.toString().replaceAll(",", ".");
       Email.sendEmail(e, "Bully Bucks New Report", ""
           "The Report has been auto generated on report add from bully bucks app\n"
-          "It is reported that "+widget.email+" has reported "+ tcn1.text +"  "+type+" bullying "+tcn2.text+""
+          "It is reported that "+widget.email+" has reported "+ tcn1.text +" "+type+" bullying "+tcn2.text+""
           " at "+tcn4.text+ " in "+tcn3.text + " where his/her role was "+role +" with description "+tcn5.text);
     });
   }

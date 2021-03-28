@@ -7,6 +7,7 @@ import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:developer';
 import 'package:simple_rsa/simple_rsa.dart';
+
 class  Database {
   static FirebaseDatabase database;
   Future<Map<dynamic,dynamic>> getMerchant(String email)async {
@@ -26,7 +27,7 @@ class  Database {
         "merchantEmail": ""
       });
     }
-    Fluttertoast.showToast(msg: "Ds was not null haahah");
+    //Fluttertoast.showToast(msg: "Ds was not null haahah");
   }
   Future<bool> addUser(String fname, String lname, String email, String password, String school, String phone, String gender) async
   {
@@ -207,7 +208,7 @@ class  Database {
     return list;
   }
   Future<String> getMerchantEmail(String school)async{
-    Fluttertoast.showToast(msg: school);
+    //Fluttertoast.showToast(msg: school);
     DatabaseReference ref=database.reference().child("schools").child(school);
     DataSnapshot ds=await ref.once();
     if(ds!=null) {
@@ -226,14 +227,13 @@ class  Database {
     for(k in key){
       DatabaseReference ref1=database.reference().child("merchant").child(mEmail).child("products").child(k);
       DataSnapshot ds1=await ref1.once();
-      Fluttertoast.showToast(msg: ds1.value["imag"]);
+      //Fluttertoast.showToast(msg: ds1.value["imag"]);
       list.add(Map<String, dynamic>.from(ds1.value));
 
     }
     return list;
   }
-  Future<List> getHistory(String email)async
-  {
+  Future<List> getHistory(String email) async {
     var value;
     int c=0;
     List list=new List();
@@ -249,14 +249,12 @@ class  Database {
     var key=Map<String, dynamic>.from(ds.value).keys;
     for(var element in value) {
       element["id"]=key.elementAt(c);
-      element["fname"]=value1.elementAt(7).toString();
-      element["fname"]=value1.elementAt(7).toString();
+      element["fname"]=value1.elementAt(6).toString();
       element["lname"]=value1.elementAt(1).toString();
       element["expand"]=false;
       log(element["id"]);
       list.add(element);
       c=c+1;
-      //log("key" + key.elementAt(c));
     }
     return list;
   }
@@ -299,6 +297,7 @@ class  Database {
   Future<String> encrypt(String pass)async {
       return await encryptString(pass, publicKey);
   }
+
   Future<String>decrypt(String pass){
     return decryptString(pass, privateKey);
   }
