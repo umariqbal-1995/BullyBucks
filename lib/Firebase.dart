@@ -250,6 +250,7 @@ class  Database {
     for(var element in value) {
       element["id"]=key.elementAt(c);
       element["fname"]=value1.elementAt(7).toString();
+      element["fname"]=value1.elementAt(7).toString();
       element["lname"]=value1.elementAt(1).toString();
       element["expand"]=false;
       log(element["id"]);

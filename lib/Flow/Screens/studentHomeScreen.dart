@@ -25,8 +25,22 @@ class StudentHome extends StatefulWidget {
 }
 class _StudentHomeState extends State<StudentHome> {
   Map<dynamic,dynamic> map;
-  List<Widget> list=new List<Widget>();
+  Widget w;
   int bal=0;
+
+  Future<void> onGoBack(dynamic value) {
+    Database db=new Database();
+    db.getbullyBucks(widget.email).then((value) {
+      bal=value;
+      setState(() {
+
+      });
+    }).catchError((e){
+      Fluttertoast.showToast(msg: "Something is Wrong with Database");
+    });
+    setState(() {});
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -42,7 +56,8 @@ class _StudentHomeState extends State<StudentHome> {
     });
     db.getUser(widget.email).then((value) {
       map=value;
-      list.add(Container(
+      w=Container(
+          height: 240,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -57,9 +72,8 @@ class _StudentHomeState extends State<StudentHome> {
                     Text("Phone",style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
                     Text(map["phone"],style: TextStyle(fontFamily: "Montserrat"),),
       ],
-              )
-          ),
-      );
+              ),
+          );
     setState(() {});
     }).catchError((e){
       Fluttertoast.showToast(msg: "Something is Wrong with Database");
@@ -132,12 +146,12 @@ class _StudentHomeState extends State<StudentHome> {
           Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/history.svg", "History", "Checking all your Reports"),onTap: (){
             Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => History(email: widget.email,)));
+                MaterialPageRoute(builder: (context) => History(email: widget.email,))).then((value) =>onGoBack(value));
           },),),
           Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/cart.svg", "Shop", "Redeem You Bully bucks"),onTap: (){
             Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ShopPage(email: widget.email,school: map["school"],)));
+                MaterialPageRoute(builder: (context) => ShopPage(email: widget.email,school: map["school"],))).then((value) =>onGoBack(value));
           },),),
           Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/message.svg", "Email", "Talk to your counsellor about any bullying related issues"),onTap: (){
             Navigator.push(
@@ -244,8 +258,8 @@ class _StudentHomeState extends State<StudentHome> {
         },),
         Expanded(child: Row(
           children: [
-            Text("Bully", style: TextStyle(color: Colors.black,fontFamily: "Montserrat"),),
-            Text("Bucks", style: TextStyle(
+          Text("Bully", style: TextStyle(color: Colors.black,fontFamily: "Montserrat"),),
+          Text("Bucks", style: TextStyle(
                 color: Colors.black, fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
           ],
           mainAxisAlignment: MainAxisAlignment.center,
@@ -256,20 +270,17 @@ class _StudentHomeState extends State<StudentHome> {
               child: new AlertDialog(
                   elevation: 10,
             title:  Text("Profile Detail",style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
-            content:       Container(
+            content: Container(
               width: double.infinity,
-              height:240,
+              //height:240,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
               ),
               padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: list,
+              child: w
                 ),
               )
-            ),
-          );
+            );
         },),
         Padding(padding: EdgeInsets.symmetric(horizontal: 4.0))
       ],
