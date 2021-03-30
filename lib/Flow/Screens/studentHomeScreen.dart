@@ -134,7 +134,7 @@ class _StudentHomeState extends State<StudentHome> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => ReportPage(
-                                            email: widget.email,
+                                            email: widget.email,school: map["school"],
                                           )));
                             },
                             child: Padding(
@@ -189,7 +189,7 @@ class _StudentHomeState extends State<StudentHome> {
           Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/message.svg", "Email", "Talk to your counselor about any bullying related issues"),onTap: (){
             Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => EmailPage(email: widget.email,)));
+                MaterialPageRoute(builder: (context) => EmailPage(email: widget.email,school: map["school"],)));
           },),),
         ],
       ),

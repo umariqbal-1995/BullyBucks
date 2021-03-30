@@ -14,7 +14,8 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:bully_bucks/email.dart';
 class ReportPage extends StatefulWidget {
   final String email;
-  const ReportPage({Key key, this.email}) : super(key: key);
+  final String school;
+  const ReportPage({Key key, this.email, this.school}) : super(key: key);
   @override
   _ReportPageState createState() => _ReportPageState();
 }
@@ -253,7 +254,7 @@ Widget Button(String text){
     if(_value2==3){
       role="Victim";
     }
-    List<dynamic> list=await new Database().getAllTeachers();
+    List<dynamic> list=await new Database().getAllTeachersOfSchool(widget.school);
     list.forEach((element) {
       String e=element.toString().replaceAll(",", ".");
       Email.sendEmail(e, "Bully Bucks New Report", ""
