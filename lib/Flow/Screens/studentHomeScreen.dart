@@ -42,9 +42,6 @@ class _StudentHomeState extends State<StudentHome> {
     setState(() {});
   }
 
-  Map<dynamic, dynamic> map;
-  Widget w;
-  int bal = 0;
   @override
   void initState() {
     // TODO: implement initState
@@ -82,7 +79,7 @@ class _StudentHomeState extends State<StudentHome> {
           ),
           Text(map["lname"], style: TextStyle(fontFamily: "Montserrat")),
           Text(
-            "Bucks",
+            "Bully Bucks",
             style: TextStyle(
                 fontWeight: FontWeight.bold, fontFamily: "Montserrat"),
           ),
@@ -137,7 +134,7 @@ class _StudentHomeState extends State<StudentHome> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => ReportPage(
-                                            email: widget.email,
+                                            email: widget.email,school: map["school"],
                                           )));
                             },
                             child: Padding(
@@ -179,70 +176,21 @@ class _StudentHomeState extends State<StudentHome> {
       child: Column(
         children: [
           Padding(padding: EdgeInsets.symmetric(vertical: 60),),
-          Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/history.svg", "History", "Checking all your Reports"),onTap: (){
+          Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/history.svg", "History", "Check all your Previous Reports"),onTap: (){
             Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => History(email: widget.email,))).then((value) =>onGoBack(value));
           },),),
-          Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/cart.svg", "Shop", "Redeem You Bully bucks"),onTap: (){
+          Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/cart.svg", "Shop", "Redeem Your Bully bucks"),onTap: (){
             Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => ShopPage(email: widget.email,school: map["school"],))).then((value) =>onGoBack(value));
           },),),
-          Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/message.svg", "Email", "Talk to your counsellor about any bullying related issues"),onTap: (){
+          Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/message.svg", "Email", "Talk to your counselor about any bullying related issues"),onTap: (){
             Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => EmailPage(email: widget.email,)));
+                MaterialPageRoute(builder: (context) => EmailPage(email: widget.email,school: map["school"],)));
           },),),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 60),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: GestureDetector(
-              child: makeinCardItem("assets/images/history.svg", "History",
-                  "Checking all your Reports"),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => History(
-                              email: widget.email,
-                            )));
-              },
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: GestureDetector(
-              child: makeinCardItem(
-                  "assets/images/cart.svg", "Shop", "Redeem You Bully bucks"),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ShopPage(
-                              email: widget.email,
-                              school: map["school"],
-                            )));
-              },
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: GestureDetector(
-              child: makeinCardItem("assets/images/message.svg", "Email",
-                  "Talk to your counsellor about any bullying related issues"),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EmailPage(
-                              email: widget.email,
-                            )));
-              },
-            ),
-          ),
         ],
       ),
     );
@@ -406,27 +354,34 @@ class _StudentHomeState extends State<StudentHome> {
           ),
         ),
         GestureDetector(
-          child: PlatformSvg.asset("assets/images/person.svg", height: 40),
+          child: Row(
+            children: [
+              Text(map==null?"N":map["fname"].toString()[0].toUpperCase(),style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
+              Text(map==null?"A":map["lname"].toString()[0].toUpperCase(),style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,fontFamily: "Montserrat"),)
+            ],
+          ),
           onTap: () {
             showDialog(
               context: context,
-              child: new AlertDialog(
-                elevation: 10,
-                title: Text(
-                  "Profile Detail",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, fontFamily: "Montserrat"),
-                ),
-                content: Container(
-                  width: 100,
-                  height: 240,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
+              builder: (BuildContext context){
+                return new AlertDialog(
+                  elevation: 10,
+                  title: Text(
+                    "Profile Details",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontFamily: "Montserrat"),
                   ),
-                  padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
-                  child: w,
-                ),
-              ),
+                  content: Container(
+                    width: 100,
+                    height: 240,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
+                    child: w,
+                  ),
+                );
+              }
             );
           },
         ),

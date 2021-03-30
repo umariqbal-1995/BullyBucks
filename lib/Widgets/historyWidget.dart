@@ -48,11 +48,10 @@ class HistoryWidget extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 10),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: Color.fromRGBO(44, 219, 152, 1)
-
+                          color: map["verify"]==0?Color.fromRGBO(44, 219, 152, 1):(map["verify"]==1?Color.fromRGBO(44, 219, 152, 1):Colors.redAccent)
                     ),
 
-                      child: Padding(child: Text(map["verify"]==0?"Pending Report":(map["verify"]==1?"Report Verified":"Fake Report"),style: TextStyle(color: Colors.white,fontSize: 30),),padding: EdgeInsets.fromLTRB(0,0,0,0),),
+                      child: Padding(child: Text(map["verify"]==0?"Pending Report":(map["verify"]==1?"Report Verified":"False Report"),style: TextStyle(color: Colors.white,fontSize: 30),),padding: EdgeInsets.fromLTRB(0,0,0,0),),
                     )
                   ],
                 ),

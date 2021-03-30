@@ -207,6 +207,23 @@ class  Database {
     }
     return list;
   }
+  Future<List<dynamic>> getAllTeachersOfSchool(String school)async{
+    String k;
+    int c=0;
+    List list=new List();
+    DatabaseReference ref=await database.reference().child("users");
+    DataSnapshot ds=await ref.once();
+    var value=Map<String, dynamic>.from(ds.value).values;
+    var key=Map<String, dynamic>.from(ds.value).keys;
+    for(var s in value){
+      if(s["userType"]=="teacher"){
+        if(s["school"]==school)
+          list.add(key.elementAt(c));
+      }
+      c=c+1;
+    }
+    return list;
+  }
   Future<String> getMerchantEmail(String school)async{
     //Fluttertoast.showToast(msg: school);
     DatabaseReference ref=database.reference().child("schools").child(school);

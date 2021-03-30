@@ -4,9 +4,12 @@ import 'package:flutter/rendering.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'dart:math' as math;
 import 'package:bully_bucks/email.dart';
+
+import '../../Firebase.dart';
 class EmailPage extends StatefulWidget {
   final String email;
-  const EmailPage({Key key, this.email}) : super(key: key);
+  final String school;
+  const EmailPage({Key key, this.email, this.school}) : super(key: key);
   @override
   _EmailPageState createState() => _EmailPageState();
 }
@@ -25,7 +28,8 @@ class _EmailPageState extends State<EmailPage> {
                   children: [
                     makeUnderContainer(),
                     Padding(padding: EdgeInsets.fromLTRB(40,50,40,0),
-                    child: makeUppercard(),)
+                     //child: makeUppercard(),
+                    )
                   ],
                 ),
               ),
@@ -79,10 +83,15 @@ class _EmailPageState extends State<EmailPage> {
             ),
           ),
           Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-          FlatButton(onPressed: (){
-            Email.sendEmail(tcn1.text, "Sent From Bully Bucks",""
-                "The was sent from "+widget.email+"\n"+
-                tcn2.text );
+          FlatButton(onPressed: ()async{
+            Database db=new Database();
+            var list=await db.getAllTeachersOfSchool(widget.school);
+            list.forEach((element) {
+              Email.sendEmail(element, "Sent From Bully Bucks",""
+                  "The was sent from "+widget.email+"\n"+
+                  tcn2.text );
+            });
+
             Navigator.pop(context);
           },
               child: Container(
