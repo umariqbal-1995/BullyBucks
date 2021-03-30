@@ -156,6 +156,7 @@ Widget Button(String text){
           DropdownMenuItem(child: Text("Type of Bullying",style: TextStyle(fontFamily: "Montserrat"),),value: 1,),
           DropdownMenuItem(child: Text("Physical",style: TextStyle(fontFamily: "Montserrat"),),value: 2,),
           DropdownMenuItem(child: Text("Verbal",style:TextStyle(fontFamily: "Montserrat")),value: 3,),
+          DropdownMenuItem(child: Text("Cyber",style:TextStyle(fontFamily: "Montserrat")),value: 4,),
         ],
         decoration: InputDecoration(border:OutlineInputBorder()
       ),
