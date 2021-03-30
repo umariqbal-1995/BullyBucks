@@ -25,7 +25,7 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
   @override
   void initState() {
     super.initState();
-    unverifiedlist = [Text("Please wait while we load stuff")];
+    unverifiedlist = [Text("Please wait while We Load the Screen")];
     Database db = new Database();
     db.getVerified().then((value) {
       list = value;
@@ -58,6 +58,21 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
       Fluttertoast.showToast(msg: "Something is Wrong with Database");
     });
   }
+  void onReturnBack(){
+    unverifiedlist = [Text("Please wait while We Load the Screen")];
+    Database db = new Database();
+    db.getVerified().then((value) {
+      list = value;
+      log("list " + list.toString());
+      setState(() {});
+    }).catchError((e){
+      Fluttertoast.showToast(msg: "Something is Wrong with Database");
+    });
+    setState(() {
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if(list!=null){
@@ -82,7 +97,10 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
           diffTime=hour.toString()+" hours ago";
         }
         if(day>0){
-          diffTime=day.toString() + " days ago";
+          if(day>1)
+            diffTime=day.toString() + " days ago";
+          else
+            diffTime=day.toString() + " day ago";
         }
         if(element["verify"]==0){
           unverifiedlist.add(Container(padding: EdgeInsets.symmetric(vertical: 10),child: GestureDetector(
@@ -92,7 +110,7 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => ReportShowPage(teacherName: map["fname"]+" "+map["lname"],map: element,)),
-              );
+              ).then((value) => onReturnBack());
             },
           ),));
         }
@@ -188,24 +206,32 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
           mainAxisAlignment: MainAxisAlignment.center,
         ),
         ),
-        GestureDetector(child: PlatformSvg.asset("assets/images/person.svg",height: 40),onTap: (){
+        GestureDetector(child: Row(
+             children: [
+               Text(map==null?"N":map["fname"].toString()[0].toUpperCase(),style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
+               Text(map==null?"A":map["lname"].toString()[0].toUpperCase(),style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,fontFamily: "Montserrat"),)
+    ],
+    ),
+          onTap: (){
           showDialog(context: context,
-            child: new AlertDialog(
-                elevation: 10,
-                title:  Text("Profile Detail",style: TextStyle(fontWeight: FontWeight.bold),),
-                content:       Container(
-                  width: double.infinity,
-                  height:200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: nlist,
-                  ),
-                )
-            ),
+            builder: (BuildContext context){
+              return new AlertDialog(
+                  elevation: 10,
+                  title:  Text("Profile Details",style: TextStyle(fontWeight: FontWeight.bold),),
+                  content:       Container(
+                    width: double.infinity,
+                    height:200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: nlist,
+                    ),
+                  )
+              );
+            }
           );
         },),
         Padding(padding: EdgeInsets.symmetric(horizontal: 4.0))

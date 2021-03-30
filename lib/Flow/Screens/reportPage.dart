@@ -38,7 +38,8 @@ class _ReportShowPageState extends State<ReportShowPage> {
               makeForm(0,"Type of Bullying",widget.map["type"]),
               makeForm(0,"Role",widget.map["role"]),
               makeForm(0,"Location",widget.map["location"]),
-              makeForm(3,"Time",widget.map["time"]),
+              makeForm(0,"Time",widget.map["time"]),
+              widget.map["description"].toString().length>25? makeDescriptionForm(3,"Description",widget.map["description"]) : makeForm(3,"Description",widget.map["description"]),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 25),
                 child: Button("Valid Report", 1, () {
@@ -89,7 +90,7 @@ class _ReportShowPageState extends State<ReportShowPage> {
             child: Row(
               children: [
                 Flexible(flex: 4,fit: FlexFit.tight,child: Text(key,style: TextStyle(fontWeight: FontWeight.bold),)),
-                Flexible(flex: 1,fit: FlexFit.loose,child: Text(value)),
+                Expanded(flex: 3, child: Text(value, textAlign: TextAlign.end)),
               ],
             ),
           )
@@ -98,6 +99,40 @@ class _ReportShowPageState extends State<ReportShowPage> {
       )
     );
   }
+
+  Widget makeDescriptionForm(int i,String key,String value){
+    return (
+        Container(
+          padding: i==1?EdgeInsets.fromLTRB(0,30,0,1):EdgeInsets.symmetric(vertical: 2),
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.fromLTRB(10, 25, 10, 25),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color:Colors.black,width: 0.1),
+                    borderRadius: i==1?BorderRadius.vertical(top: Radius.circular(30)):i==3?BorderRadius.vertical(bottom: Radius.circular(30)):null
+                ),
+                child: Column(children: [
+                  Row(
+                    children: [
+                      Flexible(flex: 4,fit: FlexFit.tight,child: Text(key,style: TextStyle(fontWeight: FontWeight.bold),)),
+                    ],
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 4.0)),
+                  Row(
+                    children: [
+                      Expanded(flex: 3, child: Text(value)),
+                    ],
+                  ),
+                ],)
+              )
+            ],
+          ),
+        )
+    );
+  }
+
   Widget Button(String text,int color,VoidCallback call ){
     Color WhatColor;
     bool enabled;

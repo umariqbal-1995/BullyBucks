@@ -10,6 +10,7 @@ import 'package:platform_svg/platform_svg.dart';
 import 'package:menu_button/menu_button.dart';
 import 'package:bully_bucks/Widgets/tectWidget.dart';
 import 'dart:math' as math;
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:bully_bucks/email.dart';
 class ReportPage extends StatefulWidget {
   final String email;
@@ -40,7 +41,32 @@ class _ReportPageState extends State<ReportPage> {
              Padding(padding: EdgeInsets.symmetric(vertical: 5),child: dropDown1(),),
              Padding(padding: EdgeInsets.symmetric(vertical: 5),child: dropDown2(),),
              Padding(padding: EdgeInsets.symmetric(vertical: 5),child: TextWidget(text: "Location",controller: tcn3,onTap: mySetState,green: true,),),
-             Padding(padding: EdgeInsets.symmetric(vertical: 5),child: TextWidget(text: "Time",controller: tcn4,onTap:selectTime,green: true,),),
+            DateTimePicker(
+              type: DateTimePickerType.dateTimeSeparate,
+              use24HourFormat: false,
+              dateMask: 'd MMM, yyyy',
+              initialValue: "",
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2100),
+              icon: Icon(Icons.event),
+              dateLabelText: 'Date',
+              timeLabelText: "Time",
+              selectableDayPredicate: (date) {
+                // Disable weekend days to select from the calendar
+                if (date.weekday == 6 || date.weekday == 7) {
+                  return false;
+                }
+
+                return true;
+              },
+              onChanged: (val) => tcn4.text=val,
+              validator: (val) {
+                tcn4.text=val;
+                return null;
+              },
+              onSaved: (val) => tcn4.text=val,
+            ),
+
              Padding(padding: EdgeInsets.symmetric(vertical: 5),child: multilineField("Description of the incident "),),
              Padding(padding: EdgeInsets.symmetric(vertical: 0),child: Padding(padding: EdgeInsets.symmetric(vertical: 5),child: Button("Submit Report"),)),
            ]
@@ -51,19 +77,35 @@ class _ReportPageState extends State<ReportPage> {
   }
   void selectTime(){
     _selectTime(context);
+    setState(() {
+
+    });
   }
   void  _selectTime(BuildContext context) async {
-    TimeOfDay selectedTime=TimeOfDay.fromDateTime(DateTime.now());
-    TimeOfDay picked;
-    var time=await showTimePicker(
-      context: context,
-      initialTime: selectedTime,
+    DateTimePicker(
+      type: DateTimePickerType.dateTimeSeparate,
+      dateMask: 'd MMM, yyyy',
+      initialValue: DateTime.now().toString(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      icon: Icon(Icons.event),
+      dateLabelText: 'Date',
+      timeLabelText: "Hour",
+      selectableDayPredicate: (date) {
+        // Disable weekend days to select from the calendar
+        if (date.weekday == 6 || date.weekday == 7) {
+          return false;
+        }
+
+        return true;
+      },
+      onChanged: (val) => print(val),
+      validator: (val) {
+        print(val);
+        return null;
+      },
+      onSaved: (val) => print(val),
     );
-    if (time != null) {
-      //Fluttertoast.showToast(msg: time.toString());
-      tcn4.text = time.hour.toString() + ":" + time.minute.toString();
-      mySetState();
-    }
   }
 Widget Button(String text){
     return(
@@ -100,7 +142,7 @@ Widget Button(String text){
       ),
     );
   }
-  
+
   void mySetState(){
     setState(() {
 
@@ -197,19 +239,19 @@ Widget Button(String text){
     String type;
     String role;
     if(_value2==2){
-      type="physical";
+      type="Physical";
     }
     if(_value1==3){
       type="Verbal";
     }
     if(_value1==4){
-      type="cyber";
+      type="Cyber";
     }
     if(_value2==2){
-      role="witness";
+      role="Witness";
     }
     if(_value2==3){
-      role="victim";
+      role="Victim";
     }
     List<dynamic> list=await new Database().getAllTeachers();
     list.forEach((element) {
