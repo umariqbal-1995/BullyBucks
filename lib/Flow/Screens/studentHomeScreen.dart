@@ -94,6 +94,16 @@ class _StudentHomeState extends State<StudentHome> {
             map["phone"],
             style: TextStyle(fontFamily: "Montserrat"),
           ),
+          Text(
+            "School",
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontFamily: "Montserrat"),
+          ),
+          Text(
+            map["school"],
+            style: TextStyle(fontFamily: "Montserrat"),
+          ),
+
         ],
       ));
       setState(() {});

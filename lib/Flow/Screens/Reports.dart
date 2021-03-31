@@ -259,7 +259,7 @@ Widget Button(String text){
     list.forEach((element) {
       String e=element.toString().replaceAll(",", ".");
       Email.sendEmail(e, "Bully Bucks New Report", ""
-          "The Report has been auto generated on report add from bully bucks app\n"
+          "The Report has been auto generated from bully bucks app\n"
           "It is reported that "+widget.email+" has reported "+ tcn1.text +" "+type+" bullying "+tcn2.text+""
           " at "+tcn4.text+ " in "+tcn3.text + " where his/her role was "+role +" with description "+tcn5.text);
     });

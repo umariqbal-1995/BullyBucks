@@ -87,7 +87,7 @@ class _EmailPageState extends State<EmailPage> {
             Database db=new Database();
             var list=await db.getAllTeachersOfSchool(widget.school);
             list.forEach((element) {
-              Email.sendEmail(element, "Sent From Bully Bucks",""
+              Email.sendEmail(element.toString().replaceAll(",", "."), "Sent From Bully Bucks",""
                   "The was sent from "+widget.email+"\n"+
                   tcn2.text );
             });
