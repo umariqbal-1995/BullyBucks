@@ -206,11 +206,19 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
           mainAxisAlignment: MainAxisAlignment.center,
         ),
         ),
-        GestureDetector(child: Row(
-             children: [
-               Text(map==null?"N":map["fname"].toString()[0].toUpperCase(),style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,fontFamily: "Montserrat"),),
-               Text(map==null?"A":map["lname"].toString()[0].toUpperCase(),style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,fontFamily: "Montserrat"),)
+        GestureDetector(child: Container(
+    margin: EdgeInsets.fromLTRB(0,0,0,0),
+    padding: EdgeInsets.all(10),
+    child: Row(
+    children: [
+    Text(map==null?"N":map["fname"].toString()[0].toUpperCase(),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,fontFamily: "Montserrat",color: Colors.white),),
+    Text(map==null?"A":map["lname"].toString()[0].toUpperCase(),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,fontFamily: "Montserrat",color: Colors.white),)
     ],
+    ),
+    decoration: new BoxDecoration(
+    color: Color.fromRGBO(22, 88, 63, 1),
+    shape: BoxShape.circle,
+    ),
     ),
           onTap: (){
           showDialog(context: context,
