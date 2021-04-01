@@ -227,7 +227,7 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
                   elevation: 10,
                   title:  Text("Profile Details",style: TextStyle(fontWeight: FontWeight.bold),),
                   content:       Container(
-                    width: double.infinity,
+                    width: 100,
                     height:200,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
