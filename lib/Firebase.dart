@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,9 +8,20 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:developer';
-import 'package:simple_rsa/simple_rsa.dart';
+import 'package:encrypt/encrypt.dart' as FlutterEncrypt;
+import 'package:pointycastle/export.dart' as pc;
 
 class Database {
+
+  var key;
+  var iv;
+  var encrypter;
+
+  Database(){
+    key = FlutterEncrypt.Key.fromUtf8('CBoaDQIQAgceGg8dFAkMDBEOECEZAcf=');
+    iv = FlutterEncrypt.IV.fromLength(16);
+    encrypter = FlutterEncrypt.Encrypter(FlutterEncrypt.AES(key));
+  }
   static FirebaseDatabase database;
   Future<Map<dynamic, dynamic>> getMerchant(String email) async {
     DatabaseReference ref = database.reference().child("merchant").child(email);
@@ -21,7 +33,6 @@ class Database {
 
   Future<void> addSchool(String school) async {
     DatabaseReference ref = database.reference().child("schools").child(school);
-    Fluttertoast.showToast(msg: school);
     DataSnapshot ds = await ref.once();
     var value = ds.value;
     if (value == null) {
@@ -36,7 +47,7 @@ class Database {
 
   Future<bool> addUser(String fname, String lname, String email,
       String password, String school, String phone, String gender) async {
-    password = await encrypt(password);
+    password = encrypt(password);
     await database
         .reference()
         .child("users")
@@ -320,47 +331,24 @@ class Database {
     return list;
   }
 
-  final publicKey =
-      "MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQBuAGGBgg9nuf6D2c5AIHc8" +
-          "vZ6KoVwd0imeFVYbpMdgv4yYi5obtB/VYqLryLsucZLFeko+q1fi871ZzGjFtYXY" +
-          "9Hh1Q5e10E5hwN1Tx6nIlIztrh5S9uV4uzAR47k2nng7hh6vuZ33kak2hY940RSL" +
-          "H5l9E5cKoUXuQNtrIKTS4kPZ5IOUSxZ5xfWBXWoldhe+Nk7VIxxL97Tk0BjM0fJ3" +
-          "8rBwv3++eAZxwZoLNmHx9wF92XKG+26I+gVGKKagyToU/xEjIqlpuZ90zesYdjV+" +
-          "u0iQjowgbzt3ASOnvJSpJu/oJ6XrWR3egPoTSx+HyX1dKv9+q7uLl6pXqGVVNs+/" +
-          "AgMBAAE=";
 
-  final privateKey =
-      "MIIEoQIBAAKCAQBuAGGBgg9nuf6D2c5AIHc8vZ6KoVwd0imeFVYbpMdgv4yYi5ob" +
-          "tB/VYqLryLsucZLFeko+q1fi871ZzGjFtYXY9Hh1Q5e10E5hwN1Tx6nIlIztrh5S" +
-          "9uV4uzAR47k2nng7hh6vuZ33kak2hY940RSLH5l9E5cKoUXuQNtrIKTS4kPZ5IOU" +
-          "SxZ5xfWBXWoldhe+Nk7VIxxL97Tk0BjM0fJ38rBwv3++eAZxwZoLNmHx9wF92XKG" +
-          "+26I+gVGKKagyToU/xEjIqlpuZ90zesYdjV+u0iQjowgbzt3ASOnvJSpJu/oJ6Xr" +
-          "WR3egPoTSx+HyX1dKv9+q7uLl6pXqGVVNs+/AgMBAAECggEANG9qC1n8De3TLPa+" +
-          "IkNXk1SwJlUUnAJ6ZCi3iyXZBH1Kf8zMATizk/wYvVxKHbF1zTyl94mls0GMmSmf" +
-          "J9+Hlguy//LgdoJ9Wouc9TrP7BUjuIivW8zlRc+08lIjD64qkfU0238XldORXbP8" +
-          "2BKSQF8nwz97WE3YD+JKtZ4x83PX7hqC9zabLFIwFIbmJ4boeXzj4zl8B7tjuAPq" +
-          "R3JNxxKfvhpqPcGFE2Gd67KJrhcH5FIja4H/cNKjatKFcP6qNfCA7e+bua6bL0Cy" +
-          "DzmmNSgz6rx6bthcJ65IKUVrJK6Y0sBcNQCAjqZDA0Bs/7ShGDL28REuCS1/udQz" +
-          "XyB7gQKBgQCrgy2pvqLREaOjdds6s1gbkeEsYo7wYlF4vFPg4sLIYeAt+ed0kn4N" +
-          "dSmtp4FXgGyNwg7WJEveKEW7IEAMQBSN0KthZU4sK9NEu2lW5ip9Mj0uzyUzU4lh" +
-          "B+zwKzZCorip/LIiOocFWtz9jwGZPCKC8expUEbMuU1PzlxrytHJaQKBgQCkMEci" +
-          "EHL0KF5mcZbQVeLaRuecQGI5JS4KcCRab24dGDt+EOKYchdzNdXdM8gCHNXb8RKY" +
-          "NYnHbCjheXHxV9Jo1is/Qi9nND5sT54gjfrHMKTWAtWKAaX55qKG0CEyBB87WqJM" +
-          "Ydn7i4Rf0rsRNa1lbxQ+btX14d0xol9313VC5wKBgERD6Rfn9dwrHivAjCq4GXiX" +
-          "vr0w2V3adD0PEH+xIgAp3NXP4w0mBaALozQoOLYAOrTNqaQYPE5HT0Hk2zlFBClS" +
-          "BfS1IsE4DFYOFiZtZDoClhGch1z/ge2p/ue0+1rYc5HNL4WqL/W0rcMKeYNpSP8/" +
-          "lW5xckyn8Jq0M1sAFjIJAoGAQJvS0f/BDHz6MLvQCelSHGy8ZUscm7oatPbOB1xD" +
-          "62UGvCPu1uhGfAqaPrJKqTIpoaPqmkSvE+9m4tsEUGErph9o4zqrJqRzT/HAmrTk" +
-          "Ew/8PU7eMrFVW9I68GvkNCdVFukiZoY23fpXu9FT1YDW28xrHepFfb1EamynvqPl" +
-          "O88CgYAvzzSt+d4FG03jwObhdZrmZxaJk0jkKu3JkxUmav9Zav3fDTX1hYxDNTLi" +
-          "dazvUFfqN7wqSSPqajQmMoTySxmLI8gI4qC0QskB4lT1A8OfmjcDwbUzQGam5Kpz" +
-          "ymmKJA9DgQpPgEIjHAnw2dUDR+wI/Loywb0AGLIbszseCOlc2Q==";
 
-  Future<String> encrypt(String pass) async {
-    return await encryptString(pass, publicKey);
+  String encrypt(String pass) {
+    return encrypter.encrypt(pass, iv: iv).base64;
   }
 
-  Future<String> decrypt(String pass) {
-    return decryptString(pass, privateKey);
+  String decrypt(String pass) {
+    return decryptExtension(pass, key.bytes, iv.bytes);
+  }
+
+  String decryptExtension(String cipher, Uint8List key, Uint8List iv) {
+    final encryptedText = FlutterEncrypt.Encrypted.fromBase64(cipher);
+    final ctr = pc.CTRStreamCipher(pc.AESFastEngine())
+      ..init(false, pc.ParametersWithIV(pc.KeyParameter(key), iv));
+    Uint8List decrypted = ctr.process(encryptedText.bytes);
+
+    print(String.fromCharCodes(decrypted));
+
+    return String.fromCharCodes(decrypted).replaceAll("\n", "");
   }
 }
