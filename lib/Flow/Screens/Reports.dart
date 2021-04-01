@@ -51,7 +51,7 @@ class _ReportPageState extends State<ReportPage> {
                  showCupertinoModalPopup(
                      context: context,
                      builder: (_) => DatePicker((){
-                       tcn4.text = DateFormat('dd-MM-yyyy kk:mm').format(selectedDateTime);
+                       tcn4.text = DateFormat('dd-MM-yyyy hh:mm a').format(selectedDateTime);
                        Navigator.of(context).pop();
                        }, (val){selectedDateTime=val;}));
                  /*DateTime date = await PlatformDatePicker.showDate(
