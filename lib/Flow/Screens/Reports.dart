@@ -6,6 +6,8 @@ import 'package:bully_bucks/Widgets/Logo.dart';
 import 'package:bully_bucks/Flow/Auth/Login/loginGender.dart';
 import 'package:bully_bucks/Flow/Auth/Signup/registerPage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
+import 'package:platform_date_picker/platform_date_picker.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'package:menu_button/menu_button.dart';
 import 'package:bully_bucks/Widgets/tectWidget.dart';
@@ -42,31 +44,25 @@ class _ReportPageState extends State<ReportPage> {
              Padding(padding: EdgeInsets.symmetric(vertical: 5),child: dropDown1(),),
              Padding(padding: EdgeInsets.symmetric(vertical: 5),child: dropDown2(),),
              Padding(padding: EdgeInsets.symmetric(vertical: 5),child: TextWidget(text: "Location",controller: tcn3,onTap: mySetState,green: true,),),
-            DateTimePicker(
-              type: DateTimePickerType.dateTimeSeparate,
-              use24HourFormat: false,
-              dateMask: 'd MMM, yyyy',
-              initialValue: "",
-              firstDate: DateTime(2000),
-              lastDate: DateTime(2100),
-              icon: Icon(Icons.event),
-              dateLabelText: 'Date',
-              timeLabelText: "Time",
-              selectableDayPredicate: (date) {
-                // Disable weekend days to select from the calendar
-                if (date.weekday == 6 || date.weekday == 7) {
-                  return false;
-                }
+             Padding(padding: EdgeInsets.symmetric(vertical: 5),child: TextWidget(text: "Date and Time",controller: tcn4,onTap: () async
+               {
+                 DateTime date = await PlatformDatePicker.showDate(
+                   context: context,
+                   firstDate: DateTime(DateTime.now().year - 2),
+                   initialDate: DateTime.now(),
+                   lastDate: DateTime(DateTime.now().year + 2),
+                 );
+                 TimeOfDay time = await PlatformDatePicker.showTime(
+                   context: context,
+                   initialTime: TimeOfDay.fromDateTime(DateTime.now()),
+                   use24hFormat: false,
+                 );
+                 final localizations = MaterialLocalizations.of(context);
+                 final formattedTimeOfDay = localizations.formatTimeOfDay(time);
+                 tcn4.text = DateFormat('dd-MM-yyyy').format(date)+" "+formattedTimeOfDay;
 
-                return true;
-              },
-              onChanged: (val) => tcn4.text=val,
-              validator: (val) {
-                tcn4.text=val;
-                return null;
-              },
-              onSaved: (val) => tcn4.text=val,
-            ),
+               },green: true,),),
+
 
              Padding(padding: EdgeInsets.symmetric(vertical: 5),child: multilineField("Description of the incident "),),
              Padding(padding: EdgeInsets.symmetric(vertical: 0),child: Padding(padding: EdgeInsets.symmetric(vertical: 5),child: Button("Submit Report"),)),

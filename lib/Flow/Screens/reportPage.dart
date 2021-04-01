@@ -63,6 +63,7 @@ class _ReportShowPageState extends State<ReportShowPage> {
                   Database db=new Database();
                   db.verifyReport(widget.teacherName,widget.map["email"], widget.map["id"], 2);
                   widget.map["verify"]=2;
+                  db.minusBullyBucks(widget.map["email"], 20);
                   setState(() {
                   });
                     Navigator.pop(context);

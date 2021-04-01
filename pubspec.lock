@@ -352,6 +352,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.2"
+  platform_date_picker:
+    dependency: "direct main"
+    description:
+      name: platform_date_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4+1"
   platform_svg:
     dependency: "direct main"
     description:
