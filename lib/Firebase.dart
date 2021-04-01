@@ -33,6 +33,7 @@ class Database {
 
   Future<void> addSchool(String school) async {
     DatabaseReference ref = database.reference().child("schools").child(school);
+    Fluttertoast.showToast(msg: school);
     DataSnapshot ds = await ref.once();
     var value = ds.value;
     if (value == null) {

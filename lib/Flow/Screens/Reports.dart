@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:bully_bucks/Firebase.dart';
+import 'package:bully_bucks/Widgets/DateTimePicker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bully_bucks/Widgets/Logo.dart';
@@ -46,20 +47,37 @@ class _ReportPageState extends State<ReportPage> {
              Padding(padding: EdgeInsets.symmetric(vertical: 5),child: TextWidget(text: "Location",controller: tcn3,onTap: mySetState,green: true,),),
              Padding(padding: EdgeInsets.symmetric(vertical: 5),child: TextWidget(text: "Date and Time",controller: tcn4,onTap: () async
                {
-                 DateTime date = await PlatformDatePicker.showDate(
+                 DateTime selectedDateTime = DateTime.now();
+                 showCupertinoModalPopup(
+                     context: context,
+                     builder: (_) => DatePicker((){
+                       tcn4.text = DateFormat('dd-MM-yyyy kk:mm').format(selectedDateTime);
+                       Navigator.of(context).pop();
+                       }, (val){selectedDateTime=val;}));
+                 /*DateTime date = await PlatformDatePicker.showDate(
                    context: context,
                    firstDate: DateTime(DateTime.now().year - 2),
                    initialDate: DateTime.now(),
                    lastDate: DateTime(DateTime.now().year + 2),
+                   showCupertino: true,
+                   builder: (context, child) => Theme(
+                     data: ThemeData.light().copyWith(
+                       primaryColor: const Color(0xFF8CE7F1),
+                       accentColor: const Color(0xFF8CE7F1),
+                       colorScheme:
+                       ColorScheme.light(primary: const Color(0xFF8CE7F1)),
+                       buttonTheme:
+                       ButtonThemeData(textTheme: ButtonTextTheme.primary),
+                     ),
+                     child: child,
+                   ),
                  );
                  TimeOfDay time = await PlatformDatePicker.showTime(
                    context: context,
                    initialTime: TimeOfDay.fromDateTime(DateTime.now()),
                    use24hFormat: false,
-                 );
-                 final localizations = MaterialLocalizations.of(context);
-                 final formattedTimeOfDay = localizations.formatTimeOfDay(time);
-                 tcn4.text = DateFormat('dd-MM-yyyy').format(date)+" "+formattedTimeOfDay;
+                 );*/
+
 
                },green: true,),),
 
