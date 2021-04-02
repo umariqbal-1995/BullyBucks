@@ -25,16 +25,6 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
   @override
   void initState() {
     super.initState();
-    unverifiedlist = [Text("Please wait while We Load the Screen")];
-    Database db = new Database();
-    db.getVerified().then((value) {
-      list = value;
-      log("list " + list.toString());
-      setState(() {});
-    }).catchError((e){
-      Fluttertoast.showToast(msg: "Something is Wrong with Database");
-    });
-    //Person profile code starts here
     Database db1 = new Database();
     db1.getUser(widget.email).then((value) {
       map = value;
@@ -54,9 +44,20 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
           )
       )
       );
+      Database db = new Database();
+      db.getReportsOSchool(map["school"]).then((value) {
+        list = value;
+        log("list " + list.toString());
+        setState(() {});
+      });
     }).catchError((e){
       Fluttertoast.showToast(msg: "Something is Wrong with Database");
     });
+
+    unverifiedlist = [Text("Please wait while We Load the Screen")];
+
+    //Person profile code starts here
+
   }
   void onReturnBack(){
     unverifiedlist = [Text("Please wait while We Load the Screen")];

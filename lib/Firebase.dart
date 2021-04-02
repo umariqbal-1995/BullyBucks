@@ -352,4 +352,28 @@ class Database {
 
     return String.fromCharCodes(decrypted).replaceAll("\n", "");
   }
+
+  Future<List> getReportsOSchool(String school)async{
+    List<Map<dynamic,dynamic>> list=[];
+    Query ref =  database
+        .reference()
+        .child("users").orderByChild("school").equalTo("alpina");
+    DataSnapshot ds=await ref.once();
+    var values=ds.value;
+    Map<dynamic,dynamic> map=Map<dynamic,dynamic>.from(values);
+    map.forEach((keyofParent, valueofParent) {
+      if(valueofParent["reports"]!=null){
+           Map<dynamic,dynamic> mapOfReport= valueofParent["reports"];
+           mapOfReport.forEach((key, value) {
+             value["id"]=key;
+             value["fname"]=valueofParent["fname="];
+             value["lname"]=valueofParent["lname"];
+             value["expand"] = false;
+             list.add(value);
+           });
+      }
+    });
+    return list;
+  }
+
 }
