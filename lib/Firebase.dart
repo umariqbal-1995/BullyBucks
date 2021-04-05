@@ -157,9 +157,7 @@ class Database {
     DataSnapshot ds = await ref.once();
     var values = ds.value;
     String dbpass = await decrypt(values["password"]);
-
     dbpass=dbpass.trim();
-    Fluttertoast.showToast(msg: dbpass);
     if (dbpass == pass) {
       if (values["userType"] == "teacher") {
         return 1;
