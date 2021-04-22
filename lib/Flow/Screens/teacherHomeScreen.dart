@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bully_bucks/Flow/Screens/reportPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:platform_svg/platform_svg.dart';
@@ -10,8 +11,9 @@ import '../../Firebase.dart';
 import "package:bully_bucks/main.dart";
 
 class TeacherHomeePage extends StatefulWidget {
+
   final String email;
-  const TeacherHomeePage({Key key, this.email}) : super(key: key);
+  TeacherHomeePage({Key key, this.email}) : super(key: key);
   @override
   _TeacherHomeePageState createState() => _TeacherHomeePageState();
 }
@@ -62,7 +64,7 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
   void onReturnBack(){
     unverifiedlist = [Text("Please wait while We Load the Screen")];
     Database db = new Database();
-    db.getVerified().then((value) {
+    db.getReportsOSchool(map["school"]).then((value) {
       list = value;
       log("list " + list.toString());
       setState(() {});
@@ -76,10 +78,13 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Color.fromRGBO(44, 219, 152, 1)
+    ));
     if(list!=null){
       unverifiedlist.clear();
       verifiedlist.clear();
-      unverifiedlist.add(Text("Unmarked Reports",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,fontFamily: "Montserrat"),));
+      unverifiedlist.add(Text("Pending Reports",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,fontFamily: "Montserrat"),));
       verifiedlist.add(Padding(padding: EdgeInsets.symmetric(vertical: 20),));
       verifiedlist.add(Text("Marked Reports",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,fontFamily: "Montserrat")));
       list.forEach((element) {
@@ -129,6 +134,14 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
             ),));
           }
       });
+      if(unverifiedlist.length==1){
+        unverifiedlist.clear();
+        unverifiedlist.add(Text("No Pending Reports",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,fontFamily: "Montserrat"),));
+      }
+      if(verifiedlist.length==2){
+        verifiedlist.clear();
+        verifiedlist.add(Text("No Marked Reports",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,fontFamily: "Montserrat"),));
+      }
     }
     List<Widget> wlist=unverifiedlist+verifiedlist;
     return Scaffold(
@@ -196,7 +209,7 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
       children: [
         Padding(padding: EdgeInsets.symmetric(horizontal: 4),),
         GestureDetector(child:Image(image: AssetImage('assets/images/backBtn.png',), height: 35,),onTap: (){
-          Navigator.pop(context);
+          Navigator.of(context).popUntil((route) => route.isFirst);
         },),
         Expanded(child: Row(
           children: [

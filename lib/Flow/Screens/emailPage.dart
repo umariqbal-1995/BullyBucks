@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'dart:math' as math;
 import 'package:bully_bucks/email.dart';
@@ -9,16 +11,21 @@ import '../../Firebase.dart';
 class EmailPage extends StatefulWidget {
   final String email;
   final String school;
-  const EmailPage({Key key, this.email, this.school}) : super(key: key);
+  EmailPage({Key key, this.email, this.school}) : super(key: key);
+
   @override
   _EmailPageState createState() => _EmailPageState();
 }
 class _EmailPageState extends State<EmailPage> {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Color.fromRGBO(44, 219, 152, 1)
+    ));
     return Scaffold(
       body: SafeArea(
         child: Container(
+          padding: EdgeInsets.fromLTRB(0,10,10,0),
             color: Color.fromRGBO(226, 226, 226, 0.45),
             child: ListView(
             children: [
@@ -51,7 +58,7 @@ class _EmailPageState extends State<EmailPage> {
           padding: EdgeInsets.fromLTRB(10,0,0,0),
           child: Row(
             children: [
-              Flexible(flex: 2,child: PlatformSvg.asset("assets/images/email.svg",height: 30),),
+              Flexible(flex: 2,child: Image(image: AssetImage('assets/images/send.png',), height: 30,),),
               Padding(padding: EdgeInsets.symmetric(horizontal: 10),),
               Flexible(flex: 5,child: TextFormField(
                 controller: tcn1,
@@ -86,13 +93,20 @@ class _EmailPageState extends State<EmailPage> {
           FlatButton(onPressed: ()async{
             Database db=new Database();
             var list=await db.getAllTeachersOfSchool(widget.school);
-            list.forEach((element) {
-              Email.sendEmail(element.toString().replaceAll(",", "."), "Sent From Bully Bucks",""
-                  "The was sent from "+widget.email+"\n"+
-                  tcn2.text );
-            });
+            if(tcn2.text!="") {
+              list.forEach((element) {
+                Email.sendEmail(element.toString().replaceAll(",", "."),
+                    "Sent From Bully Bucks", ""
+                        "The was sent from " + widget.email + "\n" +
+                        tcn2.text);
+              });
 
-            Navigator.pop(context);
+              Navigator.pop(context);
+            }
+            else
+              {
+                Fluttertoast.showToast(msg: "No text entered in email");
+              }
           },
               child: Container(
                 padding: EdgeInsets.fromLTRB(15,20,15,20),
@@ -127,7 +141,8 @@ class _EmailPageState extends State<EmailPage> {
             },)
         ),
         Expanded(
-          child:Text(name,textAlign: TextAlign.center,style:TextStyle(fontWeight: FontWeight.bold,fontSize: 15)),
+          child:Text(name,textAlign: TextAlign.center,style:TextStyle(
+        fontWeight: FontWeight.bold, fontFamily: "Montserrat",fontSize: 18,)),
         )
       ],
     ));

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:bully_bucks/Widgets/Logo.dart';
 import 'package:bully_bucks/Flow/Auth/Login/loginGender.dart';
 import 'package:bully_bucks/Flow/Auth/Signup/registerPage.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'package:menu_button/menu_button.dart';
@@ -21,7 +22,7 @@ class ProductPage extends StatefulWidget {
   final String options1;
   final String options2;
   final String options3;
-  const ProductPage(
+   ProductPage(
       {Key key,
       this.path,
       this.price,
@@ -66,10 +67,13 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Color.fromRGBO(44, 219, 152, 1)
+    ));
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.fromLTRB(10, 5, 10, 0),
+          padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
           color: Color.fromRGBO(226, 226, 226, 0.45),
           child: ListView(
             children: [

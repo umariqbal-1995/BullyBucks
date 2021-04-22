@@ -7,6 +7,7 @@ import 'package:bully_bucks/Flow/Screens/reportPage.dart';
 import 'package:bully_bucks/Flow/Screens/shop.dart';
 import 'package:bully_bucks/Flow/Screens/teacherHomeScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'Flow/Screens/productPage.dart';
 import 'Widgets/buttonRound.dart';
 import 'Widgets/Logo.dart';
@@ -18,7 +19,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:bully_bucks/Firebase.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final FirebaseApp app = await Firebase.initializeApp(
@@ -41,7 +41,6 @@ void main() async {
   Database db = new Database();
   runApp(MyApp());
 }
-
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -59,6 +58,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
+  var  mySystemTheme= SystemUiOverlayStyle.light
+      .copyWith(systemNavigationBarColor: Color.fromRGBO(44, 219, 152, 1));
   MyHomePage({Key key, this.title, this.app}) : super(key: key);
   final FirebaseApp app;
   final String title;
@@ -69,6 +70,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(widget.mySystemTheme);
     FirebaseDatabase database = FirebaseDatabase(app: widget.app);
     Database.database = database;
     return Scaffold(

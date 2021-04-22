@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class StudentRegister extends StatefulWidget {
+
   StudentRegister({Key key, this.student}) : super(key: key);
   final String student;
   @override
@@ -27,6 +28,9 @@ class _StudentRegisterState extends State<StudentRegister> {
   TextEditingController phoneCont = new TextEditingController();
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Color.fromRGBO(44, 219, 152, 1)
+    ));
     return Scaffold(
         backgroundColor: Color.fromRGBO(44, 219, 152, 1),
         body: Center(

@@ -6,6 +6,7 @@ import 'package:bully_bucks/Flow/Screens/Reports.dart';
 import 'package:bully_bucks/Flow/Screens/emailPage.dart';
 import 'package:bully_bucks/Flow/Screens/history.dart';
 import 'package:bully_bucks/Flow/Screens/shop.dart';
+import 'package:bully_bucks/main.dart';
 import 'package:flutter/material.dart';
 import 'package:bully_bucks/Widgets/Logo.dart';
 import 'package:bully_bucks/Flow/Auth/Login/loginGender.dart';
@@ -16,8 +17,10 @@ import 'package:move_to_background/move_to_background.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'package:menu_button/menu_button.dart';
 
+
 class StudentHome extends StatefulWidget {
   StudentHome({Key key, this.title, this.email}) : super(key: key);
+
   final String email;
   final String title;
   @override
@@ -114,6 +117,9 @@ class _StudentHomeState extends State<StudentHome> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Color.fromRGBO(44, 219, 152, 1)
+    ));
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -342,7 +348,7 @@ class _StudentHomeState extends State<StudentHome> {
             height: 35,
           ),
           onTap: () {
-            Navigator.pop(context);
+            Navigator.of(context).popUntil((route) => route.isFirst);
           },
         ),
         Expanded(

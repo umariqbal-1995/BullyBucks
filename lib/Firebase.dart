@@ -169,7 +169,8 @@ class Database {
     }
   }
 
-  Future<bool> submitReport(String email, String tcn1, String tcn2, String tcn3,
+  Future<bool> submitReport(String email, String tcn1, String
+   tcn2, String tcn3,
       String tcn4, String tcn5, int val1, int val2) async {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('MMMM dd, yyyy').format(now);
@@ -358,7 +359,7 @@ class Database {
     List<Map<dynamic,dynamic>> list=[];
     Query ref =  database
         .reference()
-        .child("users").orderByChild("school").equalTo("alpina");
+        .child("users").orderByChild("school").equalTo(school);
     DataSnapshot ds=await ref.once();
     var values=ds.value;
     Map<dynamic,dynamic> map=Map<dynamic,dynamic>.from(values);
@@ -370,6 +371,7 @@ class Database {
              value["fname"]=valueofParent["fname="];
              value["lname"]=valueofParent["lname"];
              value["expand"] = false;
+            value["email"]=keyofParent;
              list.add(value);
            });
       }

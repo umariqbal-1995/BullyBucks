@@ -6,7 +6,8 @@ class TextWidget extends StatefulWidget {
   final TextEditingController controller;
   final bool pass;
   final bool green;
-  const TextWidget({Key key, this.text, this.onTap, this.controller,this.pass, this.green}) : super(key: key);
+  final bool disable;
+  const TextWidget({Key key, this.text, this.onTap, this.controller,this.pass, this.green, this.disable}) : super(key: key);
   @override
   _TextWidget createState() => _TextWidget();
 }
@@ -19,7 +20,7 @@ class _TextWidget extends State<TextWidget>
       obscureText: widget.pass==null?false:widget.pass,
       onTap: widget.onTap,
       controller: widget.controller,
-      focusNode: myFocusNode,
+      enabled: widget.disable==null?true:false,
       decoration: InputDecoration(
           enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: widget.green==null?Colors.white:Colors.black)),
           focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: widget.green==null?Colors.black:Colors.green)),

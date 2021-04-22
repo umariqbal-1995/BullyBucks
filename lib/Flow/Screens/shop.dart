@@ -2,6 +2,7 @@ import 'package:bully_bucks/Flow/Screens/productPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:platform_svg/platform_svg.dart';
@@ -11,12 +12,13 @@ import 'dart:developer';
 class ShopPage extends StatefulWidget {
   final String email;
   final String school;
-  const ShopPage({Key key, this.email, this.school}) : super(key: key);
+  ShopPage({Key key, this.email, this.school}) : super(key: key);
   @override
   _ShopPageState createState() => _ShopPageState();
 }
 
 class _ShopPageState extends State<ShopPage> {
+
   List<Widget> wlist =new List<Widget>();
   @override
   void initState() {
@@ -28,11 +30,14 @@ class _ShopPageState extends State<ShopPage> {
       setState(() {
       });
     }).catchError((e){
-      Fluttertoast.showToast(msg: "Something is Wrong with Database");
+      Fluttertoast.showToast(msg: "Shop Will Be Available Shortly");
     });
   }
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Color.fromRGBO(44, 219, 152, 1)
+    ));
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -108,7 +113,8 @@ class _ShopPageState extends State<ShopPage> {
             },)
         ),
         Expanded(
-          child:Text("Shop",textAlign: TextAlign.center,),
+          child:Text("Shop",textAlign: TextAlign.center,style:TextStyle(
+            fontWeight: FontWeight.bold, fontFamily: "Montserrat",fontSize: 18,),),
         )
       ],
     ));

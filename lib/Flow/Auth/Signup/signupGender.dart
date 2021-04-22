@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bully_bucks/Widgets/buttonRound.dart';
 import 'package:bully_bucks/Widgets/Logo.dart';
+import 'package:flutter/services.dart';
 class SignupGender extends StatefulWidget {
   SignupGender({Key key, this.student}) : super(key: key);
   final bool student;
@@ -14,6 +15,9 @@ class SignupGender extends StatefulWidget {
 class _SignupGenderState extends State<SignupGender> {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Color.fromRGBO(44, 219, 152, 1)
+    ));
     return Scaffold(
       backgroundColor: Color.fromRGBO(44, 219, 152, 1),
       body:Stack(

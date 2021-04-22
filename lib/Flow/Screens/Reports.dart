@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:bully_bucks/Widgets/Logo.dart';
 import 'package:bully_bucks/Flow/Auth/Login/loginGender.dart';
 import 'package:bully_bucks/Flow/Auth/Signup/registerPage.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:platform_date_picker/platform_date_picker.dart';
@@ -18,7 +19,7 @@ import 'package:bully_bucks/email.dart';
 class ReportPage extends StatefulWidget {
   final String email;
   final String school;
-  const ReportPage({Key key, this.email, this.school}) : super(key: key);
+  ReportPage({Key key, this.email, this.school}) : super(key: key);
   @override
   _ReportPageState createState() => _ReportPageState();
 }
@@ -32,6 +33,9 @@ class _ReportPageState extends State<ReportPage> {
   int _value2=1;
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Color.fromRGBO(44, 219, 152, 1)
+    ));
     return Scaffold(
         backgroundColor: Color.fromRGBO(226, 226, 226,1),
         body: SafeArea(
@@ -45,41 +49,19 @@ class _ReportPageState extends State<ReportPage> {
              Padding(padding: EdgeInsets.symmetric(vertical: 5),child: dropDown1(),),
              Padding(padding: EdgeInsets.symmetric(vertical: 5),child: dropDown2(),),
              Padding(padding: EdgeInsets.symmetric(vertical: 5),child: TextWidget(text: "Location",controller: tcn3,onTap: mySetState,green: true,),),
-             Padding(padding: EdgeInsets.symmetric(vertical: 5),child: TextWidget(text: "Date and Time",controller: tcn4,onTap: () async
-               {
+             GestureDetector(
+               child:Padding(padding: EdgeInsets.symmetric(vertical: 5),child: TextWidget(text: "Date and Time",controller: tcn4,onTap: () async
+               {},green: true,disable: true,),),
+               onTap: (){
                  DateTime selectedDateTime = DateTime.now();
                  showCupertinoModalPopup(
                      context: context,
                      builder: (_) => DatePicker((){
                        tcn4.text = DateFormat('dd-MM-yyyy hh:mm a').format(selectedDateTime);
                        Navigator.of(context).pop();
-                       }, (val){selectedDateTime=val;}));
-                 /*DateTime date = await PlatformDatePicker.showDate(
-                   context: context,
-                   firstDate: DateTime(DateTime.now().year - 2),
-                   initialDate: DateTime.now(),
-                   lastDate: DateTime(DateTime.now().year + 2),
-                   showCupertino: true,
-                   builder: (context, child) => Theme(
-                     data: ThemeData.light().copyWith(
-                       primaryColor: const Color(0xFF8CE7F1),
-                       accentColor: const Color(0xFF8CE7F1),
-                       colorScheme:
-                       ColorScheme.light(primary: const Color(0xFF8CE7F1)),
-                       buttonTheme:
-                       ButtonThemeData(textTheme: ButtonTextTheme.primary),
-                     ),
-                     child: child,
-                   ),
-                 );
-                 TimeOfDay time = await PlatformDatePicker.showTime(
-                   context: context,
-                   initialTime: TimeOfDay.fromDateTime(DateTime.now()),
-                   use24hFormat: false,
-                 );*/
-
-
-               },green: true,),),
+                     }, (val){selectedDateTime=val;}));
+               },
+             ),
 
 
              Padding(padding: EdgeInsets.symmetric(vertical: 5),child: multilineField("Description of the incident "),),
@@ -209,7 +191,8 @@ Widget Button(String text){
           },)
         ),
         Expanded(
-          child:Text("Report",textAlign: TextAlign.center,),
+          child:Text("Report",textAlign: TextAlign.center,style:TextStyle(
+            fontWeight: FontWeight.bold, fontFamily: "Montserrat",fontSize: 18,)),
         )
 
       ],

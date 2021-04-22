@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'dart:math' as math;
@@ -9,7 +10,7 @@ import '../../Firebase.dart';
 class ReportShowPage extends StatefulWidget {
   final Map<dynamic,dynamic> map;
   final String teacherName;
-  const ReportShowPage({Key key, this.map, this.teacherName}) : super(key: key);
+  ReportShowPage({Key key, this.map, this.teacherName,}) : super(key: key);
   @override
   _ReportShowPageState createState() => _ReportShowPageState();
 }
@@ -17,6 +18,9 @@ class ReportShowPage extends StatefulWidget {
 class _ReportShowPageState extends State<ReportShowPage> {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Color.fromRGBO(44, 219, 152, 1)
+    ));
     log("map "+widget.map.toString());
     String valid="";
     if(widget.map["verify"]==1)
@@ -47,13 +51,12 @@ class _ReportShowPageState extends State<ReportShowPage> {
                   db.verifyReport(widget.teacherName,widget.map["email"], widget.map["id"], 1).then((value) {
                     Fluttertoast.showToast(msg: "Report Marked as valid");
                     db.addBullyBucks(widget.map["email"], 20);
-                    Fluttertoast.showToast(msg: "Bully Bucks Added");
                     widget.map["verify"]=1;
                     setState(() {
                     });
                     Navigator.pop(context);
                   }).catchError((e){
-                    Fluttertoast.showToast(msg: "Something is Wrong with Database");
+                    Fluttertoast.showToast(msg: e.toString());
                   });
                 }),
               ),
@@ -61,7 +64,9 @@ class _ReportShowPageState extends State<ReportShowPage> {
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Button("False Report", 2, () {
                   Database db=new Database();
-                  db.verifyReport(widget.teacherName,widget.map["email"], widget.map["id"], 2);
+                  db.verifyReport(widget.teacherName,widget.map["email"], widget.map["id"], 2).catchError((e){
+                    Fluttertoast.showToast(msg: e.toString());
+                  });
                   widget.map["verify"]=2;
                   db.minusBullyBucks(widget.map["email"], 20);
                   setState(() {
@@ -179,7 +184,8 @@ class _ReportShowPageState extends State<ReportShowPage> {
             },)
         ),
         Expanded(
-          child:Text(name+"'s Report",textAlign: TextAlign.center,),
+          child:Text(name+"'s Report",textAlign: TextAlign.center,style:TextStyle(
+            fontWeight: FontWeight.bold, fontFamily: "Montserrat",fontSize: 18,)),
         )
       ],
     ));

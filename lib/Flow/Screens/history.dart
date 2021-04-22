@@ -2,6 +2,7 @@ import 'package:bully_bucks/Firebase.dart';
 import 'package:bully_bucks/Widgets/historyWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'dart:math' as math;
@@ -9,7 +10,7 @@ import 'dart:ui';
 class History extends StatefulWidget {
   final String email;
 
-  const History({Key key, this.email}) : super(key: key);
+   History({Key key, this.email}) : super(key: key);
   @override
   _HistoryState createState() => _HistoryState();
 }
@@ -29,9 +30,24 @@ class _HistoryState extends State<History> {
   }
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Color.fromRGBO(44, 219, 152, 1)
+    ));
     List<Widget> listwidget=new List<Widget>();
-    //listwidget.add(Text("No History to Show"));
-    Widget w=Text("No History to Show");
+    Widget w=Column(
+      children: [
+        makeAppbar(),
+        Flexible(
+          flex: 1,
+          child: Column(
+            children: [
+              Text("No Reports have ben made")
+            ],
+            mainAxisAlignment: MainAxisAlignment.center,
+          ),
+        ),
+      ],
+    );
     if(list!=null){
       int c=0;
       list.forEach((element) {
@@ -49,20 +65,22 @@ class _HistoryState extends State<History> {
         ),
         );
       });
-      w = Column(children: listwidget,);
+      w= ListView(
+        children: [
+          makeAppbar(),
+          Column(children: listwidget,)
+        ],
+      );
     }
     return Scaffold(
       body: SafeArea(child:Container(
-        padding: EdgeInsets.fromLTRB(30,10,30,10),
+        padding: EdgeInsets.fromLTRB(10,10,30,10),
         color: Color.fromRGBO(226, 226, 226, 0.45),
-        child:  ListView(
-          children: [
-            makeAppbar(),
-            w,
-          ],
-        ),
-      )
+        child: Container(
+        child: w,
       ),
+    )
+    )
     );
   }
   Widget makeAppbar(){
@@ -76,7 +94,9 @@ class _HistoryState extends State<History> {
             },)
         ),
         Expanded(
-          child:Text("History",textAlign: TextAlign.center,),
+          child:Text("History",textAlign: TextAlign.center,style:TextStyle(
+            fontWeight: FontWeight.bold, fontFamily: "Montserrat",fontSize: 18,)
+          )
         )
       ],
     ));

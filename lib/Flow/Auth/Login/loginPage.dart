@@ -7,9 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:bully_bucks/Widgets/buttonRound.dart';
 import 'package:bully_bucks/Widgets/Logo.dart';
 import 'package:bully_bucks/Widgets/tectWidget.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:bully_bucks/Firebase.dart';
 class LoginPage extends StatefulWidget {
+  var  mySystemTheme= SystemUiOverlayStyle.light
+      .copyWith(systemNavigationBarColor: Color.fromRGBO(44, 219, 152, 1));
   LoginPage({Key key, this.student}) : super(key: key);
   final bool student;
   @override
@@ -23,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passCont=new TextEditingController();
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(widget.mySystemTheme);
     return Scaffold(
         backgroundColor: Color.fromRGBO(44, 219, 152, 1),
         body:Center(
