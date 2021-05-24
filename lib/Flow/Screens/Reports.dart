@@ -31,6 +31,9 @@ class _ReportPageState extends State<ReportPage> {
   TextEditingController tcn5 =new TextEditingController();
   int _value1=1;
   int _value2=1;
+  int _value3=0;
+
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -57,9 +60,21 @@ class _ReportPageState extends State<ReportPage> {
                  showCupertinoModalPopup(
                      context: context,
                      builder: (_) => DatePicker((){
-                       tcn4.text = DateFormat('dd-MM-yyyy hh:mm a').format(selectedDateTime);
-                       Navigator.of(context).pop();
-                     }, (val){selectedDateTime=val;}));
+                       tcn4.text = DateFormat('MM-dd-yyyy hh:mm a').format(selectedDateTime);
+                       DateTime now = DateTime.now();
+                       var select=selectedDateTime;
+                       var diff=DateTime(select.year, select.month, select.day,select.hour,select.minute).difference(DateTime(now.year, now.month, now.day,now.hour,now.minute)).inMinutes;
+                       if(diff>0) {
+                           Fluttertoast.showToast(msg: "Date cannot be future");
+                           return;
+                           
+                       }
+                         Navigator.of(context).pop();
+                     }, (val){
+                          selectedDateTime=val;
+                     }
+                     )
+                 );
                },
              ),
 
@@ -84,7 +99,7 @@ class _ReportPageState extends State<ReportPage> {
       dateMask: 'd MMM, yyyy',
       initialValue: DateTime.now().toString(),
       firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
+      lastDate: DateTime.now(),
       icon: Icon(Icons.event),
       dateLabelText: 'Date',
       timeLabelText: "Hour",
@@ -93,14 +108,20 @@ class _ReportPageState extends State<ReportPage> {
         if (date.weekday == 6 || date.weekday == 7) {
           return false;
         }
-
         return true;
       },
       onChanged: (val) => print(val),
       validator: (val) {
-        print(val);
+        DateTime now = DateTime.now();
+        DateTime select=DateTime.parse(val);
+        var diff=DateTime(select.year, select.month, select.day).difference(DateTime(now.year, now.month, now.day)).inDays;
+        if (diff>0) {
+          Fluttertoast.showToast(msg: diff.toString());
+          return "Date  must not be a future date";
+        }
         return null;
       },
+      errorInvalidText: "Date cannot be of future",
       onSaved: (val) => print(val),
     );
   }
@@ -180,9 +201,10 @@ Widget Button(String text){
       },
     );
   }
+
   Widget makeAppbar(){
     return (Row(
-      children: [
+        children: [
         Transform(
           alignment: Alignment.center,
           transform: Matrix4.rotationY(math.pi),
@@ -201,39 +223,37 @@ Widget Button(String text){
   void submit()
   {
    bool valid=true;
-   if(tcn1.text==""){
+   if(tcn1.text=="")
      valid=false;
-   }
    if(tcn2.text=="")
      valid=false;
    if(tcn3.text=="")
      valid=false;
-   if(tcn4.text=="")
+   if(tcn1.text=="")
      valid=false;
    if(tcn5.text=="")
      valid=false;
-    if(_value1==1)
-      valid=false;
-    if(_value2==false)
-      valid=false;
-   if(valid){
-     Database db=new Database();
-     db.submitReport(widget.email, tcn1.text, tcn2.text, tcn3.text, tcn4.text, tcn5.text, _value1, _value2).then((value){
-       if(value==true){
-         Fluttertoast.showToast(msg: "Report Added Successfully");
-         sendEmail();
-         Navigator.pop(context);
+   if(_value1==1)
+     valid=false;
+   if(_value2==false)
+     valid=false;
+       if(valid){
+         Database db=new Database();
+         db.submitReport(widget.email, tcn1.text, tcn2.text, tcn3.text, tcn4.text, tcn5.text, _value1, _value2).then((value){
+           if(value==true){
+             Fluttertoast.showToast(msg: "Report Added Successfully");
+             sendEmail();
+             Navigator.pop(context);
+           }
+         }).catchError((e){
+           Fluttertoast.showToast(msg: "Something is Wrong with Database");
+         });
        }
-     }).catchError((e){
-       Fluttertoast.showToast(msg: "Something is Wrong with Database");
-     });
-   }
-   else
-     {
-       Fluttertoast.showToast(msg: "Please fill all fields before submitting the report");
+       else
+       {
+         Fluttertoast.showToast(msg: "Please fill all fields before submitting the report");
+       }
      }
-
-  }
   void sendEmail()async {
     String type;
     String role;

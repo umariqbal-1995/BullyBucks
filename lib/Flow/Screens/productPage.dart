@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 import 'package:bully_bucks/Firebase.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +16,7 @@ import 'package:bully_bucks/email.dart';
 
 class ProductPage extends StatefulWidget {
   final String school;
+  final String mEmail;
   final String path;
   final String price;
   final String captionn;
@@ -31,7 +33,7 @@ class ProductPage extends StatefulWidget {
       this.options1,
       this.options2,
       this.options3,
-      this.school})
+      this.school, this.mEmail})
       : super(key: key);
   @override
   _ProductPageState createState() => _ProductPageState();
@@ -50,19 +52,19 @@ class _ProductPageState extends State<ProductPage> {
   void initState() {
     super.initState();
     Database db = new Database();
-    db.getMerchantEmail(widget.school).then((value) {
-      mEmail = value;
-      //Fluttertoast.showToast(msg: mEmail);
+
+      mEmail = widget.mEmail;
       db.getMerchant(mEmail).then((value) {
         map = value;
         //Fluttertoast.showToast(msg: value.toString());
         mName = map["name"];
         setState((){});
-      });
     }).catchError((e) {
       Fluttertoast.showToast(msg: "Something is wrong with Database");
     });
-    setState(() {});
+    setState(() {
+
+    });
   }
 
   @override
@@ -150,6 +152,12 @@ class _ProductPageState extends State<ProductPage> {
                         Fluttertoast.showToast(
                             msg: "Your purchase is complete");
                         SendEmail();
+                        Database db=new Database();
+                        db.addaOrder(widget.email, widget.captionn, int.parse(widget.price), widget.mEmail).then((value) {
+                          Fluttertoast.showToast(msg: "Data added to database").catchError((e){
+                            Fluttertoast.showToast(msg: e.toString());
+                          });
+                        });
                       } else
                         Fluttertoast.showToast(
                             msg: "Sorry you do not have sufficient balance for the purchase");
@@ -331,6 +339,9 @@ class _ProductPageState extends State<ProductPage> {
             "Variant " +
         variant +
         "\n";
+    mEmail=mEmail.replaceAll(",", ".");
     Email.sendEmail(mEmail, "Order Placed From Bully Bucks", text);
+    Email.sendEmail("mybullybucks@gmail.com", "Order Placed From Bully Bucks", text);
+
   }
 }

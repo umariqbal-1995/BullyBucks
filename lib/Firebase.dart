@@ -10,7 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:developer';
 import 'package:encrypt/encrypt.dart' as FlutterEncrypt;
 import 'package:pointycastle/export.dart' as pc;
-
+import 'package:date_time_picker/date_time_picker.dart';
 class Database {
 
   var key;
@@ -23,6 +23,7 @@ class Database {
     encrypter = FlutterEncrypt.Encrypter(FlutterEncrypt.AES(key));
   }
   static FirebaseDatabase database;
+
   Future<Map<dynamic, dynamic>> getMerchant(String email) async {
     DatabaseReference ref = database.reference().child("merchant").child(email);
     DataSnapshot ds = await ref.once();
@@ -30,7 +31,25 @@ class Database {
     Map<dynamic, dynamic> map = values;
     return map;
   }
-
+  Future<List> getAllSchools()async {
+    DatabaseReference ref = database.reference().child("schools");
+    DataSnapshot ds = await ref.once();
+    var values=ds.value;
+    values=Map<dynamic,dynamic>.from(values).keys;
+    int i=0;
+    List ls=[];
+    //Map map={};
+    //map[0]="School";
+    //ls.add(map);
+    for(var val in values){
+      Map m={};
+      m[i]=val;
+      ls.add(m);
+      i=i+1;
+    }
+    log(ls.toString());
+    return ls;
+  }
   Future<void> addSchool(String school) async {
     DatabaseReference ref = database.reference().child("schools").child(school);
     Fluttertoast.showToast(msg: school);
@@ -268,26 +287,30 @@ class Database {
     return list;
   }
 
-  Future<String> getMerchantEmail(String school) async {
-    //Fluttertoast.showToast(msg: school);
+  Future<List> getProductsOfSchool(String school) async {
+    List list=[];
     DatabaseReference ref = database.reference().child("schools").child(school);
-    DataSnapshot ds = await ref.once();
-    if (ds != null) {
-      var value = ds.value;
-      return value["merchantEmail"];
+    DataSnapshot ds=await ref.once();
+    List l=ds.value;
+    for(int i=0;i<l.length;i++) {
+      var element=l[i];
+      if(element != null) {
+        log("heheheh");
+        var map = await getProducts(element);
+        list = list + map;
+      }
     }
-    return null;
+    return list;
   }
 
-  Future<List> getProducts(String school) async {
-    String mEmail = await getMerchantEmail(school);
-    String k;
+  Future<List> getProducts(String email) async {
+    String mEmail = email;
     List list = new List();
     DatabaseReference ref =
         database.reference().child("merchant").child(mEmail).child("products");
     DataSnapshot ds = await ref.once();
     var key = Map<String, dynamic>.from(ds.value).keys;
-    for (k in key) {
+    for (var k in key) {
       DatabaseReference ref1 = database
           .reference()
           .child("merchant")
@@ -295,45 +318,50 @@ class Database {
           .child("products")
           .child(k);
       DataSnapshot ds1 = await ref1.once();
-      //Fluttertoast.showToast(msg: ds1.value["imag"]);
-      list.add(Map<String, dynamic>.from(ds1.value));
+      Map<String,dynamic>  tempMap=Map<String, dynamic>.from(ds1.value);
+      tempMap["merchantEmail"]=email;
+      list.add(tempMap);
     }
     return list;
   }
 
   Future<List> getHistory(String email) async {
-    var value;
-    int c = 0;
-    List list = new List();
+    List list=new List();
     DatabaseReference refName = await database
         .reference()
         .child("users")
-        .child(email.replaceAll(".", ","));
-    DataSnapshot ds1 = await refName.once();
-    var value1 = Map<String, dynamic>.from(ds1.value).values;
-    DatabaseReference ref = await database
-        .reference()
-        .child("users")
-        .child(email.replaceAll(".", ","))
-        .child("reports");
-    DataSnapshot ds = await ref.once();
-    if (ds.value == null)
-      return null;
-    else
-      value = Map<String, dynamic>.from(ds.value).values;
-    var key = Map<String, dynamic>.from(ds.value).keys;
-    for (var element in value) {
-      element["id"] = key.elementAt(c);
-      element["fname"] = value1.elementAt(6).toString();
-      element["lname"] = value1.elementAt(1).toString();
+        .child(email.replaceAll(".", ",")).orderByValue().reference();
+    DataSnapshot ds = await refName.once();
+    var map=Map<String,dynamic>.from(ds.value);
+    var reports=map["reports"];
+    var keys=reports.keys.toList();
+    for (var el in keys){
+      var element =reports[el];
+      element["id"]=el;
+      element["fname"] = map["fname"];
+      element["lname"] = map["lname"];
       element["expand"] = false;
-      log(element["id"]);
       list.add(element);
-      c = c + 1;
+    }
+    for (int i=0; i<list.length;i++){
+      for (int j=0; j<list.length-1;j++){
+        if(greater(list[j]["currentDate"],list[j+1]["currentDate"])<0){
+          var temp=list[j];
+          list[j]=list[j+1];
+          list[j+1]=temp;
+        }
+      }
     }
     return list;
   }
-
+  int greater(String prev,String next){
+    var prevDate    = prev;
+    DateFormat format = new DateFormat("MMMM dd, yyyy");
+    var prevFormatedDate = format.parse(prev);
+    var nextDate    = next;
+    var nextFromatedDate = format.parse(next);
+    return nextFromatedDate.compareTo(prevFormatedDate);
+  }
 
 
   String encrypt(String pass) {
@@ -378,5 +406,16 @@ class Database {
     });
     return list;
   }
-
+  Future<void> addaOrder(String email,String caption,int points,String merchantEmail) async {
+    var studentMap=await getUser(email);
+    database.reference().child("orders").push().set({
+      "studentEmail":email.replaceAll(".", ","),
+      "studentName":studentMap["fname="].toString()+" " +studentMap["lname"].toString(),
+      "productName":caption,
+      "school":studentMap["school"],
+      "points":points,
+      "merchant":merchantEmail.replaceAll(".", ","),
+      "date":DateTime.now().millisecondsSinceEpoch
+    });
+  }
 }

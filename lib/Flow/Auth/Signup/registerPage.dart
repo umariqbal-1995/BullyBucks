@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bully_bucks/validation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +12,6 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class StudentRegister extends StatefulWidget {
-
   StudentRegister({Key key, this.student}) : super(key: key);
   final String student;
   @override
@@ -26,11 +27,25 @@ class _StudentRegisterState extends State<StudentRegister> {
   TextEditingController passwordCont = new TextEditingController();
   TextEditingController schoolCont = new TextEditingController();
   TextEditingController phoneCont = new TextEditingController();
+  List ls = [];
+  int _value3 = 0;
+  bool isSchoolDropDownDirty = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Database db = new Database();
+    db.getAllSchools().then((value) {
+      ls = value;
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Color.fromRGBO(44, 219, 152, 1)
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Color.fromRGBO(44, 219, 152, 1)));
     return Scaffold(
         backgroundColor: Color.fromRGBO(44, 219, 152, 1),
         body: Center(
@@ -73,11 +88,7 @@ class _StudentRegisterState extends State<StudentRegister> {
                   controller: passwordCont,
                   onTap: mySetState,
                   pass: true),
-              TextWidget(
-                text: "School",
-                controller: schoolCont,
-                onTap: mySetState,
-              ),
+              dropDown3(),
               TextWidget(
                 text: "Phone",
                 controller: phoneCont,
@@ -97,7 +108,7 @@ class _StudentRegisterState extends State<StudentRegister> {
                                 lnameCont.text,
                                 emailCont.text,
                                 passwordCont.text,
-                                schoolCont.text,
+                                ls[_value3][_value3],
                                 phoneCont.text,
                                 widget.student)
                             .then((value) {
@@ -131,8 +142,8 @@ class _StudentRegisterState extends State<StudentRegister> {
     } else if (lnameCont.text == "") {
       Fluttertoast.showToast(msg: "Last name must be filled");
       return false;
-    } else if (schoolCont.text == "") {
-      Fluttertoast.showToast(msg: "School must be filled");
+    } else if (_value3 == 0) {
+      Fluttertoast.showToast(msg: "School must be Selected");
       return false;
     } else if (phoneCont.text == "") {
       Fluttertoast.showToast(msg: "Phone must be filled");
@@ -153,6 +164,56 @@ class _StudentRegisterState extends State<StudentRegister> {
       return false;
     }
     return true;
+  }
+
+  Widget dropDown3() {
+    bool b = null;
+    List<DropdownMenuItem<int>> liList = [];
+    if (ls.isEmpty) {
+      return DropdownButtonFormField(
+        value: _value3,
+        items: [
+          DropdownMenuItem(
+            child: Text("School", style: TextStyle(fontFamily: "Montserrat")),
+            value: 0,
+          ),
+        ],
+        onChanged: (int value) {
+          _value3 = value;
+        },
+      );
+    } else {
+      log("in else");
+      int i = 0;
+      for (var element in ls) {
+        liList.add(DropdownMenuItem(
+          child: Text(element[i],
+              style: TextStyle(fontFamily: "Montserrat", color: Colors.black)),
+          value: i,
+        ));
+        i = i + 1;
+      }
+      return DropdownButtonFormField(
+        items: liList,
+        hint: Text("School",
+            style: TextStyle(fontFamily: "Montserrat", color: Colors.white)),
+        value: null,
+        decoration: InputDecoration(
+          enabledBorder: UnderlineInputBorder(
+              borderSide:
+                  BorderSide(color: b == null ? Colors.white : Colors.black)),
+          focusedBorder: UnderlineInputBorder(
+              borderSide:
+                  BorderSide(color: b == null ? Colors.black : Colors.green)),
+        ),
+        dropdownColor: Colors.white,
+        onChanged: (int value) {
+          setState(() {
+            _value3 = value;
+          });
+        },
+      );
+    }
   }
 
   mySetState() {

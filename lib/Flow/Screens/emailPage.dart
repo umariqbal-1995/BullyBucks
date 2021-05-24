@@ -120,7 +120,7 @@ class _EmailPageState extends State<EmailPage> {
                       borderRadius: BorderRadius.all(Radius.circular(50)),
                       color: Colors.white
                   ),
-                  child: PlatformSvg.asset("assets/images/send.svg",height: 20),
+                  child: Image(image: AssetImage("assets/images/send.png"),height:15,),
                 ),
               ),
 

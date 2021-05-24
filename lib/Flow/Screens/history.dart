@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bully_bucks/Firebase.dart';
 import 'package:bully_bucks/Widgets/historyWidget.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,8 +26,6 @@ class _HistoryState extends State<History> {
       list=value;
       setState(() {
       });
-    }).catchError((e){
-      Fluttertoast.showToast(msg: "Something is Wrong with Database");
     });
   }
   @override

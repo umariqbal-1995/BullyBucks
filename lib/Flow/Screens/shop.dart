@@ -23,14 +23,18 @@ class _ShopPageState extends State<ShopPage> {
   @override
   void initState() {
     Database db=new Database();
-    db.getProducts(widget.school).then((value){
-      value.forEach((element) {
-        wlist.add(GestureDetector(child: productWidget(element["image"],element["caption"],element["price"].toString(),element["size"],element),));
-      });
-      setState(() {
-      });
+    db.getProductsOfSchool(widget.school).then((value){
+      if(value!=null) {
+        value.forEach((element) {
+          wlist.add(GestureDetector(child: productWidget(
+              element["merchantEmail"], element["image"], element["caption"],
+              element["price"].toString(), element["size"], element),));
+        });
+        setState(() {});
+      }
     }).catchError((e){
-      Fluttertoast.showToast(msg: "Shop Will Be Available Shortly");
+      log(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
     });
   }
   @override
@@ -64,7 +68,7 @@ class _ShopPageState extends State<ShopPage> {
       ),
     );
   }
-  Widget productWidget(String path,String cap,String price,int w,Map<dynamic,dynamic> product) {
+  Widget productWidget(String merchantEMail,String path,String cap,String price,int w,Map<dynamic,dynamic> product) {
     log("url "+path);
     List<Widget> wl=new List<Widget>();
     if(w==1){
@@ -97,26 +101,39 @@ class _ShopPageState extends State<ShopPage> {
         onTap: (){
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ProductPage(school: widget.school,path:path,price: price,captionn: cap,email:widget.email,options1: product["options1"],options2: product["options2"],options3: product["options3"],)),
+            MaterialPageRoute(builder: (context) => ProductPage(mEmail: merchantEMail ,path:path,price: price,captionn: cap,email:widget.email,options1: product["options1"],options2: product["options2"],options3: product["options3"],)),
           );
         },
       );
   }
   Widget makeAppbar(){
-    return (Row(
+    return Stack(
       children: [
-        Transform(
-            alignment: Alignment.center,
-            transform: Matrix4.rotationY(math.pi),
-            child: GestureDetector(child: PlatformSvg.asset("assets/images/forward.svg",height: 20,),onTap: (){
-              Navigator.pop(context);
-            },)
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.rotationY(math.pi),
+                child: GestureDetector(child: PlatformSvg.asset("assets/images/forward.svg",height: 20,),onTap: (){
+                  Navigator.pop(context);
+                },)
+            ),
+          ],
         ),
-        Expanded(
-          child:Text("Shop",textAlign: TextAlign.center,style:TextStyle(
-            fontWeight: FontWeight.bold, fontFamily: "Montserrat",fontSize: 18,),),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            /*Expanded(
+            child:
+            )*/
+            Text("Shop",textAlign: TextAlign.center,style:TextStyle(
+              fontWeight: FontWeight.bold, fontFamily: "Montserrat",fontSize: 18,)
+            )
+
+          ],
         )
       ],
-    ));
+    );
   }
 }

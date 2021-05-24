@@ -323,7 +323,7 @@ class _StudentHomeState extends State<StudentHome> {
                       fontWeight: FontWeight.bold,
                       fontFamily: "Montserrat"),
                 ),
-                Text("Bully Bucks",
+                Text("bully bucks",
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -397,12 +397,12 @@ class _StudentHomeState extends State<StudentHome> {
                   ),
                   content: Container(
                     width: 100,
-                    height: 240,
+                    //height: 240,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                     ),
                     padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
-                    child: w,
+                    child: Wrap(children: [w],),
                   ),
                 );
               }
