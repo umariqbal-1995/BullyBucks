@@ -17,7 +17,6 @@ import 'package:move_to_background/move_to_background.dart';
 import 'package:platform_svg/platform_svg.dart';
 import 'package:menu_button/menu_button.dart';
 
-
 class StudentHome extends StatefulWidget {
   StudentHome({Key key, this.title, this.email}) : super(key: key);
 
@@ -28,18 +27,16 @@ class StudentHome extends StatefulWidget {
 }
 
 class _StudentHomeState extends State<StudentHome> {
-  Map<dynamic,dynamic> map;
+  Map<dynamic, dynamic> map;
   Widget w;
-  int bal=0;
+  int bal = 0;
 
   Future<void> onGoBack(dynamic value) {
-    Database db=new Database();
+    Database db = new Database();
     db.getbullyBucks(widget.email).then((value) {
-      bal=value;
-      setState(() {
-
-      });
-    }).catchError((e){
+      bal = value;
+      setState(() {});
+    }).catchError((e) {
       Fluttertoast.showToast(msg: "Something is Wrong with Database");
     });
     setState(() {});
@@ -106,7 +103,6 @@ class _StudentHomeState extends State<StudentHome> {
             map["school"],
             style: TextStyle(fontFamily: "Montserrat"),
           ),
-
         ],
       ));
       setState(() {});
@@ -117,9 +113,8 @@ class _StudentHomeState extends State<StudentHome> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Color.fromRGBO(44, 219, 152, 1)
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Color.fromRGBO(44, 219, 152, 1)));
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -150,7 +145,8 @@ class _StudentHomeState extends State<StudentHome> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => ReportPage(
-                                            email: widget.email,school: map["school"],
+                                            email: widget.email,
+                                            school: map["school"],
                                           )));
                             },
                             child: Padding(
@@ -191,22 +187,56 @@ class _StudentHomeState extends State<StudentHome> {
       ),
       child: Column(
         children: [
-          Padding(padding: EdgeInsets.symmetric(vertical: 60),),
-          Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/history.svg", "History", "Check all your Previous Reports"),onTap: (){
-            Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => History(email: widget.email,))).then((value) =>onGoBack(value));
-          },),),
-          Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/cart.svg", "Shop", "Redeem Your Bully bucks"),onTap: (){
-            Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ShopPage(email: widget.email,school: map["school"],))).then((value) =>onGoBack(value));
-          },),),
-          Padding(padding: EdgeInsets.all(10), child:GestureDetector(child: makeinCardItem("assets/images/message.svg", "Email", "Talk to your counselor about any bullying related issues"),onTap: (){
-            Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => EmailPage(email: widget.email,school: map["school"],)));
-          },),),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 60),
+          ),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: GestureDetector(
+              child: makeinCardItem("assets/images/history.svg", "History",
+                  "Check all your Previous Reports"),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => History(
+                              email: widget.email,
+                            ))).then((value) => onGoBack(value));
+              },
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: GestureDetector(
+              child: makeinCardItem(
+                  "assets/images/cart.svg", "Shop", "Redeem Your Bully bucks"),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ShopPage(
+                              email: widget.email,
+                              school: map["school"],
+                            ))).then((value) => onGoBack(value));
+              },
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: GestureDetector(
+              child: makeinCardItem("assets/images/message.svg", "Email",
+                  "Talk to your counselor about any bullying related issues"),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EmailPage(
+                              email: widget.email,
+                              school: map["school"],
+                            )));
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -371,12 +401,26 @@ class _StudentHomeState extends State<StudentHome> {
         ),
         GestureDetector(
           child: Container(
-            margin: EdgeInsets.fromLTRB(0,5,0,0),
+            margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
             padding: EdgeInsets.all(10),
             child: Row(
               children: [
-                Text(map==null?"N":map["fname"].toString()[0].toUpperCase(),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,fontFamily: "Montserrat",color: Colors.white),),
-                Text(map==null?"A":map["lname"].toString()[0].toUpperCase(),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,fontFamily: "Montserrat",color: Colors.white),)
+                Text(
+                  map == null ? "N" : map["fname"].toString()[0].toUpperCase(),
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "Montserrat",
+                      color: Colors.white),
+                ),
+                Text(
+                  map == null ? "A" : map["lname"].toString()[0].toUpperCase(),
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "Montserrat",
+                      color: Colors.white),
+                )
               ],
             ),
             decoration: new BoxDecoration(
@@ -386,27 +430,29 @@ class _StudentHomeState extends State<StudentHome> {
           ),
           onTap: () {
             showDialog(
-              context: context,
-              builder: (BuildContext context){
-                return new AlertDialog(
-                  elevation: 10,
-                  title: Text(
-                    "Profile Details",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, fontFamily: "Montserrat"),
-                  ),
-                  content: Container(
-                    width: 100,
-                    //height: 240,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
+                context: context,
+                builder: (BuildContext context) {
+                  return new AlertDialog(
+                    elevation: 10,
+                    title: Text(
+                      "Profile Details",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Montserrat"),
                     ),
-                    padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
-                    child: Wrap(children: [w],),
-                  ),
-                );
-              }
-            );
+                    content: Container(
+                      width: 100,
+                      //height: 240,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
+                      child: Wrap(
+                        children: [w],
+                      ),
+                    ),
+                  );
+                });
           },
         ),
         Padding(padding: EdgeInsets.symmetric(horizontal: 4.0))

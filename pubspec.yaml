@@ -36,6 +36,8 @@ dependencies:
   date_time_picker: ^2.0.0
   pointycastle: ^3.0.1
   platform_date_picker: ^0.0.4+1
+  flutter_statusbar_manager: ^2.0.0
+  flutter_statusbarcolor_ns: ^0.3.0-nullsafety
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

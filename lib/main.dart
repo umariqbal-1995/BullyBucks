@@ -19,6 +19,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:bully_bucks/Firebase.dart';
+import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final FirebaseApp app = await Firebase.initializeApp(
@@ -39,8 +41,11 @@ void main() async {
   FirebaseDatabase database = FirebaseDatabase(app: app);
   Database.database = database;
   Database db = new Database();
+  await FlutterStatusbarcolor.setStatusBarColor(
+      Color.fromRGBO(44, 219, 152, 1));
   runApp(MyApp());
 }
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -58,7 +63,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  var  mySystemTheme= SystemUiOverlayStyle.light
+  var mySystemTheme = SystemUiOverlayStyle.light
       .copyWith(systemNavigationBarColor: Color.fromRGBO(44, 219, 152, 1));
   MyHomePage({Key key, this.title, this.app}) : super(key: key);
   final FirebaseApp app;
