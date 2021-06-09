@@ -36,9 +36,7 @@ class _ReportPageState extends State<ReportPage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Color.fromRGBO(44, 219, 152, 1)
-    ));
+
     return Scaffold(
         backgroundColor: Color.fromRGBO(226, 226, 226,1),
         body: SafeArea(

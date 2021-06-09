@@ -42,7 +42,7 @@ void main() async {
   Database.database = database;
   Database db = new Database();
   await FlutterStatusbarcolor.setStatusBarColor(
-      Color.fromRGBO(44, 219, 152, 1));
+      Colors.grey);
   runApp(MyApp());
 }
 

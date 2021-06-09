@@ -39,9 +39,7 @@ class _ShopPageState extends State<ShopPage> {
   }
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Color.fromRGBO(44, 219, 152, 1)
-    ));
+
     return Scaffold(
       body: SafeArea(
         child: Container(

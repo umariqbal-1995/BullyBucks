@@ -106,8 +106,6 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Color.fromRGBO(44, 219, 152, 1)));
     if (list != null) {
       unverifiedlist.clear();
       verifiedlist.clear();

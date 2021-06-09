@@ -18,9 +18,6 @@ class ReportShowPage extends StatefulWidget {
 class _ReportShowPageState extends State<ReportShowPage> {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Color.fromRGBO(44, 219, 152, 1)
-    ));
     log("map "+widget.map.toString());
     String valid="";
     if(widget.map["verify"]==1)

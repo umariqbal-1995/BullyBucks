@@ -4,8 +4,6 @@ import 'package:bully_bucks/Widgets/buttonRound.dart';
 import 'package:bully_bucks/Widgets/Logo.dart';
 import 'package:flutter/services.dart';
 class LoginGender extends StatefulWidget {
-  var  mySystemTheme= SystemUiOverlayStyle.light
-      .copyWith(systemNavigationBarColor: Color.fromRGBO(44, 219, 152, 1));
   LoginGender({Key key, this.student}) : super(key: key);
   final bool student;
   @override
@@ -14,7 +12,6 @@ class LoginGender extends StatefulWidget {
 class _LoginGenderState extends State<LoginGender> {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(widget.mySystemTheme);
     return Scaffold(
       backgroundColor: Color.fromRGBO(44, 219, 152, 1),
       body:Stack(

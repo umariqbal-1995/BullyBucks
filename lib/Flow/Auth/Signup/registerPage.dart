@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:bully_bucks/validation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +27,7 @@ class _StudentRegisterState extends State<StudentRegister> {
   TextEditingController schoolCont = new TextEditingController();
   TextEditingController phoneCont = new TextEditingController();
   List ls = [];
-  int _value3 = 0;
+  int _value3 = -1;
   bool isSchoolDropDownDirty = false;
 
   @override
@@ -44,8 +43,6 @@ class _StudentRegisterState extends State<StudentRegister> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Color.fromRGBO(44, 219, 152, 1)));
     return Scaffold(
         backgroundColor: Color.fromRGBO(44, 219, 152, 1),
         body: Center(
@@ -142,7 +139,7 @@ class _StudentRegisterState extends State<StudentRegister> {
     } else if (lnameCont.text == "") {
       Fluttertoast.showToast(msg: "Last name must be filled");
       return false;
-    } else if (_value3 == 0) {
+    } else if (_value3 == -1) {
       Fluttertoast.showToast(msg: "School must be Selected");
       return false;
     } else if (phoneCont.text == "") {
@@ -171,7 +168,7 @@ class _StudentRegisterState extends State<StudentRegister> {
     List<DropdownMenuItem<int>> liList = [];
     if (ls.isEmpty) {
       return DropdownButtonFormField(
-        value: _value3,
+        //value: _value3,
         items: [
           DropdownMenuItem(
             child: Text("School", style: TextStyle(fontFamily: "Montserrat")),

@@ -30,9 +30,7 @@ class _HistoryState extends State<History> {
   }
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Color.fromRGBO(44, 219, 152, 1)
-    ));
+
     List<Widget> listwidget=new List<Widget>();
     Widget w=Column(
       children: [
