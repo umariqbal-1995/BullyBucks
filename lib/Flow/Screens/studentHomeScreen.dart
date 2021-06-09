@@ -12,6 +12,7 @@ import 'package:bully_bucks/Widgets/Logo.dart';
 import 'package:bully_bucks/Flow/Auth/Login/loginGender.dart';
 import 'package:bully_bucks/Flow/Auth/Signup/registerPage.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:move_to_background/move_to_background.dart';
 import 'package:platform_svg/platform_svg.dart';
@@ -117,7 +118,15 @@ class _StudentHomeState extends State<StudentHome> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return (Scaffold(
+    FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
+    return (WillPopScope(
+      onWillPop: ()async {
+        FlutterStatusbarcolor.setStatusBarColor(
+            Color.fromRGBO(44, 219, 152, 1));
+        Navigator.pop(context);
+        return true;
+      },
+    child: Scaffold(
       backgroundColor: Color.fromRGBO(226, 226, 226, 1),
       body: SafeArea(
         child: ListView(
@@ -143,9 +152,9 @@ class _StudentHomeState extends State<StudentHome> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => ReportPage(
-                                            email: widget.email,
-                                            school: map["school"],
-                                          )));
+                                        email: widget.email,
+                                        school: map["school"],
+                                      )));
                             },
                             child: Padding(
                                 padding: EdgeInsets.all(20),
@@ -174,7 +183,8 @@ class _StudentHomeState extends State<StudentHome> {
           ],
         ),
       ),
-    ));
+    ),)
+    );
   }
 
   Widget makeUnderCard() {

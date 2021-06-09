@@ -41,8 +41,7 @@ void main() async {
   FirebaseDatabase database = FirebaseDatabase(app: app);
   Database.database = database;
   Database db = new Database();
-  await FlutterStatusbarcolor.setStatusBarColor(
-      Colors.grey);
+
   runApp(MyApp());
 }
 
@@ -50,6 +49,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(
+        Color.fromRGBO(44, 219, 152, 1));
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -63,8 +64,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  var mySystemTheme = SystemUiOverlayStyle.light
-      .copyWith(systemNavigationBarColor: Color.fromRGBO(44, 219, 152, 1));
+
   MyHomePage({Key key, this.title, this.app}) : super(key: key);
   final FirebaseApp app;
   final String title;
@@ -75,61 +75,63 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(widget.mySystemTheme);
     FirebaseDatabase database = FirebaseDatabase(app: widget.app);
     Database.database = database;
     return Scaffold(
       backgroundColor: Color.fromRGBO(44, 219, 152, 1),
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          Center(
-            child: Column(
-              children: [
-                Padding(padding: EdgeInsets.fromLTRB(0, 150, 0, 0)),
-                Text(
-                  "Welcome to bully Bucks",
-                  style: TextStyle(
-                    fontSize: 27,
-                    fontWeight: FontWeight.w700,
-                    fontFamily: "Montserrat",
-                    color: Colors.white,
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Center(
+              child: Column(
+                children: [
+                  Padding(padding: EdgeInsets.fromLTRB(0, 150, 0, 0)),
+                  Text(
+                    "Welcome to bully Bucks",
+                    style: TextStyle(
+                      fontSize: 27,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: "Montserrat",
+                      color: Colors.white,
+                    ),
                   ),
+                ],
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ButtonRound(
+                  text: "Register",
+                  onPress: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignupGender()),
+                    );
+                  },
+                ),
+                ButtonRound(
+                  text: "Login",
+                  onPress: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
+                  },
                 ),
               ],
             ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ButtonRound(
-                text: "Register",
-                onPress: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignupGender()),
-                  );
-                },
-              ),
-              ButtonRound(
-                text: "Login",
-                onPress: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
-                  );
-                },
-              ),
-            ],
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Logo(),
-              Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 40))
-            ],
-          )
-        ],
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Logo(),
+                Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 40))
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

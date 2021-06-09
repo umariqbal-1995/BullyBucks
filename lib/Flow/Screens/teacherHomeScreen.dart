@@ -3,6 +3,7 @@ import 'package:bully_bucks/Flow/Screens/reportPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:platform_svg/platform_svg.dart';
@@ -216,7 +217,7 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
       }
     }
     List<Widget> wlist = unverifiedlist + verifiedlist;
-    return Scaffold(
+    return WillPopScope(child: Scaffold(
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.fromLTRB(0, 8, 0, 15),
@@ -232,7 +233,12 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
           ]),
         ),
       ),
-    );
+    ), onWillPop: ()async{
+      FlutterStatusbarcolor.setStatusBarColor(
+          Color.fromRGBO(44, 219, 152, 1));
+      Navigator.pop(context);
+      return false;
+    });
   }
 
   Widget makeItem(String name, String type, String time) {

@@ -8,6 +8,7 @@ import 'package:bully_bucks/Widgets/buttonRound.dart';
 import 'package:bully_bucks/Widgets/Logo.dart';
 import 'package:bully_bucks/Widgets/tectWidget.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:bully_bucks/Firebase.dart';
 class LoginPage extends StatefulWidget {
@@ -22,9 +23,12 @@ class _LoginPageState extends State<LoginPage> {
   FocusNode myFocusNode1 = new FocusNode();
   TextEditingController emailCont=new TextEditingController();
   TextEditingController passCont=new TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
-
+    FlutterStatusbarcolor.setStatusBarColor(
+        Color.fromRGBO(44, 219, 152, 1));
     return Scaffold(
         backgroundColor: Color.fromRGBO(44, 219, 152, 1),
         body:Center(
@@ -57,6 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => TeacherHomeePage(email: emailCont.text,)));
+
                         }
                       else if(value==2) {
                         Navigator.push(
