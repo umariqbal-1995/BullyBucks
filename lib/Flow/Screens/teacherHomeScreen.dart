@@ -107,6 +107,7 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
 
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
     if (list != null) {
       unverifiedlist.clear();
       verifiedlist.clear();
