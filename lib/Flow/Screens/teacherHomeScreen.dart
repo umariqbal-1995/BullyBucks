@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bully_bucks/Flow/Screens/reportPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_statusbar_text_color/flutter_statusbar_text_color.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -28,6 +31,21 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
   @override
   void initState() {
     super.initState();
+    try {
+      if(Platform.isAndroid)
+      {
+        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+            statusBarColor: Color.fromRGBO(226, 226, 226, 1), // Color for Android
+            statusBarBrightness: Brightness.dark // Dark == white status bar -- for IOS.
+        ));
+      }
+      else {
+        FlutterStatusbarTextColor.setTextColor(
+            FlutterStatusbarTextColor.dark);
+      }
+    } catch (_) {
+      Fluttertoast.showToast(msg: "Error occured while changing status bar color");
+    }
     Database db1 = new Database();
     db1.getUser(widget.email).then((value) {
       map = value;
@@ -108,6 +126,12 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
   @override
   Widget build(BuildContext context) {
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
+    try {
+      FlutterStatusbarTextColor.setTextColor(
+          FlutterStatusbarTextColor.dark);
+    } catch (_) {
+      print('set status bar text color failed');
+    }
     if (list != null) {
       unverifiedlist.clear();
       verifiedlist.clear();
@@ -235,10 +259,24 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
         ),
       ),
     ), onWillPop: ()async{
-      FlutterStatusbarcolor.setStatusBarColor(
-          Color.fromRGBO(44, 219, 152, 1));
+      try {
+        if(Platform.isAndroid)
+        {
+          SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+            statusBarColor: Color.fromRGBO(44, 219, 152, 1),
+            statusBarBrightness: Brightness.light,
+            statusBarIconBrightness: Brightness.light,
+          ));
+        }
+        else {
+          FlutterStatusbarTextColor.setTextColor(
+              FlutterStatusbarTextColor.light);
+        }
+      } catch (_) {
+        Fluttertoast.showToast(msg: "Error occured while changing status bar color");
+      }
       Navigator.pop(context);
-      return false;
+      return true;
     });
   }
 
@@ -320,6 +358,22 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
             height: 35,
           ),
           onTap: () {
+            try {
+              if(Platform.isAndroid)
+              {
+                SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+                  statusBarColor: Color.fromRGBO(44, 219, 152, 1),
+                  statusBarBrightness: Brightness.light,
+                  statusBarIconBrightness: Brightness.light,
+                ));
+              }
+              else {
+                FlutterStatusbarTextColor.setTextColor(
+                    FlutterStatusbarTextColor.light);
+              }
+            } catch (_) {
+              Fluttertoast.showToast(msg: "Error occured while changing status bar color");
+            }
             Navigator.of(context).popUntil((route) => route.isFirst);
           },
         ),

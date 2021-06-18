@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:bully_bucks/Flow/Auth/Signup/registerPage.dart';
 import 'package:bully_bucks/Flow/Screens/studentHomeScreen.dart';
 import 'package:bully_bucks/Flow/Screens/teacherHomeScreen.dart';
@@ -8,6 +10,7 @@ import 'package:bully_bucks/Widgets/buttonRound.dart';
 import 'package:bully_bucks/Widgets/Logo.dart';
 import 'package:bully_bucks/Widgets/tectWidget.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_statusbar_text_color/flutter_statusbar_text_color.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:bully_bucks/Firebase.dart';
@@ -24,11 +27,9 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailCont=new TextEditingController();
   TextEditingController passCont=new TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(
-        Color.fromRGBO(44, 219, 152, 1));
+
     return Scaffold(
         backgroundColor: Color.fromRGBO(44, 219, 152, 1),
         body:Center(

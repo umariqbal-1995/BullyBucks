@@ -223,6 +223,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  flutter_statusbar_text_color:
+    dependency: "direct main"
+    description:
+      name: flutter_statusbar_text_color
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   flutter_statusbarcolor_ns:
     dependency: "direct main"
     description:

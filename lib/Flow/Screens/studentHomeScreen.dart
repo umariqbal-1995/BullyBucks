@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bully_bucks/Firebase.dart';
@@ -12,6 +13,7 @@ import 'package:bully_bucks/Widgets/Logo.dart';
 import 'package:bully_bucks/Flow/Auth/Login/loginGender.dart';
 import 'package:bully_bucks/Flow/Auth/Signup/registerPage.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_statusbar_text_color/flutter_statusbar_text_color.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:move_to_background/move_to_background.dart';
@@ -47,6 +49,21 @@ class _StudentHomeState extends State<StudentHome> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    try {
+      if(Platform.isAndroid)
+      {
+        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+            statusBarColor: Color.fromRGBO(226, 226, 226, 1), // Color for Android
+            statusBarBrightness: Brightness.dark // Dark == white status bar -- for IOS.
+        ));
+      }
+      else {
+        FlutterStatusbarTextColor.setTextColor(
+            FlutterStatusbarTextColor.dark);
+      }
+    } catch (_) {
+     Fluttertoast.showToast(msg: "Error occured while changing status bar color");
+    }
     Database db = new Database();
     db.getbullyBucks(widget.email).then((value) {
       bal = value;
@@ -118,11 +135,25 @@ class _StudentHomeState extends State<StudentHome> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
+
     return (WillPopScope(
       onWillPop: ()async {
-        FlutterStatusbarcolor.setStatusBarColor(
-            Color.fromRGBO(44, 219, 152, 1));
+        try {
+          if(Platform.isAndroid)
+            {
+              SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+                statusBarColor: Color.fromRGBO(44, 219, 152, 1),
+                statusBarBrightness: Brightness.light,
+                statusBarIconBrightness: Brightness.light,
+              ));
+            }
+          else {
+            FlutterStatusbarTextColor.setTextColor(
+                FlutterStatusbarTextColor.light);
+          }
+        } catch (_) {
+          Fluttertoast.showToast(msg: "Error occured while changing status bar color");
+        }
         Navigator.pop(context);
         return true;
       },
@@ -386,6 +417,22 @@ class _StudentHomeState extends State<StudentHome> {
             height: 35,
           ),
           onTap: () {
+            try {
+              if(Platform.isAndroid)
+              {
+                SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+                  statusBarColor: Color.fromRGBO(44, 219, 152, 1),
+                  statusBarBrightness: Brightness.light,
+                  statusBarIconBrightness: Brightness.light,
+                ));
+              }
+              else {
+                FlutterStatusbarTextColor.setTextColor(
+                    FlutterStatusbarTextColor.light);
+              }
+            } catch (_) {
+              Fluttertoast.showToast(msg: "Error occured while changing status bar color");
+            }
             Navigator.of(context).popUntil((route) => route.isFirst);
           },
         ),
