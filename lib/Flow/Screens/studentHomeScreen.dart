@@ -58,6 +58,7 @@ class _StudentHomeState extends State<StudentHome> {
         ));
       }
       else {
+        FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(226, 226, 226, 1));
         FlutterStatusbarTextColor.setTextColor(
             FlutterStatusbarTextColor.dark);
       }
@@ -148,6 +149,7 @@ class _StudentHomeState extends State<StudentHome> {
               ));
             }
           else {
+            FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(44, 219, 152, 1));
             FlutterStatusbarTextColor.setTextColor(
                 FlutterStatusbarTextColor.light);
           }
@@ -427,6 +429,7 @@ class _StudentHomeState extends State<StudentHome> {
                 ));
               }
               else {
+                FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(44, 219, 152, 1));
                 FlutterStatusbarTextColor.setTextColor(
                     FlutterStatusbarTextColor.light);
               }

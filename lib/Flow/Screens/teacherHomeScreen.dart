@@ -40,6 +40,7 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
         ));
       }
       else {
+        FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(226, 226, 226, 1));
         FlutterStatusbarTextColor.setTextColor(
             FlutterStatusbarTextColor.dark);
       }
@@ -125,13 +126,7 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
 
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
-    try {
-      FlutterStatusbarTextColor.setTextColor(
-          FlutterStatusbarTextColor.dark);
-    } catch (_) {
-      print('set status bar text color failed');
-    }
+
     if (list != null) {
       unverifiedlist.clear();
       verifiedlist.clear();
@@ -269,6 +264,7 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
           ));
         }
         else {
+          FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(44, 219, 152, 1));
           FlutterStatusbarTextColor.setTextColor(
               FlutterStatusbarTextColor.light);
         }
@@ -368,6 +364,7 @@ class _TeacherHomeePageState extends State<TeacherHomeePage> {
                 ));
               }
               else {
+                FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(44, 219, 152, 1));
                 FlutterStatusbarTextColor.setTextColor(
                     FlutterStatusbarTextColor.light);
               }
